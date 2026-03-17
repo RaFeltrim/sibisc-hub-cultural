@@ -4,6 +4,8 @@
     category: 'Servicos',
     date: '2026-03-15',
     title: 'SIBiSC lanca novo sistema de reserva online de livros',
+    sourceLabel: 'Portal Oficial da Prefeitura de Sao Carlos',
+    sourceUrl: 'https://www.saocarlos.sp.gov.br/',
     summary:
       'A partir desta semana, usuarios das bibliotecas de Sao Carlos podem reservar exemplares diretamente pelo aplicativo ou site.',
     paragraphs: [
@@ -17,6 +19,8 @@
     category: 'Acervo',
     date: '2026-03-10',
     title: 'Biblioteca Central recebe doacao de 3.000 volumes da USP',
+    sourceLabel: 'Assessoria SIBiSC',
+    sourceUrl: 'https://www.saocarlos.sp.gov.br/',
     summary:
       'O acervo tecnico e cientifico amplia o acesso a obras de referencia para estudantes e pesquisadores da cidade.',
     paragraphs: [
@@ -30,6 +34,8 @@
     category: 'Eventos',
     date: '2026-03-08',
     title: 'Programacao do Dia do Livro 2026 e divulgada',
+    sourceLabel: 'Agenda Cultural SIBiSC',
+    sourceUrl: 'https://www.saocarlos.sp.gov.br/',
     summary:
       'Com o tema Ler e Resistir, o SIBiSC prepara uma semana de atividades gratuitas para abril.',
     paragraphs: [
@@ -43,6 +49,8 @@
     category: 'Inclusao',
     date: '2026-03-03',
     title: 'Projeto Leitura Digital capacita 200 idosos em Sao Carlos',
+    sourceLabel: 'Parceria SESC + SIBiSC',
+    sourceUrl: 'https://www.sescsp.org.br/',
     summary:
       'A parceria com o SESC formou novas turmas com foco em uso de e-readers, tablets e bibliotecas digitais.',
     paragraphs: [
