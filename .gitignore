@@ -1,0 +1,36 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Node / frontend
+node_modules/
+dist/
+build/
+.next/
+coverage/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Logs / temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+playwright-report/
+test-results/
+tmp/
+temp/
+
+# Supabase / local services
+.supabase/
+.turbo/
+
+# PDF generation artifacts
+*.tmp.pdf
+
