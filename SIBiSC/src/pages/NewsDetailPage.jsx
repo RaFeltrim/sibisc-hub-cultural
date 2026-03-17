@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import ErrorState from '../components/ui/ErrorState';
 import LoadingState from '../components/ui/LoadingState';
 import { getNewsById } from '../services/newsService';
+import { formatLongDate } from '../utils/formatters';
 import styles from './NewsDetailPage.module.css';
 
 function NewsDetailPage() {
@@ -42,11 +43,25 @@ function NewsDetailPage() {
 
       <div className={styles.meta}>
         <span>{item.category}</span>
-        <span>{item.date.split('-').reverse().join('/')}</span>
+        <span>{formatLongDate(item.date)}</span>
       </div>
 
       <h1>{item.title}</h1>
       <p className={styles.summary}>{item.summary}</p>
+
+      {item.sourceLabel && item.sourceUrl ? (
+        <div className={styles.sourceBox}>
+          <strong>Origem</strong>
+          <a
+            className={styles.sourceLink}
+            href={item.sourceUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {item.sourceLabel}
+          </a>
+        </div>
+      ) : null}
 
       <div className={styles.body}>
         {item.paragraphs.map((paragraph) => (
