@@ -1,0 +1,92 @@
+﻿.shell {
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  backdrop-filter: blur(18px);
+  background: rgba(247, 240, 228, 0.82);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.brandWrap {
+  display: flex;
+  align-items: center;
+}
+
+.brandLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.brandLink strong {
+  display: block;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brandLink span {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}
+
+.brandBadge {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.9rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+  box-shadow: var(--shadow-soft);
+}
+
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.navLink {
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-soft);
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.navLink:hover {
+  background: rgba(16, 37, 63, 0.06);
+  color: var(--color-ink);
+  transform: translateY(-1px);
+}
+
+.navLinkActive {
+  color: var(--color-ink);
+  background: rgba(16, 37, 63, 0.08);
+}
+
+.main {
+  position: relative;
+}
+
+@media (min-width: 900px) {
+  .header {
+    padding-inline: max(var(--space-lg), calc((100vw - var(--content-width)) / 2 + var(--space-lg)));
+  }
+
+  .desktopNav {
+    display: inline-flex;
+  }
+}

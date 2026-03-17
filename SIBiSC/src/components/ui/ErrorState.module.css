@@ -1,0 +1,13 @@
+﻿.state {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  background: rgba(165, 62, 50, 0.08);
+  border: 1px solid rgba(165, 62, 50, 0.2);
+}
+
+.state p {
+  color: #7d3129;
+}

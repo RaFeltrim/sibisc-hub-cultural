@@ -1,0 +1,19 @@
+﻿.groups {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+.group {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.group h3 {
+  font-size: 1.45rem;
+  text-transform: capitalize;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-md);
+}

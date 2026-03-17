@@ -1,0 +1,12 @@
+﻿.state {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-xl);
+  border: 1px dashed rgba(16, 37, 63, 0.2);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.state strong {
+  font-size: 1.1rem;
+}

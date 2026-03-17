@@ -1,0 +1,64 @@
+﻿.article {
+  display: grid;
+  gap: var(--space-md);
+  padding: clamp(1.2rem, 2vw, 2rem);
+  margin-top: var(--space-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow-soft);
+}
+
+.backLink,
+.category {
+  justify-self: start;
+}
+
+.backLink {
+  color: var(--color-accent-strong);
+  font-weight: 700;
+}
+
+.category {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-accent-strong);
+  background: rgba(197, 95, 52, 0.1);
+}
+
+.article h1 {
+  font-size: clamp(2rem, 4vw, 3.3rem);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.infoGrid div,
+.calendarBox {
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  background: rgba(16, 37, 63, 0.05);
+}
+
+.description {
+  font-size: 1.05rem;
+}
+
+.calendarBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.calendarButton {
+  padding: 0.95rem 1.1rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: white;
+  background: linear-gradient(135deg, var(--color-ink), #1c3a60);
+}

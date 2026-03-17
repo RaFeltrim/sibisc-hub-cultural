@@ -1,0 +1,21 @@
+﻿.page {
+  display: grid;
+  gap: var(--space-md);
+  place-items: start;
+  padding: var(--space-2xl) 0;
+}
+
+.page span {
+  font-family: var(--font-mono);
+  color: var(--color-accent-strong);
+}
+
+.page h1 {
+  max-width: 30rem;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.page a {
+  color: var(--color-accent-strong);
+  font-weight: 700;
+}

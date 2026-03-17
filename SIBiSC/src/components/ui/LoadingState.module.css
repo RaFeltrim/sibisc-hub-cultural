@@ -1,0 +1,26 @@
+﻿@keyframes pulse {
+  0% { opacity: 0.45; }
+  50% { opacity: 1; }
+  100% { opacity: 0.45; }
+}
+
+.state {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-xl);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--color-line);
+}
+
+.bar,
+.barShort {
+  height: 1rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, rgba(16, 37, 63, 0.08), rgba(197, 95, 52, 0.18), rgba(16, 37, 63, 0.08));
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.barShort {
+  width: 70%;
+}

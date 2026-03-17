@@ -1,0 +1,39 @@
+﻿.geoFallback {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(16, 37, 63, 0.12);
+  background: rgba(16, 37, 63, 0.88);
+  color: white;
+}
+
+.geoFallback p,
+.geoFallback strong {
+  color: inherit;
+}
+
+.results {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.pill {
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: white;
+  background: transparent;
+}
+
+.pillActive {
+  background: rgba(255, 255, 255, 0.18);
+}

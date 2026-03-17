@@ -1,0 +1,5 @@
+﻿.list {
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}

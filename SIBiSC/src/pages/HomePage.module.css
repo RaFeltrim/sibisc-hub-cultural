@@ -1,0 +1,103 @@
+﻿.hero {
+  display: grid;
+  gap: var(--space-xl);
+  align-items: center;
+  padding: clamp(1.4rem, 2vw, 2rem);
+  margin-top: var(--space-lg);
+  border: 1px solid rgba(16, 37, 63, 0.1);
+  border-radius: calc(var(--radius-lg) + 4px);
+  background:
+    radial-gradient(circle at top right, rgba(197, 95, 52, 0.18), transparent 32%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(245, 235, 216, 0.88));
+  box-shadow: var(--shadow-soft);
+}
+
+.heroCopy {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.kicker {
+  color: var(--color-accent-strong);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(2.3rem, 6vw, 4.5rem);
+  line-height: 0.95;
+}
+
+.description {
+  max-width: 38rem;
+  font-size: 1.05rem;
+}
+
+.metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.metrics span {
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-pill);
+  background: rgba(16, 37, 63, 0.06);
+  color: var(--color-ink-soft);
+}
+
+.heroPanel {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  background: rgba(14, 28, 49, 0.92);
+  color: white;
+}
+
+.heroPanel p,
+.heroPanel strong,
+.heroPanel label {
+  color: inherit;
+}
+
+.heroPanel :global(input) {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-ink);
+}
+
+.quickResults {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.quickResult,
+.heroNote {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.quickResult span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.grid,
+.eventGrid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: 1.2fr 0.9fr;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
