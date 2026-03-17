@@ -37,8 +37,26 @@ O projeto e hiperlocal. Ele liga a comunidade de Sao Carlos ao acervo fisico e a
 - [`docs/`](./docs/): documentacao oficial em Markdown
 - [`docs_pdfs/`](./docs_pdfs/): espelhos PDF da documentacao principal
 - [`_academic_refs/`](./_academic_refs/): slides e materiais academicos de apoio
-- [`src/`](./src/): espaco reservado para o app
+- [`src/`](./src/): front real do projeto em `Vite + React`
 - [`supabase/`](./supabase/): espaco reservado para schema, migrations e configuracoes de banco
+
+## Como Rodar o Front Agora
+
+No estado atual do repositorio, o front ja esta integrado e pode ser executado com:
+
+```bash
+cd SIBiSC
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Para validar o build de producao:
+
+```bash
+cd SIBiSC
+npm run build
+```
 
 ## Guia Rapido Para Alunos
 
@@ -102,6 +120,18 @@ A stack mais facil para o time comecar e:
 - `CSS Modules`
 
 O guia completo esta em [`docs/onboarding/guia_do_grupo_stack_facil.md`](./docs/onboarding/guia_do_grupo_stack_facil.md).
+
+## Estado Atual do Front
+
+O repositiorio ja possui uma base funcional com:
+
+- `Home`
+- `Noticias`
+- `Eventos`
+- `Catalogo`
+- mocks locais para iniciar as tasks sem dependencia de backend
+- `services` preparados para futura troca por Supabase
+- `data-testid` nos fluxos criticos para QA
 
 ## Ponto de Entrada da Documentacao
 

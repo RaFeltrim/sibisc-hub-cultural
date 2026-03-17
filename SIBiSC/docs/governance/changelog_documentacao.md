@@ -49,3 +49,17 @@ Manter historico das mudancas estruturais na documentacao do projeto.
 - atualizado o `README.md` da raiz com caminho rapido para USs, tasks, subtasks, QA e TL
 - reescrito `SIBiSC/README.md` com leitura inicial mais didatica para alunos
 - reforcado o fluxo de avaliacao para que o time entenda como QA e TL validam cada entrega
+
+## 2026-03-16 - criacao manual da base visual do front
+
+- atualizado [`../frontend/handoff_figma_lovable.md`](../frontend/handoff_figma_lovable.md) com os links e o status real do projeto no Lovable e do arquivo no Figma
+- registrada a estrutura inicial do arquivo `SIBiSC Front MVP` com paginas e frames mobile e desktop
+- registrada a primeira validacao manual do front em [`../qa/plano_e2e.md`](../qa/plano_e2e.md)
+- documentados os fluxos ja confirmados na preview: `Home`, `Noticias`, `Eventos`, `Catalogo` e fallback de calendario
+
+## 2026-03-16 - base executavel do front integrada ao repositorio
+
+- criado o front real em `SIBiSC` com `Vite + React + React Router`
+- adicionadas rotas do MVP para `Home`, `Noticias`, `Eventos` e `Catalogo`
+- adicionados mocks, services e cliente publico do Supabase para onboarding e integracao futura
+- atualizados `SIBiSC/README.md`, `src/README.md`, `../onboarding/como_rodar_o_projeto.md` e `../frontend/handoff_figma_lovable.md` para refletir o novo estado do projeto

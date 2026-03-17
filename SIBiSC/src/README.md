@@ -1,16 +1,22 @@
-# Source Placeholder
+# Source Guide
 
-Esta pasta receberá o código-fonte do aplicativo quando a implementação começar.
+Esta pasta ja contem a base executavel do front do SIBiSC.
 
-## Expectativa
+## Estrutura Atual
 
-- manter estrutura alinhada ao produto principal SIBiSC
-- refletir decisões registradas em `SIBiSC/docs`
-- evitar colocar código experimental sem vínculo com backlog ou documento técnico
+- `components/`: layout, cards e blocos de UI reutilizaveis
+- `hooks/`: utilitarios de comportamento de interface
+- `lib/`: cliente do Supabase e configuracoes de acesso
+- `mocks/`: dados locais para desenvolver sem bloquear o time
+- `pages/`: telas do MVP
+- `routes/`: mapa de rotas da aplicacao
+- `services/`: funcoes de leitura de dados, hoje em mock e prontas para futura integracao
+- `styles/`: tokens visuais e estilos globais
+- `utils/`: formatadores e helpers de fluxo
 
-## Estrutura Esperada no Futuro
+## Regra de Trabalho
 
-- camadas de interface
-- componentes reutilizáveis
-- serviços de integração
-- testes próximos das funcionalidades quando fizer sentido
+- toda task nova deve respeitar a estrutura atual
+- primeiro construir com `mock local`
+- depois trocar a fonte de dados por `service` real quando a task pedir integracao
+- evitar codigo solto ou sem relacao clara com backlog e documentacao

@@ -18,14 +18,20 @@ Para o onboarding do grupo, a stack recomendada e:
 - acesso ao repositorio
 - acesso ao projeto Supabase do SIBiSC
 
-## Criacao do App Base
+## Rodando o Projeto Atual
 
 ```bash
-npm create vite@latest sibisc-app -- --template react
-cd sibisc-app
+cd SIBiSC
 npm install
-npm install react-router-dom @supabase/supabase-js
+cp .env.example .env
 npm run dev
+```
+
+Para testar o build:
+
+```bash
+cd SIBiSC
+npm run build
 ```
 
 ## Estrutura Minima Esperada
@@ -52,7 +58,7 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_UklsEfW9sJJP5ScGJItGVw_OhJRQ2Kf
 
 ## Cliente do Supabase
 
-Criar `src/lib/supabase.js` com a configuracao do cliente publico. Esse cliente deve usar apenas a chave publica do projeto.
+O cliente publico ja esta preparado em `src/lib/supabaseClient.js`. Ele deve continuar usando apenas a chave publica do projeto.
 
 ## Fluxo de Trabalho Recomendado
 
