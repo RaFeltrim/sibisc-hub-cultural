@@ -12,6 +12,7 @@ Este repositorio existe para organizar e evoluir o projeto **SIBiSC** com docume
 4. Mudancas em produto, arquitetura, banco, QA ou deploy devem atualizar o documento correspondente.
 5. Ninguem trabalha direto na `main`.
 6. Cada card do Jira deve nascer em uma branch propria.
+7. Toda alteracao funcional relevante deve gerar commit proprio assim que fechar uma unidade real de progresso.
 
 ## Fluxo Recomendado
 
@@ -45,6 +46,12 @@ Regras:
 ## Commits
 
 Todo aluno deve realizar commits durante a execucao, e nao apenas no final.
+
+Regra adicional:
+
+- terminou uma alteracao funcional, ajuste tecnico importante, correcao de bug, contrato de componente ou mudanca de pipeline, deve haver commit correspondente logo em seguida
+- nao acumular varias funcionalidades diferentes esperando um unico commit no fim
+- o historico deve mostrar a evolucao real do trabalho, como em um time profissional
 
 Ordem recomendada por prioridade:
 

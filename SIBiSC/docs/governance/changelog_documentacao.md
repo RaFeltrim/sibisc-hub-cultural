@@ -76,3 +76,9 @@ Manter historico das mudancas estruturais na documentacao do projeto.
 - criado [`../management/modelo_operacao_orquestracao.md`](../management/modelo_operacao_orquestracao.md) como regra oficial de atuacao do time de orquestracao
 - atualizado `management/README.md` para registrar que a orquestracao atua 100% do tempo
 - atualizado `plano_de_execucao.md` para tratar a orquestracao como torre de controle ativa durante o projeto
+
+## 2026-03-16 - cadencia profissional de commits reforcada
+
+- atualizado `CONTRIBUTING.md` para exigir commit apos cada alteracao funcional relevante
+- atualizado `fluxo_de_branches_e_commits.md` para tornar explicita a cadencia de commit durante a execucao
+- reforcado que o historico deve refletir a evolucao real do trabalho, e nao apenas um consolidado final

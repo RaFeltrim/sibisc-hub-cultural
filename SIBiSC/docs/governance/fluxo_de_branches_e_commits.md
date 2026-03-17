@@ -10,6 +10,8 @@ Ninguem desenvolve direto na `main`.
 
 Cada entrega do Jira deve nascer em uma branch propria, com commits pequenos e ordenados.
 
+Toda alteracao funcional relevante deve ser seguida por commit proprio.
+
 ## Regra por Card
 
 ### Epicos
@@ -109,8 +111,22 @@ Exemplos:
 ## Ritmo de Commit
 
 - commitar ao fechar uma unidade real de progresso
+- ao terminar uma funcionalidade, correcao ou ajuste tecnico relevante, commitar imediatamente
 - nao esperar o fim do dia para criar um commit gigante
 - nao misturar ajuste de pipeline com feature de tela no mesmo commit
+
+## O Que Conta Como Unidade Real de Progresso
+
+Exemplos de momentos em que o commit deve acontecer:
+
+- terminou uma tela navegavel
+- terminou um componente reutilizavel
+- fechou uma correcao de bug
+- concluiu uma integracao entre modulos
+- terminou uma mudanca de contrato em `service`
+- ajustou pipeline, script de QA ou regra de repositorio
+
+Se a mudanca ja consegue ser descrita com clareza em uma mensagem de commit, ela ja deve ser commitada.
 
 ## O Que Nunca Fazer
 
@@ -118,6 +134,7 @@ Exemplos:
 - branch com varios cards sem relacao
 - commit com mensagem vaga como `ajustes`, `mudancas`, `update`
 - PR sem documentacao e sem validacao local
+- passar horas acumulando varias alteracoes funcionais sem commit
 
 ## Checklist Antes do PR
 
