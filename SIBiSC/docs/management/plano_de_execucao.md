@@ -30,6 +30,20 @@ Nao avancar para o proximo bloco sem confirmar:
 - o escopo da fase esta claro para TL, QA e devs
 - a task atual foi quebrada em partes pequenas quando necessario
 
+## Papel da Orquestracao Durante a Execucao
+
+O time de orquestracao deve acompanhar o projeto durante todo o ciclo.
+
+Isso inclui:
+
+- conversar comigo continuamente durante a execucao
+- orientar mudancas de prioridade
+- enviar refinamentos e ajustes de direcao
+- antecipar risco de incompatibilidade entre entregas
+- acionar TL e QA antes do problema chegar na integracao final
+
+Em termos praticos, a orquestracao funciona como uma torre de controle ativa, e nao como uma camada que aparece apenas em reunioes formais.
+
 ## Ponte com as Sprints
 
 O plano geral acima deve ser distribuido pelas sprints definidas em `management/sprints/`. Se houver duvida entre o plano macro e a sprint atual, a sprint governa a execucao diaria e o plano macro governa a direcao do projeto.

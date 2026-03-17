@@ -21,6 +21,7 @@ Se voce quer entender o projeto rapido, siga esta ordem:
 
 - [`roadmap.md`](./roadmap.md): visao macro da evolucao do projeto
 - [`plano_de_execucao.md`](./plano_de_execucao.md): ordem geral de trabalho entre frentes
+- [`modelo_operacao_orquestracao.md`](./modelo_operacao_orquestracao.md): forma oficial de atuacao continua do time de orquestracao
 - [`plano_mvp_jira.md`](./plano_mvp_jira.md): backlog operacional do MVP com epicos, USs, tasks e subtasks
 - [`sprints/README.md`](./sprints/README.md): trilha de sprints sugerida para um time iniciante
 - [`riscos_e_dependencias.md`](./riscos_e_dependencias.md): riscos principais e bloqueios esperados
@@ -53,6 +54,16 @@ Antes de criar um card no Jira ou iniciar uma implementacao, confirmar:
 - nada entra em `main` sem PR
 - `QA` e `TL` revisam antes da integracao
 - o gate local minimo e `cd SIBiSC && npm run qa:ci`
+
+## Regra de Orquestracao
+
+O time de orquestracao nao atua apenas na abertura e no fechamento.
+
+Durante a execucao do projeto, ele deve permanecer ativo `100% do tempo`, conversando comigo, orientando refinamentos, mudancas de prioridade e proximos passos de integracao.
+
+Documento de apoio:
+
+- [`modelo_operacao_orquestracao.md`](./modelo_operacao_orquestracao.md)
 
 ## Resultado Esperado
 

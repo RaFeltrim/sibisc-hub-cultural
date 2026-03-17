@@ -70,3 +70,9 @@ Manter historico das mudancas estruturais na documentacao do projeto.
 - criado [`fluxo_de_branches_e_commits.md`](./fluxo_de_branches_e_commits.md) para orientar o time de alunos
 - atualizados `pipeline_ci_cd.md`, `estrategia_shift_left.md` e `como_contribuir.md` com o novo fluxo operacional
 - preparado o repositorio para gate automatico de QA no GitHub Actions
+
+## 2026-03-16 - orquestracao continua durante toda a execucao
+
+- criado [`../management/modelo_operacao_orquestracao.md`](../management/modelo_operacao_orquestracao.md) como regra oficial de atuacao do time de orquestracao
+- atualizado `management/README.md` para registrar que a orquestracao atua 100% do tempo
+- atualizado `plano_de_execucao.md` para tratar a orquestracao como torre de controle ativa durante o projeto

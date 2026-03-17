@@ -13,6 +13,7 @@ Este diretorio concentra a documentacao oficial do projeto em Markdown. O objeti
 
 - [`management/README.md`](./management/README.md)
 - [`management/roadmap.md`](./management/roadmap.md)
+- [`management/modelo_operacao_orquestracao.md`](./management/modelo_operacao_orquestracao.md)
 - [`management/plano_mvp_jira.md`](./management/plano_mvp_jira.md)
 - [`management/plano_de_execucao.md`](./management/plano_de_execucao.md)
 - [`management/sprints/README.md`](./management/sprints/README.md)
