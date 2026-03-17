@@ -1,71 +1,108 @@
-# SIBiSC - Web-App
+﻿# SIBiSC - Web-App
 
 ## Contexto do Projeto
 
 **Disciplina:** SSC0961 - Desenvolvimento Web e Mobile  
-**Universidade:** Universidade de São Paulo
+**Universidade:** Universidade de Sao Paulo
 
 **Equipe:**
-- Eduardo Paz e Silva (Nº USP: 15506648)
-- Matheus Marchi Baron (Nº USP: 14598431)
-- Pedro Augusto Pereira Magalhães (Nº USP: 11802544)
-- Pedro Dorigatti Aureo Ferreira (Nº USP: 15483592)
-- Rafael Feltrim (Nº USP: )
+- Eduardo Paz e Silva
+- Matheus Marchi Baron
+- Pedro Augusto Pereira Magalhaes
+- Pedro Dorigatti Aureo Ferreira
+- Rafael Feltrim
 
-**Data:** 09/03/2026
+## Problema
 
----
+O Sistema Integrado de Bibliotecas de Sao Carlos (SIBiSC) enfrenta tres problemas centrais:
 
-## 1. Problema Existente
+- dados de acervo, eventos e horarios estao fragmentados
+- a experiencia mobile atual e ruim para consulta rapida
+- o engajamento com noticias e atividades culturais e baixo
 
-O Sistema Integrado de Bibliotecas de São Carlos (SIBiSC) enfrenta desafios críticos na democratização do acesso à cultura e informação:
-- **Fragmentação de Dados:** Informações sobre acervo, eventos e horários estão dispersas em diferentes editais ou postagens de redes sociais, exigindo esforço excessivo do usuário para se manter atualizado.
-- **Inexistência de Interface Mobile:** Consulta ao acervo municipal por dispositivos móveis é ineficiente, dificultando a busca rápida por estudantes e pesquisadores em trânsito.
-- **Baixo Engajamento Ativo:** Falta de canal de comunicação direta (push/newsletter) faz com que acervo e atividades culturais sejam subutilizados pela comunidade.
+## Solucao Proposta
 
----
+O SIBiSC sera um hub cultural digital com tres pilares:
 
-## 2. Solução Proposta
+1. portal de noticias
+2. calendario de eventos
+3. consulta de livros com disponibilidade por unidade e geolocalizacao
 
-O Web-App do SIBiSC será um Hub Cultural Digital, integrando três pilares fundamentais:
+## Diferencial
 
-1. **Portal de Notícias:** Interface dinâmica estilo newsletter, com conteúdo autoral e agregação de mídias externas, mantendo o cidadão informado sobre o ecossistema cultural local.
-2. **Calendário de Eventos:** Sistema centralizado de eventos do SIBiSC, permitindo visualização, inscrição e lembretes integrados à agenda do dispositivo.
-3. **Consulta de Disponibilidade:** Ferramenta de busca em tempo real na base de dados do SIBiSC, com geolocalização para indicar em qual unidade municipal o livro está disponível para empréstimo.
+O projeto e hiperlocal. Ele liga a comunidade de Sao Carlos ao acervo fisico e aos espacos culturais da rede municipal com uma experiencia simples, mobile-first e orientada a uso real.
 
----
+## Estrutura do Projeto
 
-## 3. Análise de Aplicações Concorrentes
+- [`docs/`](./docs/): documentacao oficial em Markdown
+- [`docs_pdfs/`](./docs_pdfs/): espelhos PDF da documentacao principal
+- [`_academic_refs/`](./_academic_refs/): slides e materiais academicos de apoio
+- [`src/`](./src/): espaco reservado para o app
+- [`supabase/`](./supabase/): espaco reservado para schema, migrations e configuracoes de banco
 
-- **Redes Sociais Literárias:** Skoob, Goodreads – Foco digital/global, não conectam usuário ao acervo físico municipal.
-- **Sistemas de Busca/Mapas:** Google Maps – Informa endereço/horário, mas não disponibilidade de títulos ou agenda de eventos.
-- **Portais Governamentais:** Interface rígida, não otimizada para mobile, dificultando acesso ágil.
+## Guia Rapido Para Alunos
 
----
+Se voce chegou agora no projeto, siga esta ordem:
 
-## 4. Diferencial Estratégico
+1. leia [`docs/management/README.md`](./docs/management/README.md)
+2. abra [`docs/management/plano_mvp_jira.md`](./docs/management/plano_mvp_jira.md)
+3. identifique a sprint em [`docs/management/sprints/README.md`](./docs/management/sprints/README.md)
+4. leia o guia de stack em [`docs/onboarding/guia_do_grupo_stack_facil.md`](./docs/onboarding/guia_do_grupo_stack_facil.md)
+5. confirme como QA e TL avaliam as entregas em [`docs/governance/feedback_por_task_e_subtask.md`](./docs/governance/feedback_por_task_e_subtask.md)
 
-O Web-App do SIBiSC será a única solução hiperlocal, unindo conveniência tecnológica de uma startup à utilidade pública das bibliotecas municipais, tornando o acervo físico digitalmente acessível e promovendo o letramento e ocupação dos espaços públicos de São Carlos.
+## Onde Estao as USs, Tasks e Subtasks
 
----
+- visao de produto: [`docs/product/epicos_e_user_stories.md`](./docs/product/epicos_e_user_stories.md)
+- backlog operacional para Jira: [`docs/management/plano_mvp_jira.md`](./docs/management/plano_mvp_jira.md)
+- sprints sugeridas: [`docs/management/sprints/README.md`](./docs/management/sprints/README.md)
+- criterios de aceite: [`docs/product/criterios_de_aceite.md`](./docs/product/criterios_de_aceite.md)
 
-## 5. Diretrizes do Repositório
+## Como Escolher Uma Task
 
-Este repositório é dedicado **exclusivamente** ao desenvolvimento do Web-App do SIBiSC. Toda documentação, código, planejamento e discussões devem estar alinhados ao contexto e objetivos deste projeto central. Evite conteúdos genéricos ou de outros frameworks/metodologias que não estejam diretamente relacionados ao SIBiSC.
+Antes de pegar uma task, responda:
 
-> **Nota:** Adapte e utilize apenas o que for relevante do @feltrims framework para o contexto do SIBiSC. O foco é clareza, objetividade e centralidade no problema e solução descritos acima.
+- qual tela, fluxo ou componente essa task entrega
+- ela pode ser feita com `mock local` primeiro
+- qual documentacao voce vai atualizar no final
+- como outra pessoa testaria sua entrega sem explicacao oral
 
----
+## Como Trabalhar Sem Criar Dependencia Desnecessaria
 
-## 6. Estrutura do Projeto
+A regra do projeto e:
 
-- [`docs/`](./docs/) concentra a documentação oficial do projeto em Markdown.
-- [`docs_pdfs/`](./docs_pdfs/) guarda os espelhos PDF derivados da documentação oficial.
-- [`_academic_refs/`](./_academic_refs/) guarda slides e materiais acadêmicos de apoio.
-- [`src/`](./src/) e [`supabase/`](./supabase/) são os espaços reservados para código e banco.
+- construir primeiro com `mock local`
+- usar `services` pequenos para isolar leitura de dados
+- integrar com Supabase depois, sem refazer a tela
+- manter cada task pequena, clara e testavel
 
----
+## Como QA e TL Avaliam
 
-## 7. Ponto de Entrada da Documentação
+QA e TL validam sua entrega olhando quatro pontos:
 
-O índice mestre da documentação está em [`docs/INDEX.md`](./docs/INDEX.md).
+1. a task faz exatamente o que prometeu
+2. a entrega se encaixa no sistema sem quebrar outras pecas
+3. existem evidencias para validar o comportamento
+4. a documentacao foi atualizada com clareza suficiente para outra pessoa continuar o trabalho
+
+Documentos principais dessa avaliacao:
+
+- [`docs/qa/matriz_us_x_testes.md`](./docs/qa/matriz_us_x_testes.md)
+- [`docs/governance/feedback_por_task_e_subtask.md`](./docs/governance/feedback_por_task_e_subtask.md)
+- [`docs/governance/padrao_documental.md`](./docs/governance/padrao_documental.md)
+
+## Stack de Entrada do Grupo
+
+A stack mais facil para o time comecar e:
+
+- `Vite`
+- `React`
+- `JavaScript`
+- `React Router`
+- `Supabase`
+- `CSS Modules`
+
+O guia completo esta em [`docs/onboarding/guia_do_grupo_stack_facil.md`](./docs/onboarding/guia_do_grupo_stack_facil.md).
+
+## Ponto de Entrada da Documentacao
+
+O indice mestre da documentacao esta em [`docs/INDEX.md`](./docs/INDEX.md).

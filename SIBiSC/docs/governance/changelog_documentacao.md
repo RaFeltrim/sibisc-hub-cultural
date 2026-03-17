@@ -43,3 +43,9 @@ Manter historico das mudancas estruturais na documentacao do projeto.
 - definida a trilha didatica `Vite + React + JavaScript + React Router + Supabase + CSS Modules`
 - reorganizadas as tasks do MVP por nivel de dificuldade e modo independente com `mock local`
 - atualizados `como_rodar_o_projeto.md`, `arquitetura_visao_geral.md`, `integrated_system_blueprint.md`, `ambientes_e_variaveis.md` e `INDEX.md` para manter coerencia com a stack de entrada
+
+## 2026-03-16 - reforco do guia de entrada no README
+
+- atualizado o `README.md` da raiz com caminho rapido para USs, tasks, subtasks, QA e TL
+- reescrito `SIBiSC/README.md` com leitura inicial mais didatica para alunos
+- reforcado o fluxo de avaliacao para que o time entenda como QA e TL validam cada entrega
