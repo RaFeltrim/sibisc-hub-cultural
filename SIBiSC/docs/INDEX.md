@@ -68,6 +68,7 @@ Este diretorio concentra a documentacao oficial do projeto em Markdown. O objeti
 
 - [`governance/diretivas_ciao.md`](./governance/diretivas_ciao.md)
 - [`governance/padrao_documental.md`](./governance/padrao_documental.md)
+- [`governance/fluxo_de_branches_e_commits.md`](./governance/fluxo_de_branches_e_commits.md)
 - [`governance/feedback_por_task_e_subtask.md`](./governance/feedback_por_task_e_subtask.md)
 - [`governance/feedbacks/README.md`](./governance/feedbacks/README.md)
 - [`governance/changelog_documentacao.md`](./governance/changelog_documentacao.md)

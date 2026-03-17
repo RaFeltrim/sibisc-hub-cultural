@@ -63,3 +63,10 @@ Manter historico das mudancas estruturais na documentacao do projeto.
 - adicionadas rotas do MVP para `Home`, `Noticias`, `Eventos` e `Catalogo`
 - adicionados mocks, services e cliente publico do Supabase para onboarding e integracao futura
 - atualizados `SIBiSC/README.md`, `src/README.md`, `../onboarding/como_rodar_o_projeto.md` e `../frontend/handoff_figma_lovable.md` para refletir o novo estado do projeto
+
+## 2026-03-16 - governanca de branches, commits e gate de QA
+
+- reforcado `CONTRIBUTING.md` com branch por card, commits pequenos e gate local obrigatorio
+- criado [`fluxo_de_branches_e_commits.md`](./fluxo_de_branches_e_commits.md) para orientar o time de alunos
+- atualizados `pipeline_ci_cd.md`, `estrategia_shift_left.md` e `como_contribuir.md` com o novo fluxo operacional
+- preparado o repositorio para gate automatico de QA no GitHub Actions

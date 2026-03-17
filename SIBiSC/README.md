@@ -84,6 +84,22 @@ Antes de pegar uma task, responda:
 - qual documentacao voce vai atualizar no final
 - como outra pessoa testaria sua entrega sem explicacao oral
 
+## Regra de Branch e Commit
+
+Cada `task` ou `subtask` deve ser feita em uma branch propria.
+
+Fluxo minimo:
+
+1. atualizar `main`
+2. criar branch do card
+3. implementar em commits pequenos
+4. rodar `cd SIBiSC && npm run qa:ci`
+5. abrir PR para revisao de `QA` e `TL`
+
+Documento guia:
+
+- [`docs/governance/fluxo_de_branches_e_commits.md`](./docs/governance/fluxo_de_branches_e_commits.md)
+
 ## Como Trabalhar Sem Criar Dependencia Desnecessaria
 
 A regra do projeto e:

@@ -46,6 +46,14 @@ Antes de criar um card no Jira ou iniciar uma implementacao, confirmar:
 - quais subtasks menores tornam a entrega executavel
 - qual documentacao precisara ser atualizada
 
+## Regra de Execucao para o Time
+
+- uma branch por `task` ou `subtask`
+- commits pequenos e ordenados por prioridade
+- nada entra em `main` sem PR
+- `QA` e `TL` revisam antes da integracao
+- o gate local minimo e `cd SIBiSC && npm run qa:ci`
+
 ## Resultado Esperado
 
 Esta pasta deve permitir que uma pessoa nova no projeto consiga responder rapidamente:
