@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=JetBrains+Mono:wght@500&family=Public+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--color-paper);
 }
 
 body {
@@ -14,20 +15,22 @@ body {
   font-family: var(--font-body);
   color: var(--color-ink);
   background:
-    radial-gradient(circle at top left, rgba(197, 95, 52, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(231, 163, 86, 0.18), transparent 24%),
-    linear-gradient(180deg, #f9f4ea 0%, #f3ead8 100%);
+    radial-gradient(circle at top left, rgba(210, 100, 56, 0.2), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(239, 178, 102, 0.26), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(23, 50, 79, 0.08), transparent 26%),
+    linear-gradient(180deg, #fcf7ef 0%, #f3ead7 46%, #efe5d1 100%);
 }
 
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(16, 37, 63, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 37, 63, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-image:
+    linear-gradient(rgba(18, 38, 63, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(18, 38, 63, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
   pointer-events: none;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.16), transparent 60%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.2), transparent 64%);
 }
 
 img {
@@ -45,6 +48,7 @@ input,
 select,
 textarea {
   font: inherit;
+  color: inherit;
 }
 
 button {
@@ -54,7 +58,7 @@ button {
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 3px solid rgba(197, 95, 52, 0.35);
+  outline: 3px solid rgba(210, 100, 56, 0.35);
   outline-offset: 3px;
 }
 
@@ -81,7 +85,7 @@ h6 {
 
 p {
   margin: 0;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--color-ink-soft);
 }
 
@@ -89,9 +93,29 @@ section {
   margin-top: var(--space-2xl);
 }
 
+::selection {
+  background: rgba(210, 100, 56, 0.18);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--radius-pill);
+  background: rgba(23, 50, 79, 0.22);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @media (min-width: 900px) {
   main {
     padding-inline: var(--space-lg);
-    padding-bottom: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
   }
 }

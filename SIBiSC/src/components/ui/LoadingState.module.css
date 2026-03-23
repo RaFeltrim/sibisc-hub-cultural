@@ -1,26 +1,32 @@
-﻿@keyframes pulse {
-  0% { opacity: 0.45; }
-  50% { opacity: 1; }
-  100% { opacity: 0.45; }
-}
-
 .state {
   display: grid;
-  gap: var(--space-xs);
-  padding: var(--space-xl);
+  gap: var(--space-sm);
+  padding: 1.4rem;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.58);
-  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(18, 38, 63, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
 .bar,
 .barShort {
-  height: 1rem;
+  height: 0.8rem;
   border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, rgba(16, 37, 63, 0.08), rgba(197, 95, 52, 0.18), rgba(16, 37, 63, 0.08));
-  animation: pulse 1.5s infinite ease-in-out;
+  background: linear-gradient(90deg, rgba(18, 38, 63, 0.12), rgba(210, 100, 56, 0.24));
+  animation: pulse 1.5s ease-in-out infinite;
 }
 
 .barShort {
-  width: 70%;
+  width: 58%;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }

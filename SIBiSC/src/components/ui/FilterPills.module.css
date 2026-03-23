@@ -1,19 +1,26 @@
-﻿.wrap {
+.wrap {
   display: flex;
+  gap: 0.65rem;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
 }
 
 .pill {
-  padding: 0.55rem 0.95rem;
-  border: 1px solid rgba(16, 37, 63, 0.14);
+  border: 1px solid rgba(18, 38, 63, 0.1);
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.72);
+  padding: 0.72rem 1rem;
+  background: rgba(255, 255, 255, 0.65);
+  font-weight: 700;
   color: var(--color-ink-soft);
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
 }
 
 .pillActive {
+  border-color: rgba(210, 100, 56, 0.28);
   color: white;
-  border-color: transparent;
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
 }

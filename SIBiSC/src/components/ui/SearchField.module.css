@@ -1,4 +1,4 @@
-﻿.form {
+.form {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--space-sm);
@@ -9,19 +9,46 @@
   display: grid;
   gap: 0.45rem;
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .label span {
   font-size: 0.88rem;
+  letter-spacing: 0.01em;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(18, 38, 63, 0.12);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  color: var(--color-ink-muted);
+}
+
+.icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .input {
   width: 100%;
-  padding: 1rem 1.05rem;
-  border: 1px solid rgba(16, 37, 63, 0.14);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.78);
+  padding: 1rem 0;
+  border: 0;
+  background: transparent;
 }
 
 .button {
@@ -31,6 +58,7 @@
   color: white;
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
   box-shadow: var(--shadow-soft);
+  font-weight: 800;
 }
 
 @media (max-width: 640px) {
