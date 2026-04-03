@@ -6,6 +6,7 @@ const navItems = [
   { to: '/noticias', label: 'Noticias', testId: 'nav-news', icon: 'news' },
   { to: '/eventos', label: 'Eventos', testId: 'nav-events', icon: 'calendar' },
   { to: '/catalogo', label: 'Catalogo', testId: 'nav-catalog', icon: 'books' },
+  { to: '/perfil', label: 'Perfil', testId: 'nav-profile', icon: 'profile' },
 ];
 
 function NavIcon({ icon }) {
@@ -44,6 +45,14 @@ function NavIcon({ icon }) {
           <path {...common} d="M5 5.5a2 2 0 0 1 2-2h10v16H7a2 2 0 0 0-2 2Z" />
           <path {...common} d="M7 3.5v16" />
           <path {...common} d="M17 5.5h2a1 1 0 0 1 1 1v13" />
+        </svg>
+      );
+    case 'profile':
+      return (
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path {...common} d="M12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+          <path {...common} d="M4 20.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2" />
+          <circle {...common} cx="12" cy="12" r="10" />
         </svg>
       );
     default:
