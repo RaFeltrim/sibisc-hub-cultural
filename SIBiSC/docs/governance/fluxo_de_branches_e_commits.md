@@ -6,11 +6,27 @@ Garantir que o time trabalhe com autonomia sem baguncar a integracao do projeto.
 
 ## Regra Central
 
-Ninguem desenvolve direto na `main`.
+Ninguem desenvolve direto na `main`, `dev`, `test`, `hom` ou `prd`.
 
-Cada entrega do Jira deve nascer em uma branch propria, com commits pequenos e ordenados.
+Cada entrega do Jira deve nascer em uma branch propria a partir de `dev`, com commits pequenos e ordenados.
 
 Toda alteracao funcional relevante deve ser seguida por commit proprio.
+
+## Ambientes (novo — 2026-04-03)
+
+O projeto agora opera com 4 ambientes em branches protegidas:
+
+```text
+feat/* → dev → test → hom → prd → main (sync)
+```
+
+- `dev`: integracao de features. Alunos fazem PR para ca.
+- `test`: QA valida. Merges feitos por TL ou Rafael.
+- `hom`: Rafael e stakeholders validam antes de producao.
+- `prd`: versao entregavel. So Rafael aprova.
+- `main`: espelho de prd para onboarding.
+
+Ver detalhes completos em `fluxo_de_ambientes.md`.
 
 ## Regra por Card
 
