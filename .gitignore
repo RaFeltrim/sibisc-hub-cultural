@@ -34,3 +34,12 @@ temp/
 # PDF generation artifacts
 *.tmp.pdf
 
+# Claude Code local config
+.claude/
+claude.ps1
+
+# Feltrim's Framework local copy
+feltrim-agents-base/
+
+# Generated scripts (local only)
+SIBiSC/scripts/figma_creation_script.js
