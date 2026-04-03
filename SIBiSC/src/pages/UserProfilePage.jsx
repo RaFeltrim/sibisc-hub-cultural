@@ -1,136 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SectionHeader from '../components/ui/SectionHeader';
-import BookCard from '../components/cards/BookCard';
 import styles from './UserProfilePage.module.css';
-
-// Mock user data
-const mockUserData = {
-  id: 'user-001',
-  name: 'João Silva',
-  email: 'joao.silva@email.com',
-  unit: 'Biblioteca Central',
-  joinDate: 'Janeiro de 2023',
-  avatar: '👤',
-};
-
-// Mock reservas (empréstimos ativos)
-const mockReservas = [
-  {
-    id: 'loan-001',
-    bookId: '1',
-    title: 'O Cortiço',
-    author: 'Aluísio Azevedo',
-    dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 dias de agora
-    status: 'active',
-    coverColor: '#e8d5c4',
-  },
-  {
-    id: 'loan-002',
-    bookId: '2',
-    title: 'Dom Casmurro',
-    author: 'Machado de Assis',
-    dueDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000), // 12 dias de agora
-    status: 'active',
-    coverColor: '#d4a574',
-  },
-  {
-    id: 'loan-003',
-    bookId: '3',
-    title: 'Memórias Póstumas de Brás Cubas',
-    author: 'Machado de Assis',
-    dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 dias atrasado
-    status: 'overdue',
-    coverColor: '#c4a4a4',
-  },
-];
-
-// Mock histórico
-const mockHistorico = [
-  {
-    id: 'hist-001',
-    bookId: '4',
-    title: 'Quincas Borba',
-    author: 'Machado de Assis',
-    returnedDate: new Date('2026-03-15'),
-    daysHeld: 14,
-  },
-  {
-    id: 'hist-002',
-    bookId: '5',
-    title: 'Capitães da Areia',
-    author: 'Jorge Amado',
-    returnedDate: new Date('2026-02-28'),
-    daysHeld: 21,
-  },
-  {
-    id: 'hist-003',
-    bookId: '6',
-    title: 'Grande Sertão Veredas',
-    author: 'Guimarães Rosa',
-    returnedDate: new Date('2026-02-10'),
-    daysHeld: 30,
-  },
-];
-
-// Mock favoritos
-const mockFavoritos = [
-  {
-    id: 'fav-001',
-    bookId: '7',
-    title: 'O Alienista',
-    author: 'Machado de Assis',
-    available: true,
-    addedDate: new Date('2026-01-20'),
-  },
-  {
-    id: 'fav-002',
-    bookId: '8',
-    title: 'Vidas Secas',
-    author: 'Graciliano Ramos',
-    available: false,
-    addedDate: new Date('2025-12-15'),
-  },
-  {
-    id: 'fav-003',
-    bookId: '9',
-    title: 'São Bernardo',
-    author: 'Graciliano Ramos',
-    available: true,
-    addedDate: new Date('2025-11-30'),
-  },
-];
-
-function formatDate(date) {
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).format(date);
-}
-
-function daysUntilDue(dueDate) {
-  const now = new Date();
-  const diffTime = dueDate - now;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
-}
+import {
+  mockUser,
+  mockLoans,
+  mockLoanHistory,
+  mockFavorites,
+  mockNotificationPreferences,
+  formatDate,
+  daysUntilDue,
+  renewBook,
+  removeFavorite,
+} from '../mocks/userProfile';
 
 function UserProfilePage() {
   const [activeTab, setActiveTab] = useState('reservas');
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(
+    mockNotificationPreferences.dueDate
+  );
+  const [loans, setLoans] = useState(mockLoans);
+  const [favorites, setFavorites] = useState(mockFavorites);
+
+  const activeLoans = loans.filter((l) => l.status === 'active').length;
+
+  const handleRenew = (loanId) => {
+    if (renewBook(loanId)) {
+      setLoans([...loans]);
+    }
+  };
+
+  const handleRemoveFavorite = (favoriteId) => {
+    if (removeFavorite(favoriteId)) {
+      setFavorites([...favorites]);
+    }
+  };
 
   return (
     <div className={styles.container}>
       {/* User Header */}
       <section className={styles.userHeader}>
         <div className={styles.userCard}>
-          <div className={styles.avatar}>{mockUserData.avatar}</div>
+          <div className={styles.avatar}>{mockUser.avatar}</div>
           <div className={styles.userInfo}>
-            <h1>{mockUserData.name}</h1>
-            <p className={styles.userUnit}>{mockUserData.unit}</p>
-            <p className={styles.userEmail}>{mockUserData.email}</p>
-            <p className={styles.userSince}>Membro desde {mockUserData.joinDate}</p>
+            <h1>{mockUser.name}</h1>
+            <p className={styles.userUnit}>{mockUser.unit}</p>
+            <p className={styles.userEmail}>{mockUser.email}</p>
+            <p className={styles.userSince}>Membro desde {mockUser.joinDate}</p>
           </div>
         </div>
 
@@ -145,6 +60,9 @@ function UserProfilePage() {
             />
             <span>Receber notificações de devoluções</span>
           </label>
+          <p className={styles.settingHint}>
+            Receberá alerta {mockNotificationPreferences.dueDate_days} dias antes da devolução
+          </p>
         </div>
       </section>
 
@@ -154,12 +72,8 @@ function UserProfilePage() {
           className={`${styles.tab} ${activeTab === 'reservas' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('reservas')}
         >
-          Empréstimos Ativos
-          {mockReservas.filter((r) => r.status === 'active').length > 0 && (
-            <span className={styles.badge}>
-              {mockReservas.filter((r) => r.status === 'active').length}
-            </span>
-          )}
+          Empréstimos
+          {activeLoans > 0 && <span className={styles.badge}>{activeLoans}</span>}
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'historico' ? styles.tabActive : ''}`}
@@ -172,7 +86,7 @@ function UserProfilePage() {
           onClick={() => setActiveTab('favoritos')}
         >
           Favoritos
-          {mockFavoritos.length > 0 && <span className={styles.badge}>{mockFavoritos.length}</span>}
+          {favorites.length > 0 && <span className={styles.badge}>{favorites.length}</span>}
         </button>
       </div>
 
@@ -180,32 +94,43 @@ function UserProfilePage() {
       {activeTab === 'reservas' && (
         <section className={styles.tabContent}>
           <div className={styles.stack}>
-            {mockReservas.map((reserva) => {
-              const daysLeft = daysUntilDue(reserva.dueDate);
+            {loans.map((loan) => {
+              const daysLeft = daysUntilDue(loan.dueDate);
               const isOverdue = daysLeft < 0;
 
               return (
-                <Link
-                  key={reserva.id}
-                  to={`/catalogo/${reserva.bookId}`}
-                  className={`${styles.loanCard} ${isOverdue ? styles.loanCardOverdue : ''}`}
-                >
-                  <div className={styles.loanCover} style={{ backgroundColor: reserva.coverColor }} />
-                  <div className={styles.loanInfo}>
-                    <h3>{reserva.title}</h3>
-                    <p className={styles.author}>{reserva.author}</p>
-                    <div
-                      className={`${styles.dueBadge} ${
-                        isOverdue ? styles.dueBadgeOverdue : styles.dueBadgeActive
-                      }`}
-                    >
-                      {isOverdue
-                        ? `Atrasado por ${Math.abs(daysLeft)} dias`
-                        : `Devolve em ${daysLeft} dias`}
+                <div key={loan.id} className={`${styles.loanCard} ${isOverdue ? styles.loanCardOverdue : ''}`}>
+                  <Link
+                    to={`/catalogo/${loan.bookId}`}
+                    className={styles.loanCardLink}
+                  >
+                    <div className={styles.loanCover} style={{ backgroundColor: loan.coverColor }} />
+                    <div className={styles.loanInfo}>
+                      <h3>{loan.title}</h3>
+                      <p className={styles.author}>{loan.author}</p>
+                      <p className={styles.isbn}>ISBN: {loan.isbn}</p>
+                      <div
+                        className={`${styles.dueBadge} ${
+                          isOverdue ? styles.dueBadgeOverdue : styles.dueBadgeActive
+                        }`}
+                      >
+                        {isOverdue
+                          ? `⚠️ Atrasado por ${Math.abs(daysLeft)} dias`
+                          : `📅 Devolve em ${daysLeft} dias`}
+                      </div>
+                      <p className={styles.dueDate}>{formatDate(loan.dueDate)}</p>
                     </div>
-                    <p className={styles.dueDate}>{formatDate(reserva.dueDate)}</p>
-                  </div>
-                </Link>
+                  </Link>
+                  {loan.canRenew && (
+                    <button
+                      className={styles.renewBtn}
+                      onClick={() => handleRenew(loan.id)}
+                      title="Renovar empréstimo por mais 14 dias"
+                    >
+                      🔄
+                    </button>
+                  )}
+                </div>
               );
             })}
           </div>
@@ -216,7 +141,7 @@ function UserProfilePage() {
       {activeTab === 'historico' && (
         <section className={styles.tabContent}>
           <div className={styles.timeline}>
-            {mockHistorico.map((item) => (
+            {mockLoanHistory.map((item) => (
               <Link
                 key={item.id}
                 to={`/catalogo/${item.bookId}`}
@@ -226,9 +151,14 @@ function UserProfilePage() {
                 <div className={styles.timelineContent}>
                   <h3>{item.title}</h3>
                   <p className={styles.author}>{item.author}</p>
+                  <p className={styles.isbn}>ISBN: {item.isbn}</p>
                   <div className={styles.timlineMeta}>
-                    <span>Devolvido em {formatDate(item.returnedDate)}</span>
-                    <span>Mantido por {item.daysHeld} dias</span>
+                    <span>📍 {item.unit}</span>
+                    <span>📅 {formatDate(item.returnedDate)}</span>
+                    <span>📚 {item.daysHeld} dias</span>
+                    {item.status === 'returned_late' && (
+                      <span className={styles.lateTag}>⚠️ Atrasado ({item.daysLate}d)</span>
+                    )}
                   </div>
                 </div>
               </Link>
@@ -240,9 +170,9 @@ function UserProfilePage() {
       {/* Tab Content - Favoritos */}
       {activeTab === 'favoritos' && (
         <section className={styles.tabContent}>
-          {mockFavoritos.length > 0 ? (
+          {favorites.length > 0 ? (
             <div className={styles.favoritesList}>
-              {mockFavoritos.map((fav) => (
+              {favorites.map((fav) => (
                 <Link
                   key={fav.id}
                   to={`/catalogo/${fav.bookId}`}
@@ -251,15 +181,32 @@ function UserProfilePage() {
                   <div className={styles.favoriteInfo}>
                     <h3>{fav.title}</h3>
                     <p className={styles.author}>{fav.author}</p>
-                    <div
-                      className={`${styles.availabilityBadge} ${
-                        fav.available ? styles.available : styles.unavailable
-                      }`}
-                    >
-                      {fav.available ? '✓ Disponível' : '⏳ Indisponível'}
+                    <p className={styles.isbn}>ISBN: {fav.isbn}</p>
+                    <div className={styles.availabilityInfo}>
+                      <div
+                        className={`${styles.availabilityBadge} ${
+                          fav.available ? styles.available : styles.unavailable
+                        }`}
+                      >
+                        {fav.available
+                          ? `✓ ${fav.availableCount} de ${fav.totalCount} disponíveis`
+                          : `⏳ Indisponível (${fav.totalCount} total)`}
+                      </div>
+                      {fav.lastBorrowed && (
+                        <p className={styles.lastBorrowed}>
+                          Pego em {formatDate(fav.lastBorrowed)}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <button className={styles.favoriteBtn} onClick={(e) => e.preventDefault()}>
+                  <button
+                    className={styles.favoriteBtn}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleRemoveFavorite(fav.id);
+                    }}
+                    title="Remover de favoritos"
+                  >
                     ♥️
                   </button>
                 </Link>
@@ -267,7 +214,7 @@ function UserProfilePage() {
             </div>
           ) : (
             <div className={styles.emptyState}>
-              <p>Nenhum favorito ainda</p>
+              <p>📚 Nenhum favorito ainda</p>
               <Link to="/catalogo" className={styles.emptyStateLink}>
                 Explorar catálogo
               </Link>

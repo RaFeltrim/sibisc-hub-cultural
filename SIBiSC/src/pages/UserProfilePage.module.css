@@ -76,6 +76,7 @@
   gap: var(--space-sm);
   cursor: pointer;
   user-select: none;
+  font-weight: 500;
 }
 
 .checkbox {
@@ -83,6 +84,13 @@
   height: 18px;
   cursor: pointer;
   accent-color: var(--color-accent);
+}
+
+.settingHint {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin: 0.5rem 0 0 1.8rem;
+  margin-top: 0;
 }
 
 /* Tabs Navigation */
@@ -153,15 +161,14 @@
 /* Loan Card */
 .loanCard {
   display: grid;
-  grid-template-columns: 60px 1fr;
+  grid-template-columns: 1fr auto;
   gap: var(--space-md);
   padding: var(--space-md);
   background: rgba(16, 37, 63, 0.04);
   border: 1px solid rgba(16, 37, 63, 0.1);
   border-radius: var(--radius-md);
-  text-decoration: none;
-  color: inherit;
   transition: all 0.2s;
+  align-items: start;
 }
 
 .loanCard:active {
@@ -172,6 +179,14 @@
 .loanCardOverdue {
   border-color: rgba(200, 80, 80, 0.3);
   background: rgba(200, 80, 80, 0.08);
+}
+
+.loanCardLink {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: var(--space-md);
+  text-decoration: none;
+  color: inherit;
 }
 
 .loanCover {
@@ -198,6 +213,34 @@
   font-size: 0.85rem;
   color: var(--color-ink-soft);
   margin: 0;
+}
+
+.isbn {
+  font-size: 0.75rem;
+  color: var(--color-ink-soft);
+  margin: 0.2rem 0 0 0;
+  font-family: monospace;
+}
+
+.renewBtn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: 1px solid rgba(100, 150, 100, 0.3);
+  border-radius: var(--radius-md);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: #2d5a3d;
+}
+
+.renewBtn:active {
+  background: rgba(100, 150, 100, 0.1);
+  border-color: rgba(100, 150, 100, 0.5);
 }
 
 .dueBadge {
@@ -273,10 +316,19 @@
   gap: var(--space-xs);
   font-size: 0.8rem;
   color: var(--color-ink-soft);
+  margin-top: 0.4rem;
 }
 
 .timlineMeta span {
   display: block;
+}
+
+.lateTag {
+  background: rgba(200, 80, 80, 0.15);
+  color: #8b1a1a;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
 }
 
 /* Favorites List */
@@ -306,13 +358,18 @@
 
 .favoriteInfo {
   display: grid;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 
 .favoriteInfo h3 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
+}
+
+.availabilityInfo {
+  display: grid;
+  gap: 0.3rem;
 }
 
 .availabilityBadge {
@@ -322,8 +379,13 @@
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: var(--radius-pill);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  text-transform: capitalize;
+}
+
+.lastBorrowed {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin: 0;
 }
 
 .available {

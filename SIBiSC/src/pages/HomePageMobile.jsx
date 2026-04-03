@@ -1,16 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import SearchField from '../components/ui/SearchField';
 import SectionHeader from '../components/ui/SectionHeader';
 import NewsCard from '../components/cards/NewsCard';
 import EventCard from '../components/cards/EventCard';
 import BookCard from '../components/cards/BookCard';
+import styles from './HomePageMobile.module.css';
+import useDebouncedValue from '../hooks/useDebouncedValue';
 import { getNews } from '../services/newsService';
 import { getEvents } from '../services/eventsService';
 import { searchBooks } from '../services/catalogService';
-import styles from './HomePageMobile.module.css';
-import { useEffect, useMemo } from 'react';
-import useDebouncedValue from '../hooks/useDebouncedValue';
 
 function HomePageMobile() {
   const [loading, setLoading] = useState(true);
