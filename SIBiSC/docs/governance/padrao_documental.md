@@ -60,3 +60,14 @@ Quando houver duvida entre documentar pouco demais ou de forma objetiva, o time 
 - testar a entrega
 - identificar o encaixe da peca no sistema
 - continuar a implementacao sem reabrir o problema do zero
+
+## Definition of Done (DoD) - Checklist de Entrega
+
+Para que qualquer `task` ou `subtask` seja movida para **Done** no Jira, o aluno deve garantir que:
+
+1.  **Execução:** O código roda sem erros no ambiente local (`npm run dev`).
+2.  **Qualidade (QA):** O comando `npm run qa:ci` foi executado e retornou sucesso (verde).
+3.  **Build:** O comando `npm run build` gera a pasta `dist/` sem erros de compilação.
+4.  **Versionamento:** O código está em uma branch seguindo o padrão `task/ID-TASK` e o push foi feito.
+5.  **Feedback:** O arquivo `feedbacks/jira_ID.md` foi atualizado com o log desta entrega.
+6.  **Revisão:** A `Tech Lead` (Eduardo/João) deu o ok técnico no código ou na documentação.
