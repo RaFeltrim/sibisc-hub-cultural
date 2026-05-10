@@ -1,4 +1,4 @@
-﻿.nav {
+.nav {
   position: fixed;
   left: 50%;
   bottom: 1rem;
@@ -6,26 +6,49 @@
   z-index: 15;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.35rem;
-  width: min(94vw, 540px);
-  padding: 0.45rem;
-  border: 1px solid rgba(16, 37, 63, 0.12);
-  border-radius: calc(var(--radius-pill) + 4px);
-  background: rgba(15, 29, 50, 0.92);
+  gap: 0.4rem;
+  width: min(94vw, 560px);
+  padding: 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: calc(var(--radius-pill) + 8px);
+  background: rgba(18, 38, 63, 0.88);
   box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(20px);
 }
 
 .link {
-  padding: 0.8rem 0.5rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  padding: 0.75rem 0.35rem;
   border-radius: var(--radius-pill);
   text-align: center;
   color: rgba(255, 255, 255, 0.72);
-  font-size: 0.84rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
 }
 
 .linkActive {
   color: white;
-  background: linear-gradient(135deg, rgba(197, 95, 52, 0.95), rgba(231, 163, 86, 0.95));
+  background: linear-gradient(135deg, rgba(210, 100, 56, 0.95), rgba(239, 178, 102, 0.95));
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 @media (min-width: 900px) {

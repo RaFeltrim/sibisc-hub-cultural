@@ -1,38 +1,49 @@
-﻿:root {
+:root {
   --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Public Sans', 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Cascadia Code', monospace;
+  --font-body: 'Manrope', 'Segoe UI', sans-serif;
+  --font-mono: 'Space Mono', 'Cascadia Code', monospace;
 
-  --color-ink: #10253f;
-  --color-ink-soft: #40566f;
-  --color-paper: #f7f0e4;
-  --color-paper-deep: #eadcc5;
-  --color-card: rgba(255, 255, 255, 0.76);
-  --color-line: rgba(16, 37, 63, 0.12);
-  --color-accent: #c55f34;
-  --color-accent-strong: #963b1e;
-  --color-highlight: #e7a356;
-  --color-success: #2f7b57;
-  --color-warning: #b17b11;
-  --color-danger: #a53e32;
-  --color-muted: #f1e6d3;
+  --color-ink: #12263f;
+  --color-ink-soft: #4b6078;
+  --color-ink-muted: #73869c;
+  --color-paper: #f5efe2;
+  --color-paper-deep: #e6dac4;
+  --color-surface: rgba(255, 252, 247, 0.82);
+  --color-surface-strong: #fffaf3;
+  --color-surface-dark: rgba(18, 38, 63, 0.92);
+  --color-line: rgba(18, 38, 63, 0.12);
+  --color-line-strong: rgba(18, 38, 63, 0.24);
+  --color-accent: #d26438;
+  --color-accent-strong: #a34320;
+  --color-highlight: #efb266;
+  --color-highlight-soft: rgba(239, 178, 102, 0.2);
+  --color-success: #317a56;
+  --color-warning: #aa7822;
+  --color-danger: #a6453a;
+  --color-info: #305f95;
+  --color-navy: #17324f;
+  --color-mist: rgba(255, 255, 255, 0.6);
 
-  --radius-xs: 10px;
-  --radius-sm: 18px;
-  --radius-md: 26px;
-  --radius-lg: 36px;
+  --radius-xs: 12px;
+  --radius-sm: 20px;
+  --radius-md: 28px;
+  --radius-lg: 40px;
+  --radius-xl: 52px;
   --radius-pill: 999px;
 
-  --shadow-soft: 0 20px 50px rgba(16, 37, 63, 0.08);
-  --shadow-strong: 0 24px 70px rgba(16, 37, 63, 0.16);
+  --shadow-soft: 0 18px 42px rgba(18, 38, 63, 0.08);
+  --shadow-medium: 0 26px 60px rgba(18, 38, 63, 0.12);
+  --shadow-strong: 0 32px 90px rgba(18, 38, 63, 0.16);
 
-  --space-2xs: 0.375rem;
-  --space-xs: 0.625rem;
-  --space-sm: 0.875rem;
-  --space-md: 1.25rem;
-  --space-lg: 1.75rem;
-  --space-xl: 2.5rem;
-  --space-2xl: 4rem;
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.45rem;
+  --space-xs: 0.7rem;
+  --space-sm: 0.95rem;
+  --space-md: 1.35rem;
+  --space-lg: 1.9rem;
+  --space-xl: 2.8rem;
+  --space-2xl: 4.3rem;
+  --space-3xl: 6rem;
 
-  --content-width: 1180px;
+  --content-width: 1220px;
 }

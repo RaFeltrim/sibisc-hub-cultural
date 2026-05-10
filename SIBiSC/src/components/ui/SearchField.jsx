@@ -1,4 +1,4 @@
-﻿import styles from './SearchField.module.css';
+import styles from './SearchField.module.css';
 
 function SearchField({
   label,
@@ -20,14 +20,22 @@ function SearchField({
     >
       <label className={styles.label}>
         <span>{label}</span>
-        <input
-          data-testid={inputTestId}
-          className={styles.input}
-          type="search"
-          placeholder={placeholder}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-        />
+        <div className={styles.inputWrap}>
+          <span className={styles.icon} aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="6.8" />
+              <path d="M16.2 16.2 20 20" />
+            </svg>
+          </span>
+          <input
+            data-testid={inputTestId}
+            className={styles.input}
+            type="search"
+            placeholder={placeholder}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+          />
+        </div>
       </label>
       <button data-testid={buttonTestId} className={styles.button} type="submit">
         {buttonLabel}
