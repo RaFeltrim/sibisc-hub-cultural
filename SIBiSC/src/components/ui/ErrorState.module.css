@@ -1,13 +1,13 @@
-﻿.state {
+.state {
   display: grid;
-  gap: var(--space-xs);
-  padding: var(--space-xl);
+  gap: 0.7rem;
+  padding: 1.35rem;
   border-radius: var(--radius-md);
-  color: var(--color-danger);
-  background: rgba(165, 62, 50, 0.08);
-  border: 1px solid rgba(165, 62, 50, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(166, 69, 58, 0.2);
+  box-shadow: var(--shadow-soft);
 }
 
-.state p {
-  color: #7d3129;
+.state strong {
+  color: var(--color-danger);
 }

@@ -1,8 +1,17 @@
-﻿# Changelog da Documentacao
+# Changelog da Documentacao
 
 ## Objetivo
 
 Manter historico das mudancas estruturais na documentacao do projeto.
+
+## 2026-03-23 - refresh visual e handoff MCP para o Figma ativo
+
+- atualizado [`../frontend/design_system.md`](../frontend/design_system.md) com a linguagem visual atual, tokens, tipografia e regras de uso
+- atualizado [`../frontend/handoff_figma_lovable.md`](../frontend/handoff_figma_lovable.md) com o arquivo `[USP] SIBiSC App`, o fluxo de captura por Figma MCP e a regra de evitar duplicidade
+- documentadas as capturas publicas `Home`, `Noticias`, `Eventos` e `Catalogo` nas variantes desktop e mobile
+- documentada a pagina web organizada no Figma com `Home`, listagens e detalhes de `Noticias`, `Eventos` e `Catalogo`
+- registrada a validacao de cobertura das rotas publicas e dos fluxos de `Ler detalhe` e `Ver detalhes`
+- registrado que `SIBiSC/index.html` manteve o script de captura para futuras importacoes controladas ao Figma
 
 ## 2026-03-16 - reorganizacao inicial
 

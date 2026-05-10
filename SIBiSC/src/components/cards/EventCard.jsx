@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { formatWeekdayDate } from '../../utils/formatters';
 import styles from './EventCard.module.css';
 
@@ -16,6 +16,7 @@ function EventCard({ event }) {
         <div className={styles.footer}>
           <span>{event.locationName}</span>
           <span>{event.audience}</span>
+          <span>{event.signup}</span>
         </div>
         <Link className={styles.link} to={`/eventos/${event.id}`}>
           Ver detalhes

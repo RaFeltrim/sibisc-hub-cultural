@@ -1,45 +1,52 @@
-﻿.list {
+.list {
   display: grid;
-  gap: var(--space-sm);
+  gap: 1rem;
 }
 
 .card {
   display: grid;
-  gap: var(--space-sm);
-  padding: var(--space-md);
+  gap: 0.9rem;
+  padding: 1.1rem 1.2rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-line);
   background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(18, 38, 63, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
-.rowTop,
-.meta {
+.rowTop {
   display: flex;
   justify-content: space-between;
-  gap: var(--space-sm);
+  gap: var(--space-md);
+  align-items: start;
+}
+
+.rowTop strong {
+  display: block;
+  margin-bottom: 0.2rem;
 }
 
 .stock {
-  align-self: start;
-  padding: 0.35rem 0.65rem;
+  min-width: 3.8rem;
+  text-align: center;
+  padding: 0.45rem 0.8rem;
   border-radius: var(--radius-pill);
   color: var(--color-success);
-  background: rgba(47, 123, 87, 0.1);
-  font-weight: 700;
+  background: rgba(49, 122, 86, 0.12);
+  font-weight: 800;
 }
 
 .meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
   color: var(--color-ink-soft);
-  font-size: 0.9rem;
 }
 
-.meta code {
-  font-family: var(--font-mono);
-}
-
-@media (max-width: 560px) {
-  .rowTop,
-  .meta {
-    flex-direction: column;
-  }
+.meta code,
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: rgba(18, 38, 63, 0.06);
 }

@@ -1,10 +1,11 @@
-﻿.state {
+.state {
   display: grid;
-  gap: var(--space-xs);
-  padding: var(--space-xl);
-  border: 1px dashed rgba(16, 37, 63, 0.2);
+  gap: 0.7rem;
+  padding: 1.35rem;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px dashed rgba(18, 38, 63, 0.2);
+  box-shadow: var(--shadow-soft);
 }
 
 .state strong {
