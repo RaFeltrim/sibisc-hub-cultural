@@ -202,7 +202,7 @@
   align-content: start;
 }
 
-.loanInfo h3 {
+.loanInfo h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -304,7 +304,7 @@
   gap: 0.3rem;
 }
 
-.timelineContent h3 {
+.timelineContent h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -361,7 +361,7 @@
   gap: 0.4rem;
 }
 
-.favoriteInfo h3 {
+.favoriteInfo h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;

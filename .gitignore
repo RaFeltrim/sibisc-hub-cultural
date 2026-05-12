@@ -43,3 +43,4 @@ feltrim-agents-base/
 
 # Generated scripts (local only)
 SIBiSC/scripts/figma_creation_script.js
+.vercel
