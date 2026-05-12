@@ -106,7 +106,7 @@ function UserProfilePage() {
                   >
                     <div className={styles.loanCover} style={{ backgroundColor: loan.coverColor }} />
                     <div className={styles.loanInfo}>
-                      <h3>{loan.title}</h3>
+                      <h2>{loan.title}</h2>
                       <p className={styles.author}>{loan.author}</p>
                       <p className={styles.isbn}>ISBN: {loan.isbn}</p>
                       <div
@@ -149,7 +149,7 @@ function UserProfilePage() {
               >
                 <div className={styles.timelineMarker} />
                 <div className={styles.timelineContent}>
-                  <h3>{item.title}</h3>
+                  <h2>{item.title}</h2>
                   <p className={styles.author}>{item.author}</p>
                   <p className={styles.isbn}>ISBN: {item.isbn}</p>
                   <div className={styles.timlineMeta}>
@@ -179,7 +179,7 @@ function UserProfilePage() {
                   className={styles.favoriteCard}
                 >
                   <div className={styles.favoriteInfo}>
-                    <h3>{fav.title}</h3>
+                    <h2>{fav.title}</h2>
                     <p className={styles.author}>{fav.author}</p>
                     <p className={styles.isbn}>ISBN: {fav.isbn}</p>
                     <div className={styles.availabilityInfo}>
