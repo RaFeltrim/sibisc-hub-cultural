@@ -19,6 +19,7 @@
   text-transform: uppercase;
 }
 
+.wrap h1,
 .wrap h2 {
   font-size: clamp(1.8rem, 4vw, 2.7rem);
 }

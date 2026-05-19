@@ -59,6 +59,7 @@
   background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
   box-shadow: var(--shadow-soft);
   font-weight: 800;
+  scroll-margin-bottom: calc(6rem + env(safe-area-inset-bottom));
 }
 
 .status {

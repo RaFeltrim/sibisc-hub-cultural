@@ -18,24 +18,28 @@ import {
 } from '../services/userProfileService';
 
 function ProgressMeter({ label, progress, target, progressPercent }) {
+  const isComplete = progress >= target;
+  const clampedProgress = Math.min(progress, target);
+  const displayValue = isComplete ? `${target}/${target} concluído` : `${progress}/${target}`;
+  const statusText = isComplete && progress > target ? `${progress} registros, meta ${target} concluída.` : '';
+
   return (
     <div className={styles.progressMeter}>
       <div className={styles.progressMeta}>
         <span>{label}</span>
-        <strong>
-          {progress}/{target}
-        </strong>
+        <strong>{displayValue}</strong>
       </div>
       <div
         className={styles.progressTrack}
         role="progressbar"
-        aria-label={`${label}: ${progress} de ${target}`}
+        aria-label={`${label}: ${progress} de ${target}${isComplete ? ', meta concluída' : ''}`}
         aria-valuemin="0"
         aria-valuemax={target}
-        aria-valuenow={Math.min(progress, target)}
+        aria-valuenow={clampedProgress}
       >
-        <span style={{ width: `${progressPercent}%` }} />
+        <span style={{ width: `${Math.min(progressPercent, 100)}%` }} />
       </div>
+      {statusText ? <small className={styles.progressComplete}>{statusText}</small> : null}
     </div>
   );
 }
@@ -124,7 +128,9 @@ function UserProfilePage() {
       setLoans((currentLoans) =>
         currentLoans.map((item) => (item.id === renewedLoan.id ? { ...renewedLoan } : item))
       );
-      setActionStatus(`Empréstimo renovado: ${loan?.title ?? 'livro selecionado'}. Confira a nova data de devolução.`);
+      setActionStatus(
+        `Renovação demonstrativa simulada para ${loan?.title ?? 'livro selecionado'}. Nenhuma operação oficial foi enviada à biblioteca.`
+      );
       return;
     } catch {
       setActionStatus('Não foi possível renovar este empréstimo no protótipo.');
@@ -162,6 +168,14 @@ function UserProfilePage() {
     <div className={styles.container}>
       {/* User Header */}
       <section className={styles.userHeader}>
+        <div className={styles.prototypeNotice} role="note">
+          <strong>Perfil demonstrativo</strong>
+          <p>
+            Nome, e-mail, preferências, histórico, favoritos, empréstimos e notificações são mocks locais
+            para apresentação. Não há dados pessoais reais, persistência ou operação oficial de biblioteca.
+          </p>
+        </div>
+
         <div className={styles.userCard}>
           <div className={styles.avatar} role="img" aria-label={`Perfil de ${user.name}`}>
             {user.avatar}
@@ -311,13 +325,13 @@ function UserProfilePage() {
       </div>
 
       {/* Tab Content - Empréstimos Ativos */}
-      {activeTab === 'reservas' && (
-        <section
-          id="profile-panel-loans"
-          className={styles.tabContent}
-          role="tabpanel"
-          aria-labelledby="profile-tab-loans"
-        >
+      <section
+        id="profile-panel-loans"
+        className={styles.tabContent}
+        role="tabpanel"
+        aria-labelledby="profile-tab-loans"
+        hidden={activeTab !== 'reservas'}
+      >
           <div className={styles.stack}>
             {loans.map((loan) => {
               const daysLeft = daysUntilDue(loan.dueDate);
@@ -351,26 +365,25 @@ function UserProfilePage() {
                       type="button"
                       className={styles.renewBtn}
                       onClick={() => handleRenew(loan.id)}
-                      title="Renovar empréstimo por mais 14 dias"
+                      title="Simular renovação demonstrativa por mais 14 dias"
                     >
-                      Renovar
+                      Simular renovação
                     </button>
                   )}
                 </div>
               );
             })}
           </div>
-        </section>
-      )}
+      </section>
 
       {/* Tab Content - Histórico */}
-      {activeTab === 'historico' && (
-        <section
-          id="profile-panel-history"
-          className={styles.tabContent}
-          role="tabpanel"
-          aria-labelledby="profile-tab-history"
-        >
+      <section
+        id="profile-panel-history"
+        className={styles.tabContent}
+        role="tabpanel"
+        aria-labelledby="profile-tab-history"
+        hidden={activeTab !== 'historico'}
+      >
           <div className={styles.timeline}>
             {loanHistory.map((item) => (
               <Link
@@ -395,17 +408,16 @@ function UserProfilePage() {
               </Link>
             ))}
           </div>
-        </section>
-      )}
+      </section>
 
       {/* Tab Content - Favoritos */}
-      {activeTab === 'favoritos' && (
-        <section
-          id="profile-panel-favorites"
-          className={styles.tabContent}
-          role="tabpanel"
-          aria-labelledby="profile-tab-favorites"
-        >
+      <section
+        id="profile-panel-favorites"
+        className={styles.tabContent}
+        role="tabpanel"
+        aria-labelledby="profile-tab-favorites"
+        hidden={activeTab !== 'favoritos'}
+      >
           {favorites.length > 0 ? (
             <div className={styles.favoritesList}>
               {favorites.map((fav) => (
@@ -422,8 +434,8 @@ function UserProfilePage() {
                           }`}
                         >
                           {fav.available
-                            ? `Disponível: ${fav.availableCount} de ${fav.totalCount}`
-                            : `Indisponível: ${fav.totalCount} exemplares`}
+                            ? `Demo: ${fav.availableCount} de ${fav.totalCount}`
+                            : `Demo: indisponível (${fav.totalCount})`}
                         </div>
                         {fav.lastBorrowed && (
                           <p className={styles.lastBorrowed}>
@@ -452,8 +464,7 @@ function UserProfilePage() {
               </Link>
             </div>
           )}
-        </section>
-      )}
+      </section>
     </div>
   );
 }
