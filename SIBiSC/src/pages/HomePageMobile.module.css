@@ -226,6 +226,59 @@
   color: var(--color-ink-soft);
 }
 
+.feedbackCard {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0 var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid rgba(16, 37, 63, 0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 252, 247, 0.92);
+  box-shadow: var(--shadow-soft);
+}
+
+.feedbackEyebrow {
+  color: var(--color-accent-strong);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.feedbackCard h2 {
+  color: var(--color-ink-strong);
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.feedbackCard p {
+  color: var(--color-ink-soft);
+  font-size: 0.86rem;
+}
+
+.feedbackPrivacy {
+  padding: 0.62rem 0.68rem;
+  border-radius: var(--radius-sm);
+  background: rgba(16, 37, 63, 0.05);
+  font-weight: 700;
+}
+
+.feedbackAction {
+  justify-self: start;
+  padding: 0.62rem 0.82rem;
+  border-radius: var(--radius-pill);
+  color: white;
+  background: var(--color-accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.feedbackAction:focus-visible {
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
+}
+
 /* Quick Actions */
 .quickActions {
   display: grid;
@@ -313,6 +366,10 @@ section:first-of-type {
     padding: 0 var(--space-lg);
   }
 
+  .feedbackCard {
+    margin: 0 var(--space-lg);
+  }
+
   section {
     padding: 0 var(--space-lg);
   }
@@ -337,6 +394,7 @@ section:first-of-type {
   .answerItem,
   .answerAction,
   .quickResult,
+  .feedbackAction,
   .actionCard {
     transition: none;
   }
