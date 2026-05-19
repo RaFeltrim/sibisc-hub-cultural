@@ -45,7 +45,7 @@ O que aconteceu de fato?
 
 ## Evidencias
 
-- Print/video/log:
+- Print/video/log, sem dados pessoais sensiveis, tokens, documentos, enderecos completos ou prints privados:
 - Texto exato exibido:
 - Livro/evento/noticia relacionado, se houver:
 - `bookId`/`eventId`/`newsId`, se houver:
