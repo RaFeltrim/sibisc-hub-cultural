@@ -60,5 +60,7 @@ Observacao: a primeira tentativa com Chromium padrao falhou porque o browser ger
 
 ## 5. Pendencias ate fechamento
 
-- Abrir PR contra `dev` se as validacoes passarem.
+- PR #57 aberto contra `dev` e revisado por QA/TL/SE.
+- Reforco P3 aplicado no template Sofia/Claudia para evitar prints privados e dados sensiveis.
+- `qa-guard` atualizado para validar existencia e conteudo minimo do template Sofia/Claudia.
 - Validacao com leitor de tela real continua recomendada antes da release final.
