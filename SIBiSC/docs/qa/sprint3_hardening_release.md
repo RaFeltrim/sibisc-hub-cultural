@@ -13,7 +13,7 @@ A Sprint 3 executou revisao de acessibilidade, regressao automatizada, smoke Pla
 
 Atualizacao apos PR #61: a branch `release/sibisc-hardening-sprint3` foi atualizada com `origin/main` depois do merge das correcoes visuais em `main`. O merge nao teve conflitos; os arquivos compartilhados de Home/Home mobile/estilos mantiveram as correcoes visuais do PR #61 junto com o hardening deste PR.
 
-Nao foi feito merge final. A validacao com leitor de tela real permanece como pendencia operacional obrigatoria antes da aprovacao final irrestrita da release.
+Nao foi feito merge final neste momento do registro original. A validacao com leitor de tela real permanece como pendencia operacional recomendada antes da aprovacao final irrestrita da release publica, mas nao como bloqueador tecnico absoluto do merge quando os demais gates reais estiverem verdes.
 
 ## 2. Correcoes aplicadas
 
@@ -54,7 +54,7 @@ Ambos foram corrigidos e revalidados. Resultado final de acessibilidade Lighthou
 
 ### Leitor de tela real
 
-Nao foi tecnicamente possivel executar NVDA/VoiceOver com usuario real neste ambiente de automacao. A pendencia permanece operacional e bloqueia apenas a aprovacao final irrestrita, nao a abertura do PR de release.
+Nao foi tecnicamente possivel executar NVDA/VoiceOver com usuario real neste ambiente de automacao. A pendencia permanece operacional e recomendada para a aprovacao final irrestrita, nao para bloquear tecnicamente o merge do PR se checks, previews e revisao estiverem verdes.
 
 Roteiro manual recomendado:
 
@@ -167,18 +167,21 @@ Justificativa:
 - Correcoes foram pequenas, localizadas e coerentes com hardening.
 - Workflow foi inspecionado e a atualizacao para actions oficiais novas ficou documentada como recomendacao por limite de permissao `workflow`.
 
-### NO-GO para merge final automatico
+### Condicoes para merge final controlado
 
-Motivos:
+Conferencias antes do merge:
 
-- Merge final exige review humano/confirmacao posterior, conforme regra operacional.
-- Teste com leitor de tela real ainda precisa ser executado e assinado antes da release final irrestrita.
+- PR `MERGEABLE/CLEAN` contra `main`.
+- QA Gate remoto verde.
+- Vercel e deploy preview Netlify sem falha obrigatoria.
+- Review humano/confirmacao final, conforme regra operacional.
+- Teste com leitor de tela real recomendado para a release final irrestrita.
 - O aviso de Node 20 em GitHub Actions ainda precisa ser tratado por alguem com permissao `workflow`.
 
 ## 8. Pendencias finais reais
 
-- Executar roteiro com NVDA/VoiceOver/leitor real e registrar evidencia humana.
-- Aguardar checks remotos do PR, especialmente QA Gate no workflow atual.
-- Reavaliar Netlify depois do novo push da branch atualizada; se nao for required check/canal oficial, manter como risco operacional documentado.
+- Executar roteiro com NVDA/VoiceOver/leitor real e registrar evidencia humana antes da aprovacao final irrestrita.
+- Confirmar checks remotos do PR antes do merge, especialmente QA Gate no workflow atual.
+- Confirmar Netlify deploy preview verde; Header/Pages `NEUTRAL` podem ser tratados como skip operacional do provider quando Redirect/deploy preview passam.
 - Tratar performance/CLS como backlog pos-release se a disciplina exigir meta numerica de Lighthouse Performance acima do baseline atual.
 - Fazer review final do PR antes de qualquer merge em `main`.
