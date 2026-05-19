@@ -18,6 +18,7 @@ function BookCard({ book, selectedNeighborhood = 'Centro' }) {
       </div>
       <div className={styles.footer}>
         <strong>{availabilityLabel}</strong>
+        <small>Disponibilidade demonstrativa do protótipo; confirme com a biblioteca antes de se deslocar.</small>
         {nearestInventory ? (
           <span>
             {nearestInventory.unit.name}, {nearestInventory.distanceByNeighborhood[effectiveNeighborhood]} de distância

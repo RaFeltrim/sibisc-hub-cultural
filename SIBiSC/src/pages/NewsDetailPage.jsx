@@ -81,7 +81,7 @@ function NewsDetailPage() {
           <a
             className={styles.sourceLink}
             href={item.sourceUrl}
-            rel="noreferrer"
+            rel="noopener noreferrer"
             target="_blank"
           >
             {item.sourceLabel}

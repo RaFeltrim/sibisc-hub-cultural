@@ -67,6 +67,7 @@ function NewsPage() {
         eyebrow="Editorial"
         title="Notícias"
         description="Atualizações sobre serviços, eventos, inclusão e circulação do acervo."
+        headingLevel={1}
       />
       <FilterPills
         options={categories}
