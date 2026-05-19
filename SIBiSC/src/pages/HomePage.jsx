@@ -332,15 +332,12 @@ function HomePage() {
                 </p>
                 <p className={styles.limitNotice}>{GUIDED_ASSISTANT_LIMIT_NOTICE}</p>
                 <div className={styles.recommendationList}>
-                  {assistantRecommendations.map((book) => (
+                  {assistantRecommendations.slice(0, 1).map((book) => (
                     <Link key={book.id} className={styles.recommendationItem} to={`/catalogo/${book.bookId}`}>
                       <strong>{book.title}</strong>
                       <span>Motivo: {book.reason}</span>
-                      <span>
-                        Fonte/limite: {book.source}; disponibilidade mockada do catálogo local, sem reserva real.
-                      </span>
                       <em>
-                        Próxima ação: abrir detalhe. {book.availableCount} exemplares disponíveis no catálogo local.
+                        Abrir detalhe. {book.availableCount} exemplares disponíveis no catálogo local.
                       </em>
                     </Link>
                   ))}
