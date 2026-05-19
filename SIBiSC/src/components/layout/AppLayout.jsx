@@ -9,6 +9,7 @@ const desktopItems = [
   { to: '/noticias', label: 'Notícias' },
   { to: '/eventos', label: 'Eventos' },
   { to: '/catalogo', label: 'Catálogo' },
+  { to: '/perfil', label: 'Perfil' },
 ];
 
 const headlineFacts = ['4 unidades conectadas', 'agenda cultural viva', 'acervo com busca rápida'];

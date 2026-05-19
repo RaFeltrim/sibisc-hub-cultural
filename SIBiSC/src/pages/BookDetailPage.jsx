@@ -83,7 +83,10 @@ function BookDetailPage() {
           <h1>{book.title}</h1>
           <p>{book.author}</p>
         </div>
-        <strong className={styles.availability}>{book.totalAvailable} exemplares disponíveis</strong>
+        <div className={styles.availabilityBox}>
+          <strong className={styles.availability}>{book.totalAvailable} exemplares disponíveis</strong>
+          <p>Contagem demonstrativa/mockada; confirme disponibilidade real com a biblioteca.</p>
+        </div>
       </div>
 
       <div className={styles.metaGrid}>
@@ -133,11 +136,15 @@ function BookDetailPage() {
           <span>
             {nearestInventory.distanceByNeighborhood[selectedNeighborhood]} de distância, chamada {nearestInventory.callNumber}, {nearestInventory.shelf}
           </span>
+          <small>Unidade sugerida apenas com base no inventário local do protótipo.</small>
         </div>
       ) : null}
 
       <div>
         <h2>Disponibilidade por unidade</h2>
+        <p className={styles.mockNotice}>
+          Os dados abaixo são demonstrativos e não executam reserva, retirada ou renovação oficial.
+        </p>
         <AvailabilityTable inventory={book.inventory} selectedNeighborhood={selectedNeighborhood} />
       </div>
     </article>

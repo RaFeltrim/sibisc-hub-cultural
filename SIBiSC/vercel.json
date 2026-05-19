@@ -3,9 +3,64 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [
+  "headers": [
     {
       "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://*.supabase.co"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/home-mobile",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/noticias",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/noticias/:newsId(n1|n2|n3|n4)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/eventos",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/eventos/:eventId(e1|e2|e3|e4|e5|e6|e7)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/catalogo",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/catalogo/:bookId(b1|b2|b3|b4|b5|b6|b7|b8)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/perfil",
       "destination": "/index.html"
     }
   ]
