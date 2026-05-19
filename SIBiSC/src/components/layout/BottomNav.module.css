@@ -9,9 +9,9 @@
   gap: 0.18rem;
   width: min(90vw, 500px);
   padding: 0.34rem;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: calc(var(--radius-pill) + 8px);
-  background: rgba(18, 38, 63, 0.76);
+  background: rgba(18, 38, 63, 0.92);
   box-shadow: 0 14px 38px rgba(18, 38, 63, 0.22);
   backdrop-filter: blur(18px);
   animation: nav-in 420ms ease both;
@@ -25,7 +25,7 @@
   padding: 0.46rem 0.22rem;
   border-radius: var(--radius-pill);
   text-align: center;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.84);
   font-size: 0.72rem;
   font-weight: 700;
   transition:
@@ -43,7 +43,7 @@
 }
 
 .link:focus-visible {
-  outline: 3px solid rgba(239, 178, 102, 0.42);
+  outline: 3px solid var(--color-highlight);
   outline-offset: 3px;
 }
 
@@ -53,7 +53,7 @@
 
 .linkActive {
   color: white;
-  background: linear-gradient(135deg, rgba(210, 100, 56, 0.95), rgba(239, 178, 102, 0.95));
+  background: linear-gradient(135deg, #8f3a1c, var(--color-navy));
   box-shadow: 0 10px 24px rgba(210, 100, 56, 0.24);
 }
 

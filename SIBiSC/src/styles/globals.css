@@ -71,7 +71,7 @@ button {
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 3px solid rgba(210, 100, 56, 0.35);
+  outline: 3px solid var(--color-accent-strong);
   outline-offset: 3px;
 }
 

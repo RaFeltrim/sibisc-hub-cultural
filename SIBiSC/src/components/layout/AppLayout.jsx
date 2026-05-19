@@ -24,6 +24,9 @@ function AppLayout() {
 
   return (
     <div className={styles.shell}>
+      <a className={styles.skipLink} href="#conteudo-principal">
+        Pular para conteúdo principal
+      </a>
       <div className={styles.backgroundGlow} />
 
       <header className={styles.header}>
@@ -43,7 +46,7 @@ function AppLayout() {
             </NavLink>
           </div>
 
-          <nav className={styles.desktopNav} aria-label="Navegacao principal">
+          <nav className={styles.desktopNav} aria-label="Navegação principal">
             {desktopItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -66,22 +69,24 @@ function AppLayout() {
         </div>
       </header>
 
-      <div className={styles.ribbon}>
+      <BottomNav />
+
+      <aside className={styles.ribbon} aria-label="Resumo da rede SIBiSC">
         <div className={styles.ribbonInner}>
           {headlineFacts.map((fact) => (
             <span key={fact}>{fact}</span>
           ))}
         </div>
-      </div>
+      </aside>
 
-      <main className={styles.main}>
+      <main id="conteudo-principal" className={styles.main} tabIndex={-1}>
         <Outlet />
       </main>
 
-      <footer className={styles.footer}>
+      <footer className={styles.footer} aria-labelledby="sibisc-footer-title">
         <div className={styles.footerIntro}>
           <span className={styles.footerEyebrow}>Bibliotecas da rede</span>
-          <h2>Unidades, horários e contatos em um bloco compacto.</h2>
+          <h2 id="sibisc-footer-title">Unidades, horários e contatos em um bloco compacto.</h2>
           <p>
             Consulte horários, descubra eventos por bairro e encontre o melhor ponto de retirada
             para cada livro.
@@ -102,8 +107,6 @@ function AppLayout() {
           ))}
         </div>
       </footer>
-
-      <BottomNav />
     </div>
   );
 }
