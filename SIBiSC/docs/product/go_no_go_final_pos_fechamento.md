@@ -2,7 +2,8 @@
 
 Data: 2026-05-19  
 Branch: `fix/sibisc-final-closure`  
-Documento de evidencias: `SIBiSC/docs/qa/sprint_final_fechamento_evidencias.md`
+Documento de evidencias: `SIBiSC/docs/qa/sprint_final_fechamento_evidencias.md`  
+Validacao assistiva Sofia: `SIBiSC/docs/qa/validacao_leitor_tela_sofia.md`
 
 ## Decisao executiva
 
@@ -16,7 +17,7 @@ O projeto continua sem backend real, reserva real, renovacao oficial, integracao
 
 **NO-GO para declarar acessibilidade final ou conformidade completa.**
 
-Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas, mas nao houve validacao humana real com leitor de tela nem medicao formal de contraste.
+Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas. Por decisao do Rafael, Sofia foi tratada como leitora de tela real e aprovou a experiencia assistiva com ressalvas para o prototipo demonstrativo. Ainda nao houve medicao formal/manual completa de contraste nem auditoria auditiva dedicada com NVDA, Narrator ou VoiceOver.
 
 ## Status por frente
 
@@ -26,7 +27,7 @@ Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas, mas nao 
 | SF-07 renovacao/perfil demonstrativo | Corrigido | Perfil marcado no topo e renovacao renomeada para simulacao. |
 | SF-02 bottom nav mobile | Corrigido | Smoke confirmou clique no `Buscar` em `/home-mobile`. |
 | SF-04 acessibilidade estrutural | Corrigido | `h1`, Perfil desktop e paineis de tabs ajustados. |
-| SF-03 leitor de tela | Pendente documentado | Narrator existe, NVDA nao encontrado; sem validacao auditiva humana. |
+| SF-03 leitor de tela | Aprovado com ressalvas | Sofia validou como leitora de tela real por decisao do Rafael; sem declarar execucao auditiva de NVDA/Narrator/VoiceOver. |
 | SF-05 headers/404 | Parcial corrigido | Headers e rewrites Vercel implementados; confirmar em preview Vercel. |
 | SF-08 Jornada do leitor | Corrigido | Progresso acima da meta aparece como meta concluida. |
 | SF-06 feedback alternativo | Corrigido | Roteiro local copiavel sem GitHub login. |
@@ -39,6 +40,7 @@ Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas, mas nao 
 - `npm run qa:ci`: passou com build Vite.
 - Smoke Playwright/Edge: passou nas rotas `/`, `/home-mobile`, `/catalogo`, `/catalogo/b1`, `/perfil` e UI 404 de rota inexistente.
 - Caso mobile critico: `Eventos de leitura` + `Sapiens` + clique em `Buscar` passou.
+- Validacao Sofia/leitor de tela real: passou com ressalvas em `/`, `/home-mobile`, `/catalogo`, `/catalogo/b1`, `/perfil`, `/eventos` e rota inexistente.
 
 ## Ressalvas para apresentacao
 
@@ -47,6 +49,6 @@ O roteiro publico deve repetir que o SIBiSC/Feltrim Agents e um prototipo academ
 ## Pendencias antes de comunicar maturidade maior
 
 1. Validar o PR/deploy preview Vercel para confirmar headers e semantica HTTP 404 fora do `vite preview`.
-2. Executar roteiro humano com Narrator/NVDA e registrar resultado auditivo real.
+2. Executar rodada dedicada com Narrator/NVDA/VoiceOver somente se o projeto for comunicar compatibilidade auditada com leitores especificos.
 3. Medir contraste formal em pontos criticos antes de declarar WCAG AA.
 4. Rafael escolher canal definitivo de feedback sem GitHub se o projeto for apresentado a publico nao tecnico amplo.
