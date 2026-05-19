@@ -73,11 +73,13 @@ No smoke mobile, a ordem inicial de foco ficou: skip link, marca, Início, Notí
   - `/perfil`: `200`, h1 `João Silva`
   - `/__sf_final_rota_inexistente__`: `200` local, UI 404 com h1 `Essa rota ainda não existe no mapa do SIBiSC.`
   - console Edge: 0 errors, 0 warnings.
+- PR #63: checks iniciais passaram (`P0 Repository Guard`, `P1 Frontend Build`, `Vercel`, `Vercel Preview Comments`).
+- Tentativa de validacao HTTP direta no preview Vercel do PR retornou `401 Unauthorized` para `/`, `/home-mobile`, `/catalogo`, `/catalogo/b1`, `/perfil` e rota inexistente. Portanto, os headers finais e o HTTP 404 real continuam como validacao remota pendente em ambiente publicamente acessivel ou com autenticacao de preview liberada.
 
 ## Pendencias reais
 
-- Confirmar no preview/deploy Vercel que os headers estao presentes no dominio efetivo.
-- Confirmar no preview/deploy Vercel que rota inexistente retorna HTTP 404 real.
+- Confirmar no preview/deploy Vercel publicamente acessivel, ou com autenticacao de preview liberada, que os headers estao presentes no dominio efetivo.
+- Confirmar no preview/deploy Vercel publicamente acessivel, ou com autenticacao de preview liberada, que rota inexistente retorna HTTP 404 real.
 - Se houver deploy Netlify, confirmar que os redirects explicitos preservam deep links validos e deixam rotas desconhecidas em 404.
 - Fazer medicao manual completa de contraste em gradientes/pseudo-elementos antes de declarar conformidade WCAG AA completa.
 - Manter NO-GO para produto operacional real, reserva/renovacao oficial, integracao com biblioteca e compatibilidade auditada com NVDA/Narrator/VoiceOver ate validacoes dedicadas.
