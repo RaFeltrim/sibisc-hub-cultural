@@ -257,7 +257,7 @@ function HomePageMobile() {
           href={SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Abrir GitHub Issues com o template de feedback Sofia e Claudia"
+          aria-label="Enviar feedback via GitHub Issues com o template de feedback Sofia e Claudia"
         >
           Enviar feedback
         </a>
