@@ -4,6 +4,7 @@
   --font-mono: 'Space Mono', 'Cascadia Code', monospace;
 
   --color-ink: #12263f;
+  --color-ink-strong: #0d1d31;
   --color-ink-soft: #4b6078;
   --color-ink-muted: #73869c;
   --color-paper: #f5efe2;
@@ -13,8 +14,8 @@
   --color-surface-dark: rgba(18, 38, 63, 0.92);
   --color-line: rgba(18, 38, 63, 0.12);
   --color-line-strong: rgba(18, 38, 63, 0.24);
-  --color-accent: #d26438;
-  --color-accent-strong: #a34320;
+  --color-accent: #b84f28;
+  --color-accent-strong: #8f3a1c;
   --color-highlight: #efb266;
   --color-highlight-soft: rgba(239, 178, 102, 0.2);
   --color-success: #317a56;

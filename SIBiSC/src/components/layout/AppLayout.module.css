@@ -4,6 +4,28 @@
   overflow: clip;
 }
 
+.skipLink {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 40;
+  min-height: 2.75rem;
+  padding: 0.72rem 1rem;
+  border-radius: var(--radius-pill);
+  color: white;
+  background: var(--color-navy);
+  box-shadow: var(--shadow-medium);
+  font-weight: 800;
+  transform: translate(-50%, -150%);
+  transition: transform 160ms ease;
+}
+
+.skipLink:focus-visible {
+  outline: 3px solid var(--color-highlight);
+  outline-offset: 3px;
+  transform: translate(-50%, 0);
+}
+
 .backgroundGlow {
   position: fixed;
   inset: auto 0 0 auto;
@@ -155,13 +177,17 @@
 
 .ctaLink {
   color: white;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+  background: linear-gradient(135deg, var(--color-accent), #8f3a1c);
   box-shadow: var(--shadow-soft);
 }
 
 .main {
   position: relative;
   z-index: 1;
+}
+
+.main:focus {
+  outline: none;
 }
 
 .ribbon {

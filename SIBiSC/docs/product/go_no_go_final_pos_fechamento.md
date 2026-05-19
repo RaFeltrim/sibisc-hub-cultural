@@ -1,8 +1,8 @@
 # Go/No-Go final pos-fechamento - SIBiSC/Feltrim Agents
 
 Data: 2026-05-19  
-Branch: `fix/sibisc-final-closure`  
-Documento de evidencias: `SIBiSC/docs/qa/sprint_final_fechamento_evidencias.md`  
+Branch: `fix/sibisc-final-a11y-security-polish`  
+Documento de evidencias: `SIBiSC/docs/qa/final_a11y_security_polish.md`  
 Validacao assistiva Sofia: `SIBiSC/docs/qa/validacao_leitor_tela_sofia.md`
 
 ## Decisao executiva
@@ -28,10 +28,10 @@ Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas. Por deci
 | SF-02 bottom nav mobile | Corrigido | Smoke confirmou clique no `Buscar` em `/home-mobile`. |
 | SF-04 acessibilidade estrutural | Corrigido | `h1`, Perfil desktop e paineis de tabs ajustados. |
 | SF-03 leitor de tela | Aprovado com ressalvas | Sofia validou como leitora de tela real por decisao do Rafael; sem declarar execucao auditiva de NVDA/Narrator/VoiceOver. |
-| SF-05 headers/404 | Parcial corrigido | Headers e rewrites Vercel implementados; confirmar em preview Vercel. |
+| SF-05 headers/404 | Corrigido em configuracao, validacao remota pendente | Root `vercel.json`, `SIBiSC/vercel.json` e `netlify.toml` incluem headers defensivos; rewrites/redirects foram restringidos a rotas conhecidas para permitir 404 real no host estatico. Confirmar em preview/deploy Vercel. |
 | SF-08 Jornada do leitor | Corrigido | Progresso acima da meta aparece como meta concluida. |
 | SF-06 feedback alternativo | Corrigido | Roteiro local copiavel sem GitHub login. |
-| SF-09 acabamentos P3 | Parcial corrigido | `noopener noreferrer` e microcopy; contraste formal pendente. |
+| SF-09 acabamentos P3 | Parcial corrigido | `noopener noreferrer`, microcopy e reforco visual de contraste/foco; medicao formal completa de contraste ainda pendente. |
 
 ## Validacoes finais locais
 
@@ -41,6 +41,7 @@ Foram corrigidos `h1`, descoberta do Perfil e `aria-controls` das abas. Por deci
 - Smoke Playwright/Edge: passou nas rotas `/`, `/home-mobile`, `/catalogo`, `/catalogo/b1`, `/perfil` e UI 404 de rota inexistente.
 - Caso mobile critico: `Eventos de leitura` + `Sapiens` + clique em `Buscar` passou.
 - Validacao Sofia/leitor de tela real: passou com ressalvas em `/`, `/home-mobile`, `/catalogo`, `/catalogo/b1`, `/perfil`, `/eventos` e rota inexistente.
+- Atualizacao SF-FINAL-01 a SF-FINAL-04: `ReadLints`, `npm run qa:repo`, `npm run qa:ci` e smoke Playwright em Microsoft Edge passaram; `vite preview` segue retornando `200` para rota inexistente por fallback local, entao HTTP 404 real e headers devem ser confirmados no preview/deploy remoto.
 
 ## Ressalvas para apresentacao
 
