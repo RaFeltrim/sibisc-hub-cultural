@@ -11,6 +11,11 @@ import { getNews } from '../services/newsService';
 import { getEvents } from '../services/eventsService';
 import { searchBooks } from '../services/catalogService';
 import { getRecommendations, getUserProfile } from '../services/userProfileService';
+import {
+  GUIDED_ASSISTANT_LIMIT_NOTICE,
+  getGuidedAssistantQuestion,
+  guidedAssistantQuestions,
+} from '../services/guidedAssistantService';
 import useDebouncedValue from '../hooks/useDebouncedValue';
 import styles from './HomePage.module.css';
 
@@ -38,12 +43,6 @@ const assistantCapabilities = [
   },
 ];
 
-const assistantGuides = [
-  { to: '/catalogo', label: 'Buscar livros por tema, autor ou ISBN' },
-  { to: '/eventos', label: 'Encontrar eventos ligados ao seu perfil' },
-  { to: '/noticias', label: 'Entender novidades da rede de bibliotecas' },
-];
-
 function getQuickMatches(books, searchTerm) {
   const normalizedTerm = searchTerm.trim().toLowerCase();
 
@@ -67,6 +66,7 @@ function HomePage() {
   const [assistantRecommendations, setAssistantRecommendations] = useState([]);
   const [query, setQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
+  const [selectedGuideId, setSelectedGuideId] = useState(guidedAssistantQuestions[0].id);
   const debouncedQuery = useDebouncedValue(query, 180);
 
   useEffect(() => {
@@ -113,6 +113,8 @@ function HomePage() {
   const quickMatches = useMemo(() => {
     return getQuickMatches(catalogBooks, debouncedQuery);
   }, [catalogBooks, debouncedQuery]);
+
+  const selectedGuide = useMemo(() => getGuidedAssistantQuestion(selectedGuideId), [selectedGuideId]);
 
   const assistantMetrics = [
     { value: profile?.readingPreferences.categories.length ?? 0, label: 'interesses' },
@@ -230,13 +232,75 @@ function HomePage() {
             />
 
             <div className={styles.guideList} aria-label="Perguntas que o Feltrim Agents orienta nesta versão">
-              <strong>Posso ajudar você a</strong>
-              {assistantGuides.map((guide) => (
-                <Link key={guide.to} to={guide.to} className={styles.guideLink}>
-                  {guide.label}
-                </Link>
-              ))}
+              <strong>Perguntas guiadas</strong>
+              <div className={styles.guideButtons} role="list">
+                {guidedAssistantQuestions.map((guide) => (
+                  <button
+                    key={guide.id}
+                    type="button"
+                    className={styles.guideButton}
+                    aria-pressed={guide.id === selectedGuideId}
+                    aria-controls="guided-assistant-answer"
+                    onClick={() => setSelectedGuideId(guide.id)}
+                  >
+                    <span>{guide.shortLabel}</span>
+                    <em>{guide.category}</em>
+                  </button>
+                ))}
+              </div>
             </div>
+
+            <section
+              id="guided-assistant-answer"
+              className={styles.guidedAnswer}
+              aria-live="polite"
+              aria-atomic="true"
+              aria-labelledby="guided-answer-title"
+            >
+              <span className={styles.answerCategory}>{selectedGuide.category}</span>
+              <h2 id="guided-answer-title">{selectedGuide.answer.title}</h2>
+              <p>{selectedGuide.answer.summary}</p>
+
+              {selectedGuide.answer.recommendations?.length ? (
+                <div className={styles.answerItems} aria-label="Recomendações explicáveis">
+                  {selectedGuide.answer.recommendations.map((item) => (
+                    <Link key={item.id} className={styles.answerItem} to={item.nextAction.to}>
+                      <strong>{item.title}</strong>
+                      <span>Motivo: {item.reason}</span>
+                      <span>
+                        Fonte/limite: {item.source}; {item.limit}
+                      </span>
+                      <em>
+                        Próxima ação: {item.nextAction.label}. {item.availableCount} de {item.totalCount} exemplares
+                        no inventário local.
+                      </em>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+
+              {selectedGuide.answer.references?.length ? (
+                <div className={styles.answerItems} aria-label="Referências locais explicáveis">
+                  {selectedGuide.answer.references.map((item) => (
+                    <Link key={item.id} className={styles.answerItem} to={item.nextAction.to}>
+                      <strong>{item.title}</strong>
+                      <span>Motivo: {item.reason}</span>
+                      <span>
+                        Fonte/limite: {item.source}; {item.limit}
+                      </span>
+                      <em>Próxima ação: {item.nextAction.label}</em>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+
+              <p className={styles.limitNotice}>
+                <strong>Fonte/limite:</strong> {selectedGuide.answer.source}. {selectedGuide.answer.limit}
+              </p>
+              <Link className={styles.answerAction} to={selectedGuide.answer.nextAction.to}>
+                {selectedGuide.answer.nextAction.label}
+              </Link>
+            </section>
 
             {query.trim() ? (
               <div className={styles.quickResults}>
@@ -261,12 +325,18 @@ function HomePage() {
                   Sugestões baseadas nas preferências cadastradas de {profile?.name.split(' ')[0] ?? 'leitor'}{' '}
                   e na disponibilidade mockada do acervo. Não há backend de IA ou reserva real nesta prévia.
                 </p>
+                <p className={styles.limitNotice}>{GUIDED_ASSISTANT_LIMIT_NOTICE}</p>
                 <div className={styles.recommendationList}>
                   {assistantRecommendations.map((book) => (
                     <Link key={book.id} className={styles.recommendationItem} to={`/catalogo/${book.bookId}`}>
                       <strong>{book.title}</strong>
-                      <span>{book.reason}</span>
-                      <em>{book.availableCount} exemplares disponíveis no catálogo local</em>
+                      <span>Motivo: {book.reason}</span>
+                      <span>
+                        Fonte/limite: {book.source}; disponibilidade mockada do catálogo local, sem reserva real.
+                      </span>
+                      <em>
+                        Próxima ação: abrir detalhe. {book.availableCount} exemplares disponíveis no catálogo local.
+                      </em>
                     </Link>
                   ))}
                 </div>
