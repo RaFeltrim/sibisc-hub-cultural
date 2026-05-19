@@ -40,6 +40,30 @@ const getCatalogBookById = (bookId) => bookItems.find((book) => book.id === book
 
 export { formatDate, daysUntilDue };
 
+const getProfileActivityBookIds = () => {
+  const activityBookIds = [
+    ...profileLoans.map((loan) => loan.bookId),
+    ...profileLoanHistory.map((historyItem) => historyItem.bookId),
+    ...profileFavorites.map((favorite) => favorite.bookId),
+  ];
+
+  return [...new Set(activityBookIds)].filter((bookId) => getCatalogBookById(bookId));
+};
+
+const getProgress = (current, target) => Math.min(100, Math.round((current / target) * 100));
+
+const createBadge = ({ id, title, description, current, target, sourceActions }) => ({
+  id,
+  title,
+  description,
+  progress: current,
+  target,
+  progressPercent: getProgress(current, target),
+  unlocked: current >= target,
+  sourceActions,
+  publicRanking: false,
+});
+
 const getRecommendationScore = (book, preferences) => {
   let score = 0;
 
@@ -223,6 +247,105 @@ export const getUserStatistics = async () => {
     totalFavorites: profileFavorites.length,
     memberSince: new Date('2023-01-15'),
     daysAsMember: Math.floor((Date.now() - new Date('2023-01-15')) / (1000 * 60 * 60 * 24)),
+  };
+};
+
+export const getReaderJourney = async () => {
+  await delay(MOCK_API_DELAY);
+
+  const activityBookIds = getProfileActivityBookIds();
+  const activityBooks = activityBookIds.map((bookId) => getCatalogBookById(bookId));
+  const favoriteBookIds = profileFavorites.map((favorite) => favorite.bookId).filter((bookId) => getCatalogBookById(bookId));
+  const borrowedBookIds = profileLoanHistory
+    .map((historyItem) => historyItem.bookId)
+    .filter((bookId) => getCatalogBookById(bookId));
+  const activeLoanBookIds = profileLoans.map((loan) => loan.bookId).filter((bookId) => getCatalogBookById(bookId));
+  const brazilianLiteratureCategories = new Set(['Romance', 'Naturalismo', 'Memorialismo']);
+  const brazilianLiteratureCount = activityBooks.filter((book) => brazilianLiteratureCategories.has(book.category)).length;
+  const exploredAuthorsCount = new Set(activityBooks.map((book) => book.author)).size;
+
+  return {
+    prototypeNotice:
+      'Jornada demonstrativa calculada com mocks locais de perfil, historico e favoritos. Nao ha ranking publico, pontuacao competitiva ou persistencia real nesta versao.',
+    publicRanking: false,
+    trails: [
+      {
+        id: 'trilha-literatura-brasileira',
+        title: 'Trilha de literatura brasileira',
+        description: 'Valoriza autores e categorias ja presentes nas preferencias demonstrativas do perfil.',
+        progress: brazilianLiteratureCount,
+        target: 5,
+        progressPercent: getProgress(brazilianLiteratureCount, 5),
+      },
+      {
+        id: 'trilha-diversidade-autoral',
+        title: 'Trilha de diversidade autoral',
+        description: 'Mostra variedade de autores explorados entre historico, emprestimos e favoritos.',
+        progress: exploredAuthorsCount,
+        target: 6,
+        progressPercent: getProgress(exploredAuthorsCount, 6),
+      },
+      {
+        id: 'trilha-acervo-em-movimento',
+        title: 'Trilha acervo em movimento',
+        description: 'Combina favoritos e emprestimos ativos para sugerir continuidade de leitura.',
+        progress: favoriteBookIds.length + activeLoanBookIds.length,
+        target: 7,
+        progressPercent: getProgress(favoriteBookIds.length + activeLoanBookIds.length, 7),
+      },
+    ],
+    badges: [
+      createBadge({
+        id: 'selo-explorador-literatura-brasileira',
+        title: 'Explorador de literatura brasileira',
+        description: 'Reconhece contato recorrente com obras brasileiras do catalogo local.',
+        current: brazilianLiteratureCount,
+        target: 3,
+        sourceActions: ['open_book_detail', 'borrow_book', 'favorite_book'],
+      }),
+      createBadge({
+        id: 'selo-curador-favoritos',
+        title: 'Curador de favoritos',
+        description: 'Indica uso do favorito como lista pessoal de proximas leituras.',
+        current: favoriteBookIds.length,
+        target: 4,
+        sourceActions: ['favorite_book'],
+      }),
+      createBadge({
+        id: 'selo-leitor-em-percurso',
+        title: 'Leitor em percurso',
+        description: 'Mostra continuidade de leituras devolvidas no historico local.',
+        current: borrowedBookIds.length,
+        target: 5,
+        sourceActions: ['borrow_book', 'return_book'],
+      }),
+    ],
+    personalGoals: [
+      {
+        id: 'meta-acompanhar-devolucoes',
+        title: 'Acompanhar devolucoes ativas',
+        description: 'Revisar os emprestimos atuais e evitar atraso nas proximas devolucoes.',
+        progress: activeLoanBookIds.length,
+        target: 3,
+        progressPercent: getProgress(activeLoanBookIds.length, 3),
+      },
+      {
+        id: 'meta-revisitar-favoritos',
+        title: 'Revisitar favoritos',
+        description: 'Usar favoritos como lista privada de proximas leituras, sem exposicao publica.',
+        progress: favoriteBookIds.length,
+        target: 4,
+        progressPercent: getProgress(favoriteBookIds.length, 4),
+      },
+      {
+        id: 'meta-ampliar-autores',
+        title: 'Ampliar autores explorados',
+        description: 'Variar autores a partir de historico, favoritos e sugestoes locais.',
+        progress: exploredAuthorsCount,
+        target: 6,
+        progressPercent: getProgress(exploredAuthorsCount, 6),
+      },
+    ],
   };
 };
 

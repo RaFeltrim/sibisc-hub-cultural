@@ -16,6 +16,11 @@ import {
   getGuidedAssistantQuestion,
   guidedAssistantQuestions,
 } from '../services/guidedAssistantService';
+import {
+  SOFIA_CLAUDIA_FEEDBACK_FLOW,
+  SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL,
+  SOFIA_CLAUDIA_PRIVACY_NOTICE,
+} from '../services/feedbackService';
 import useDebouncedValue from '../hooks/useDebouncedValue';
 import styles from './HomePage.module.css';
 
@@ -344,6 +349,36 @@ function HomePage() {
             )}
           </div>
         </div>
+      </section>
+
+      <section className={styles.feedbackPanel} aria-labelledby="feedback-sofia-claudia-title">
+        <div>
+          <p className={styles.feedbackEyebrow}>Feedback operacional</p>
+          <h2 id="feedback-sofia-claudia-title">Ajude Sofia e Claudia a melhorar o protótipo</h2>
+          <p>
+            Use o canal oficial em GitHub Issues para relatar dúvida, bug, recomendação pouco útil,
+            problema de acessibilidade ou sugestão. O registro usa template com rota, passos,
+            esperado, observado, severidade, status e critério de fechamento.
+          </p>
+          <p className={styles.feedbackPrivacy}>{SOFIA_CLAUDIA_PRIVACY_NOTICE}</p>
+        </div>
+        <div className={styles.feedbackFlow} aria-label="Como o feedback será tratado">
+          {SOFIA_CLAUDIA_FEEDBACK_FLOW.map((step, index) => (
+            <span key={step}>
+              <strong>{index + 1}</strong>
+              {step}
+            </span>
+          ))}
+        </div>
+        <a
+          className={styles.feedbackAction}
+          href={SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Abrir GitHub Issues com o template de feedback Sofia e Claudia"
+        >
+          Enviar feedback via GitHub Issues
+        </a>
       </section>
 
       <section>

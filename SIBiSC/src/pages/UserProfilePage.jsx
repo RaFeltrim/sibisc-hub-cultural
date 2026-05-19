@@ -7,6 +7,7 @@ import {
   getFavoritesWithStatus,
   getLoanHistory,
   getNotificationPreferences,
+  getReaderJourney,
   getUserLoans,
   getUserProfile,
   formatDate,
@@ -16,6 +17,29 @@ import {
   updateNotificationPreferences,
 } from '../services/userProfileService';
 
+function ProgressMeter({ label, progress, target, progressPercent }) {
+  return (
+    <div className={styles.progressMeter}>
+      <div className={styles.progressMeta}>
+        <span>{label}</span>
+        <strong>
+          {progress}/{target}
+        </strong>
+      </div>
+      <div
+        className={styles.progressTrack}
+        role="progressbar"
+        aria-label={`${label}: ${progress} de ${target}`}
+        aria-valuemin="0"
+        aria-valuemax={target}
+        aria-valuenow={Math.min(progress, target)}
+      >
+        <span style={{ width: `${progressPercent}%` }} />
+      </div>
+    </div>
+  );
+}
+
 function UserProfilePage() {
   const [activeTab, setActiveTab] = useState('reservas');
   const [user, setUser] = useState(null);
@@ -23,6 +47,7 @@ function UserProfilePage() {
   const [loans, setLoans] = useState([]);
   const [loanHistory, setLoanHistory] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [readerJourney, setReaderJourney] = useState(null);
   const [actionStatus, setActionStatus] = useState('');
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
@@ -37,12 +62,13 @@ function UserProfilePage() {
       setLoadError('');
 
       try {
-        const [profile, loanItems, historyItems, favoriteItems, preferences] = await Promise.all([
+        const [profile, loanItems, historyItems, favoriteItems, preferences, journey] = await Promise.all([
           getUserProfile(),
           getUserLoans(),
           getLoanHistory(100, 0),
           getFavoritesWithStatus(),
           getNotificationPreferences(),
+          getReaderJourney(),
         ]);
 
         if (!isMounted) return;
@@ -52,6 +78,7 @@ function UserProfilePage() {
         setLoanHistory(historyItems);
         setFavorites(favoriteItems);
         setNotificationPreferences(preferences);
+        setReaderJourney(journey);
       } catch {
         if (isMounted) {
           setLoadError('Não foi possível carregar o Perfil neste protótipo.');
@@ -176,6 +203,72 @@ function UserProfilePage() {
         <p className={styles.actionStatus} role="status" aria-live="polite">
           {actionStatus}
         </p>
+      ) : null}
+
+      {readerJourney ? (
+        <section className={styles.readerJourney} aria-labelledby="reader-journey-title">
+          <div className={styles.journeyHeader}>
+            <p className={styles.journeyEyebrow}>Jornada do leitor</p>
+            <h2 id="reader-journey-title">Progresso pessoal e trilhas culturais</h2>
+            <p>{readerJourney.prototypeNotice}</p>
+          </div>
+
+          <div className={styles.journeyGrid} aria-label="Trilhas culturais pessoais">
+            {readerJourney.trails.map((trail) => (
+              <article key={trail.id} className={styles.journeyCard}>
+                <h3>{trail.title}</h3>
+                <p>{trail.description}</p>
+                <ProgressMeter
+                  label={trail.title}
+                  progress={trail.progress}
+                  target={trail.target}
+                  progressPercent={trail.progressPercent}
+                />
+              </article>
+            ))}
+          </div>
+
+          <div className={styles.badgesAndGoals}>
+            <div className={styles.badgePanel}>
+              <h3>Selos demonstrativos</h3>
+              <div className={styles.badgeList}>
+                {readerJourney.badges.map((badge) => (
+                  <article key={badge.id} className={styles.badgeCard}>
+                    <span className={badge.unlocked ? styles.badgeUnlocked : styles.badgePending}>
+                      {badge.unlocked ? 'Liberado' : 'Em progresso'}
+                    </span>
+                    <h4>{badge.title}</h4>
+                    <p>{badge.description}</p>
+                    <ProgressMeter
+                      label={badge.title}
+                      progress={badge.progress}
+                      target={badge.target}
+                      progressPercent={badge.progressPercent}
+                    />
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.goalPanel}>
+              <h3>Metas individuais</h3>
+              <div className={styles.goalList}>
+                {readerJourney.personalGoals.map((goal) => (
+                  <article key={goal.id} className={styles.goalCard}>
+                    <h4>{goal.title}</h4>
+                    <p>{goal.description}</p>
+                    <ProgressMeter
+                      label={goal.title}
+                      progress={goal.progress}
+                      target={goal.target}
+                      progressPercent={goal.progressPercent}
+                    />
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       ) : null}
 
       {/* Tabs Navigation */}
