@@ -11,6 +11,8 @@ Status tecnico: **GO condicional para PR e review de release**.
 
 A Sprint 3 executou revisao de acessibilidade, regressao automatizada, smoke Playwright/Edge, Lighthouse local nas rotas principais, avaliacao do aviso de GitHub Actions em Node 20 e documentacao de Go/No-Go. Foram corrigidos problemas reais P2 de acessibilidade encontrados pelo Lighthouse e aplicado hardening pequeno de `prefers-reduced-motion`.
 
+Atualizacao apos PR #61: a branch `release/sibisc-hardening-sprint3` foi atualizada com `origin/main` depois do merge das correcoes visuais em `main`. O merge nao teve conflitos; os arquivos compartilhados de Home/Home mobile/estilos mantiveram as correcoes visuais do PR #61 junto com o hardening deste PR.
+
 Nao foi feito merge final. A validacao com leitor de tela real permanece como pendencia operacional obrigatoria antes da aprovacao final irrestrita da release.
 
 ## 2. Correcoes aplicadas
@@ -81,6 +83,7 @@ Comandos executados em `Web_Mobile/SIBiSC`:
 | Preview local | Aprovado em `http://127.0.0.1:4174/` via `npm run preview -- --host 127.0.0.1 --port 4174` |
 | Playwright CLI + Edge | Aprovado nas rotas principais com screenshots |
 | Console critico | Lighthouse `errors-in-console`: sem erros nas rotas auditadas |
+| Revalidacao pos-PR #61 | Aprovado localmente; `ReadLints`, `npm run qa:repo`, `npm run qa:ci` e smoke Edge reexecutados apos merge de `origin/main` |
 
 Screenshots gerados:
 
@@ -99,6 +102,7 @@ Rotas cobertas pelo smoke Edge:
 - `/catalogo/b1`
 - `/perfil`
 - `/eventos`
+- `/eventos/e1` na revalidacao pos-PR #61
 
 Observacao: a tentativa de usar `@playwright/test` para capturar console diretamente nao foi mantida porque o pacote nao e dependencia do projeto. Para evitar introduzir dependencia nova no hardening final, a validacao de console ficou coberta pelo Lighthouse local e os smokes visuais pelo Playwright CLI com `--channel=msedge`.
 
@@ -175,5 +179,6 @@ Motivos:
 
 - Executar roteiro com NVDA/VoiceOver/leitor real e registrar evidencia humana.
 - Aguardar checks remotos do PR, especialmente QA Gate no workflow atual.
+- Reavaliar Netlify depois do novo push da branch atualizada; se nao for required check/canal oficial, manter como risco operacional documentado.
 - Tratar performance/CLS como backlog pos-release se a disciplina exigir meta numerica de Lighthouse Performance acima do baseline atual.
 - Fazer review final do PR antes de qualquer merge em `main`.
