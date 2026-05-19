@@ -34,12 +34,27 @@
   font-size: clamp(2rem, 4vw, 3.2rem);
 }
 
+.availabilityBox {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 19rem;
+}
+
 .availability {
   align-self: start;
+  width: fit-content;
   padding: 0.65rem 0.9rem;
   border-radius: var(--radius-pill);
   color: var(--color-success);
   background: rgba(47, 123, 87, 0.1);
+}
+
+.availabilityBox p,
+.highlight small,
+.mockNotice {
+  color: var(--color-ink-soft);
+  font-size: 0.84rem;
+  line-height: 1.45;
 }
 
 .metaGrid {
@@ -91,4 +106,8 @@
 
 .highlight span {
   color: var(--color-ink-soft);
+}
+
+.mockNotice {
+  margin: var(--space-xs) 0 var(--space-md);
 }

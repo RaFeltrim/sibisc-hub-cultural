@@ -19,6 +19,7 @@ import {
 import {
   SOFIA_CLAUDIA_FEEDBACK_FLOW,
   SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL,
+  SOFIA_CLAUDIA_FEEDBACK_TEMPLATE,
   SOFIA_CLAUDIA_PRIVACY_NOTICE,
 } from '../services/feedbackService';
 import useDebouncedValue from '../hooks/useDebouncedValue';
@@ -71,6 +72,7 @@ function HomePage() {
   const [assistantRecommendations, setAssistantRecommendations] = useState([]);
   const [query, setQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
+  const [feedbackCopyStatus, setFeedbackCopyStatus] = useState('');
   const [selectedGuideId, setSelectedGuideId] = useState(guidedAssistantQuestions[0].id);
   const debouncedQuery = useDebouncedValue(query, 180);
 
@@ -143,6 +145,15 @@ function HomePage() {
         ? `Feltrim Agents encontrou ${countLabel} no catálogo local. Abra um resultado para ver disponibilidade.`
         : 'Feltrim Agents não encontrou uma sugestão segura no catálogo local. Tente outro termo ou explore o catálogo completo.'
     );
+  }
+
+  async function handleCopyFeedbackTemplate() {
+    try {
+      await navigator.clipboard.writeText(SOFIA_CLAUDIA_FEEDBACK_TEMPLATE);
+      setFeedbackCopyStatus('Roteiro de feedback copiado. Cole em um documento ou entregue durante a apresentação.');
+    } catch {
+      setFeedbackCopyStatus('Não foi possível copiar automaticamente. Use o roteiro exibido nesta seção.');
+    }
   }
 
   if (loading) {
@@ -376,6 +387,25 @@ function HomePage() {
         >
           Enviar feedback via GitHub Issues
         </a>
+        <div className={styles.feedbackAlternative}>
+          <strong>Sem conta GitHub?</strong>
+          <p>
+            Copie um roteiro local de feedback e entregue ao grupo durante a apresentação. Ele não envia dados
+            automaticamente nem depende de login.
+          </p>
+          <button type="button" onClick={handleCopyFeedbackTemplate}>
+            Copiar roteiro de feedback
+          </button>
+          <details>
+            <summary>Ver roteiro</summary>
+            <pre>{SOFIA_CLAUDIA_FEEDBACK_TEMPLATE}</pre>
+          </details>
+          {feedbackCopyStatus ? (
+            <p className={styles.feedbackCopyStatus} role="status" aria-live="polite">
+              {feedbackCopyStatus}
+            </p>
+          ) : null}
+        </div>
       </section>
 
       <section>

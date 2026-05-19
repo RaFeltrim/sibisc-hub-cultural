@@ -57,6 +57,7 @@ function EventsPage() {
         eyebrow="Agenda cultural"
         title="Eventos"
         description="Oficinas, encontros, clubes de leitura e atividades distribuídas pela rede."
+        headingLevel={1}
       />
 
       {loadError ? <ErrorState title="Agenda indisponível" message={loadError} /> : null}

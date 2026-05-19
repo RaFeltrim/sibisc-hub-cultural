@@ -96,8 +96,17 @@ function CatalogPage() {
       <SectionHeader
         eyebrow="Acervo"
         title="Catálogo"
-        description="Busque livros por título, autor ou ISBN e descubra onde retirar o exemplar."
+        description="Busque livros por título, autor ou ISBN e veja uma prévia demonstrativa de unidades."
+        headingLevel={1}
       />
+
+      <aside className={styles.mockNotice} aria-label="Aviso sobre disponibilidade demonstrativa">
+        <strong>Disponibilidade mockada</strong>
+        <p>
+          Os números de exemplares e unidades são dados locais do protótipo. Confirme estoque,
+          retirada e regras oficiais diretamente com a biblioteca antes de se deslocar.
+        </p>
+      </aside>
 
       <SearchField
         label="Buscar no catálogo"
@@ -142,7 +151,7 @@ function CatalogPage() {
         </div>
       ) : null}
 
-      {loading ? <LoadingState label="Consultando disponibilidade no catalogo..." /> : null}
+      {loading ? <LoadingState label="Consultando disponibilidade no catálogo..." /> : null}
 
       {!loading && !loadError && books.length ? (
         <div className={styles.results} data-testid="catalog-results">

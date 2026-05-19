@@ -21,6 +21,7 @@ import {
 } from '../services/guidedAssistantService';
 import {
   SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL,
+  SOFIA_CLAUDIA_FEEDBACK_TEMPLATE,
   SOFIA_CLAUDIA_PRIVACY_NOTICE,
 } from '../services/feedbackService';
 
@@ -47,6 +48,7 @@ function HomePageMobile() {
   const [profile, setProfile] = useState(null);
   const [query, setQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
+  const [feedbackCopyStatus, setFeedbackCopyStatus] = useState('');
   const [selectedGuideId, setSelectedGuideId] = useState(guidedAssistantQuestions[0].id);
   const debouncedQuery = useDebouncedValue(query, 180);
 
@@ -112,6 +114,15 @@ function HomePageMobile() {
         ? `Busca aplicada: ${countLabel} no catálogo local. Abra um item para ver disponibilidade.`
         : 'Busca aplicada: nenhum item seguro no catálogo local. Tente outro termo ou abra o catálogo completo.'
     );
+  }
+
+  async function handleCopyFeedbackTemplate() {
+    try {
+      await navigator.clipboard.writeText(SOFIA_CLAUDIA_FEEDBACK_TEMPLATE);
+      setFeedbackCopyStatus('Roteiro copiado para compartilhar sem login GitHub.');
+    } catch {
+      setFeedbackCopyStatus('Copie manualmente o roteiro exibido nesta seção.');
+    }
   }
 
   if (loading) {
@@ -261,6 +272,22 @@ function HomePageMobile() {
         >
           Enviar feedback
         </a>
+        <div className={styles.feedbackAlternative}>
+          <strong>Sem GitHub?</strong>
+          <p>Copie um roteiro local e entregue ao grupo durante a apresentação, sem envio automático.</p>
+          <button type="button" onClick={handleCopyFeedbackTemplate}>
+            Copiar roteiro
+          </button>
+          <details>
+            <summary>Ver roteiro</summary>
+            <pre>{SOFIA_CLAUDIA_FEEDBACK_TEMPLATE}</pre>
+          </details>
+          {feedbackCopyStatus ? (
+            <p className={styles.feedbackCopyStatus} role="status" aria-live="polite">
+              {feedbackCopyStatus}
+            </p>
+          ) : null}
+        </div>
       </section>
 
       {/* Quick Actions */}

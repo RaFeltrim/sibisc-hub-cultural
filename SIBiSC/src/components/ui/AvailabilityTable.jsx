@@ -16,7 +16,7 @@ function AvailabilityTable({ inventory, selectedNeighborhood }) {
             </div>
             <span
               className={styles.stock}
-              aria-label={`${item.available} de ${item.total} exemplares ${item.available > 0 ? 'disponíveis' : 'indisponíveis'}`}
+              aria-label={`${item.available} de ${item.total} exemplares demonstrativos ${item.available > 0 ? 'disponíveis' : 'indisponíveis'}`}
             >
               {item.available}/{item.total}
             </span>
@@ -25,7 +25,11 @@ function AvailabilityTable({ inventory, selectedNeighborhood }) {
             <code>{item.callNumber}</code>
             <span>{item.shelf}</span>
           </div>
-          <p>{item.available > 0 ? 'Disponível para retirada no protótipo local.' : 'Sem exemplares disponíveis nesta unidade.'}</p>
+          <p>
+            {item.available > 0
+              ? 'Disponibilidade demonstrativa do protótipo; confirme retirada e estoque real com a biblioteca.'
+              : 'Sem exemplares disponíveis nesta unidade no inventário demonstrativo.'}
+          </p>
           <p>{item.unit.hours}</p>
         </article>
       ))}
