@@ -79,8 +79,8 @@ function AppLayout() {
 
       <footer className={styles.footer}>
         <div className={styles.footerIntro}>
-          <span className={styles.footerEyebrow}>Rede ativa</span>
-          <h2>As bibliotecas do SIBiSC continuam proximas da rotina da cidade.</h2>
+          <span className={styles.footerEyebrow}>Bibliotecas da rede</span>
+          <h2>Unidades, horários e contatos em um bloco compacto.</h2>
           <p>
             Consulte horários, descubra eventos por bairro e encontre o melhor ponto de retirada
             para cada livro.

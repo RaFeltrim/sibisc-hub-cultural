@@ -281,7 +281,7 @@ function HomePageMobile() {
 
       {/* News Section */}
       {news.length > 0 && (
-        <section>
+        <section className={styles.contentSection}>
           <SectionHeader
             eyebrow="Novidades"
             title="Últimas notícias"
@@ -298,7 +298,7 @@ function HomePageMobile() {
 
       {/* Events Section */}
       {events.length > 0 && (
-        <section>
+        <section className={styles.contentSection}>
           <SectionHeader
             eyebrow="Agenda"
             title="Próximos encontros"
@@ -315,7 +315,7 @@ function HomePageMobile() {
 
       {/* Featured Books Section */}
       {books.length > 0 && (
-        <section>
+        <section className={styles.contentSection}>
           <SectionHeader
             eyebrow="Destaques"
             title="Livros em destaque"
