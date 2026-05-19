@@ -69,7 +69,7 @@ input:focus-visible {
 main {
   width: min(100%, var(--content-width));
   margin: 0 auto;
-  padding: 0 var(--space-md) calc(6rem + var(--space-xl));
+  padding: 0 var(--space-md) var(--space-2xl);
 }
 
 h1,
