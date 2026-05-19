@@ -3,7 +3,131 @@
   command = "npm ci && npm run build"
   publish = "dist"
 
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.supabase.co"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
 [[redirects]]
-  from = "/*"
+  from = "/home-mobile"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/noticias"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/noticias/n1"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/noticias/n2"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/noticias/n3"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/noticias/n4"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e1"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e2"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e3"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e4"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e5"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e6"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/eventos/e7"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b1"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b2"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b3"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b4"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b5"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b6"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b7"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/catalogo/b8"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/perfil"
   to = "/index.html"
   status = 200

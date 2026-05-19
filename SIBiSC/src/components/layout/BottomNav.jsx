@@ -67,7 +67,7 @@ function NavIcon({ icon }) {
 
 function BottomNav() {
   return (
-    <nav className={styles.nav} aria-label="Navegação mobile">
+    <nav id="navegacao-mobile" className={styles.nav} aria-label="Navegação mobile">
       {navItems.map((item) => (
         <NavLink
           key={item.to}
