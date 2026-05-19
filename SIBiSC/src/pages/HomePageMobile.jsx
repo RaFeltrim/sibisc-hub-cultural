@@ -19,6 +19,10 @@ import {
   getGuidedAssistantQuestion,
   guidedAssistantQuestions,
 } from '../services/guidedAssistantService';
+import {
+  SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL,
+  SOFIA_CLAUDIA_PRIVACY_NOTICE,
+} from '../services/feedbackService';
 
 function getQuickMatches(books, searchTerm) {
   const normalizedTerm = searchTerm.trim().toLowerCase();
@@ -238,6 +242,25 @@ function HomePageMobile() {
             message="Tente outro termo ou use o catálogo completo para navegar por disponibilidade."
           />
         ) : null}
+      </section>
+
+      <section className={styles.feedbackCard} aria-labelledby="mobile-feedback-title">
+        <span className={styles.feedbackEyebrow}>Feedback Sofia/Claudia</span>
+        <h2 id="mobile-feedback-title">Relate dúvidas, bugs ou sugestões</h2>
+        <p>
+          O canal oficial desta rodada é GitHub Issues. Sofia classifica o impacto percebido
+          e Claudia organiza rota, passos, evidências, status e SLA para QA reproduzir.
+        </p>
+        <p className={styles.feedbackPrivacy}>{SOFIA_CLAUDIA_PRIVACY_NOTICE}</p>
+        <a
+          className={styles.feedbackAction}
+          href={SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Abrir GitHub Issues com o template de feedback Sofia e Claudia"
+        >
+          Enviar feedback
+        </a>
       </section>
 
       {/* Quick Actions */}
