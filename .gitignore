@@ -24,6 +24,7 @@ yarn-error.log*
 pnpm-debug.log*
 playwright-report/
 test-results/
+SIBiSC/.playwright-cli/
 tmp/
 temp/
 
@@ -40,6 +41,9 @@ claude.ps1
 
 # Feltrim's Framework local copy
 feltrim-agents-base/
+
+# Standalone repositories kept outside this repo scope
+portfolio/
 
 # Generated scripts (local only)
 SIBiSC/scripts/figma_creation_script.js
