@@ -81,6 +81,7 @@ const [
   { mockLoans, mockLoanHistory, mockFavorites },
   { mockHomeContent },
   { getRecommendations },
+  { guidedAssistantQuestions, GUIDED_ASSISTANT_LIMIT_NOTICE },
   { eventItems },
   { newsItems },
   { units },
@@ -89,6 +90,7 @@ const [
   importProjectModule('src/mocks/userProfile.js'),
   importProjectModule('src/mocks/homePageMobileData.js'),
   importProjectModule('src/services/userProfileService.js'),
+  importProjectModule('src/services/guidedAssistantService.js'),
   importProjectModule('src/mocks/events.js'),
   importProjectModule('src/mocks/news.js'),
   importProjectModule('src/mocks/units.js'),
@@ -252,6 +254,55 @@ for (const recommendation of recommendations) {
   }
   if (recommendation.source !== 'catalogo-mock') {
     failures.push(`recomendacao ${recommendation.id} sem source catalogo-mock`);
+  }
+}
+
+if (guidedAssistantQuestions.length < 8 || guidedAssistantQuestions.length > 10) {
+  failures.push(`assistente guiado deve ter de 8 a 10 perguntas, encontrado: ${guidedAssistantQuestions.length}`);
+}
+
+if (
+  !GUIDED_ASSISTANT_LIMIT_NOTICE.includes('dados locais do prototipo') ||
+  !GUIDED_ASSISTANT_LIMIT_NOTICE.includes('nao ha reserva real')
+) {
+  failures.push('texto base do assistente guiado deve declarar dados locais do prototipo e ausencia de reserva real');
+}
+
+for (const question of guidedAssistantQuestions) {
+  for (const field of ['id', 'label', 'shortLabel', 'category', 'answer']) {
+    if (!question[field]) {
+      failures.push(`pergunta guiada sem campo obrigatorio: ${question.id ?? '(sem id)'} -> ${field}`);
+    }
+  }
+
+  if (!question.answer?.source || !question.answer?.limit || !question.answer?.nextAction?.to) {
+    failures.push(`pergunta guiada ${question.id} sem fonte, limite ou proxima acao`);
+  }
+
+  const questionRecommendations = question.answer?.recommendations ?? [];
+  for (const item of questionRecommendations) {
+    assertKnownBookId('pergunta guiada', question.id, item.bookId);
+    const catalogBook = catalogById.get(item.bookId);
+
+    if (!catalogBook) continue;
+
+    const availability = getAvailability(catalogBook);
+    if (item.id !== item.bookId) {
+      failures.push(`pergunta guiada ${question.id} deve manter id igual ao bookId em ${item.bookId}`);
+    }
+    if (item.availableCount !== availability.availableCount || item.totalCount !== availability.totalCount) {
+      failures.push(`pergunta guiada ${question.id} tem disponibilidade divergente do catalogo em ${item.bookId}`);
+    }
+    if (!item.reason || !item.source || !item.limit || !item.nextAction?.to?.includes(item.bookId)) {
+      failures.push(`pergunta guiada ${question.id} tem recomendacao sem motivo, fonte, limite ou rota valida`);
+    }
+  }
+
+  const references = question.answer?.references ?? [];
+  for (const reference of references) {
+    if (!reference.reason || !reference.source || !reference.limit || !reference.nextAction?.to) {
+      failures.push(`pergunta guiada ${question.id} tem referencia sem motivo, fonte, limite ou rota`);
+    }
   }
 }
 

@@ -52,23 +52,143 @@
 }
 
 .assistantGuides {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.45rem;
 }
 
-.assistantGuides a {
+.assistantGuides button {
+  display: grid;
+  gap: 0.16rem;
   min-height: 2.2rem;
   padding: 0.55rem 0.75rem;
+  border: 0;
   border-radius: var(--radius-pill);
   color: var(--color-accent-strong);
   background: rgba(255, 255, 255, 0.62);
   box-shadow: inset 0 0 0 1px rgba(16, 37, 63, 0.08);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font: inherit;
+  text-align: left;
 }
 
-.assistantGuides a:focus-visible {
+.assistantGuides button[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(210, 100, 56, 0.28);
+}
+
+.assistantGuides span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.assistantGuides em {
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.assistantGuides button:focus-visible {
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
+}
+
+.guidedAnswer {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.9rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.64);
+  box-shadow: inset 0 0 0 1px rgba(16, 37, 63, 0.08);
+}
+
+.answerCategory {
+  width: fit-content;
+  padding: 0.3rem 0.55rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-accent-strong);
+  background: rgba(210, 100, 56, 0.12);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.guidedAnswer h2 {
+  color: var(--color-ink-strong);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.guidedAnswer p {
+  color: var(--color-ink-soft);
+  font-size: 0.86rem;
+}
+
+.answerItems {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.answerItem {
+  display: grid;
+  gap: 0.22rem;
+  padding: 0.72rem 0.78rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: inset 0 0 0 1px rgba(16, 37, 63, 0.08);
+}
+
+.answerItem:focus-visible {
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
+}
+
+.answerItem strong {
+  color: var(--color-ink-strong);
+  font-size: 0.9rem;
+}
+
+.answerItem span,
+.answerItem em {
+  color: var(--color-ink-soft);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.answerItem em {
+  color: var(--color-accent-strong);
+  font-family: var(--font-mono);
+  font-style: normal;
+}
+
+.limitNotice {
+  padding: 0.62rem 0.68rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-soft);
+  background: rgba(16, 37, 63, 0.05);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.limitNotice strong {
+  color: var(--color-ink);
+}
+
+.answerAction {
+  justify-self: start;
+  padding: 0.58rem 0.78rem;
+  border-radius: var(--radius-pill);
+  color: white;
+  background: var(--color-accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.answerAction:focus-visible {
   outline: 3px solid rgba(210, 100, 56, 0.3);
   outline-offset: 3px;
 }
@@ -203,5 +323,21 @@ section:first-of-type {
 
   .booksGrid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .assistantGuides {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistantGuides button,
+  .answerItem,
+  .answerAction,
+  .quickResult,
+  .actionCard {
+    transition: none;
   }
 }
