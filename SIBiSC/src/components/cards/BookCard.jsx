@@ -3,9 +3,10 @@ import { getNearestAvailableInventory } from '../../services/catalogService';
 import styles from './BookCard.module.css';
 
 function BookCard({ book, selectedNeighborhood = 'Centro' }) {
+  const effectiveNeighborhood = selectedNeighborhood || 'Centro';
   const availabilityLabel =
-    book.totalAvailable === 1 ? '1 exemplar disponivel' : `${book.totalAvailable} exemplares disponiveis`;
-  const nearestInventory = getNearestAvailableInventory(book, selectedNeighborhood);
+    book.totalAvailable === 1 ? '1 exemplar disponível' : `${book.totalAvailable} exemplares disponíveis`;
+  const nearestInventory = getNearestAvailableInventory(book, effectiveNeighborhood);
 
   return (
     <Link className={styles.card} to={`/catalogo/${book.id}`}>
@@ -19,7 +20,7 @@ function BookCard({ book, selectedNeighborhood = 'Centro' }) {
         <strong>{availabilityLabel}</strong>
         {nearestInventory ? (
           <span>
-            {nearestInventory.unit.name} | {nearestInventory.distanceByNeighborhood[selectedNeighborhood]}
+            {nearestInventory.unit.name}, {nearestInventory.distanceByNeighborhood[effectiveNeighborhood]} de distância
           </span>
         ) : null}
       </div>

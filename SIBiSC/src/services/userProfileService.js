@@ -5,13 +5,68 @@ import {
   mockLoanHistory,
   mockFavorites,
   mockNotificationPreferences,
-} from '../mocks/userProfile';
+  formatDate,
+  daysUntilDue,
+} from '../mocks/userProfile.js';
+import { bookItems } from '../mocks/books.js';
 
 // Delay simulado para API (ms)
 const MOCK_API_DELAY = 300;
 
+const profileLoans = mockLoans.map((loan) => ({ ...loan }));
+const profileLoanHistory = mockLoanHistory.map((historyItem) => ({ ...historyItem }));
+const profileFavorites = mockFavorites.map((favorite) => ({ ...favorite }));
+const profileNotificationPreferences = { ...mockNotificationPreferences };
+
+const cloneUserProfile = () => ({
+  ...mockUser,
+  readingPreferences: {
+    ...mockUser.readingPreferences,
+    categories: [...mockUser.readingPreferences.categories],
+    authors: [...mockUser.readingPreferences.authors],
+    topics: [...mockUser.readingPreferences.topics],
+  },
+});
+
 // Simula uma chamada de API
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const getBookAvailability = (book) => ({
+  availableCount: book.inventory.reduce((sum, item) => sum + item.available, 0),
+  totalCount: book.inventory.reduce((sum, item) => sum + item.total, 0),
+});
+
+const getCatalogBookById = (bookId) => bookItems.find((book) => book.id === bookId);
+
+export { formatDate, daysUntilDue };
+
+const getRecommendationScore = (book, preferences) => {
+  let score = 0;
+
+  if (preferences.authors.includes(book.author)) score += 3;
+  if (preferences.categories.includes(book.category)) score += 2;
+  if (
+    preferences.topics.some((topic) =>
+      `${book.title} ${book.category} ${book.summary}`.toLowerCase().includes(topic.toLowerCase())
+    )
+  ) {
+    score += 1;
+  }
+
+  return score;
+};
+
+const getRecommendationReason = (book, preferences) => {
+  if (preferences.authors.includes(book.author)) {
+    return `Autor presente nas preferências do cadastro: ${book.author}.`;
+  }
+
+  if (preferences.categories.includes(book.category)) {
+    return `Categoria alinhada ao perfil de leitura: ${book.category}.`;
+  }
+
+  return 'Disponível no acervo mockado e próximo aos interesses informados.';
+};
 
 /**
  * Busca dados do perfil do usuário
@@ -20,7 +75,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const getUserProfile = async () => {
   await delay(MOCK_API_DELAY);
   return {
-    ...mockUser,
+    ...cloneUserProfile(),
     lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 horas atrás
     isVerified: true,
   };
@@ -32,7 +87,7 @@ export const getUserProfile = async () => {
  */
 export const getUserLoans = async () => {
   await delay(MOCK_API_DELAY);
-  return [...mockLoans];
+  return profileLoans.map((loan) => ({ ...loan }));
 };
 
 /**
@@ -43,7 +98,7 @@ export const getUserLoans = async () => {
  */
 export const getLoanHistory = async (limit = 10, offset = 0) => {
   await delay(MOCK_API_DELAY);
-  return mockLoanHistory.slice(offset, offset + limit);
+  return profileLoanHistory.slice(offset, offset + limit).map((historyItem) => ({ ...historyItem }));
 };
 
 /**
@@ -52,7 +107,7 @@ export const getLoanHistory = async (limit = 10, offset = 0) => {
  */
 export const getUserFavorites = async () => {
   await delay(MOCK_API_DELAY);
-  return [...mockFavorites];
+  return profileFavorites.map((favorite) => ({ ...favorite }));
 };
 
 /**
@@ -61,7 +116,7 @@ export const getUserFavorites = async () => {
  */
 export const getNotificationPreferences = async () => {
   await delay(MOCK_API_DELAY);
-  return { ...mockNotificationPreferences };
+  return { ...profileNotificationPreferences };
 };
 
 /**
@@ -71,8 +126,8 @@ export const getNotificationPreferences = async () => {
  */
 export const updateNotificationPreferences = async (preferences) => {
   await delay(MOCK_API_DELAY);
-  Object.assign(mockNotificationPreferences, preferences);
-  return { ...mockNotificationPreferences };
+  Object.assign(profileNotificationPreferences, preferences);
+  return { ...profileNotificationPreferences };
 };
 
 /**
@@ -82,7 +137,7 @@ export const updateNotificationPreferences = async (preferences) => {
  */
 export const renewLoan = async (loanId) => {
   await delay(MOCK_API_DELAY);
-  const loan = mockLoans.find((l) => l.id === loanId);
+  const loan = profileLoans.find((l) => l.id === loanId);
 
   if (!loan) {
     throw new Error('Empréstimo não encontrado');
@@ -96,7 +151,7 @@ export const renewLoan = async (loanId) => {
   loan.dueDate = new Date(loan.dueDate.getTime() + 14 * 24 * 60 * 60 * 1000);
   loan.canRenew = loan.renewalCount < 2;
 
-  return loan;
+  return { ...loan };
 };
 
 /**
@@ -109,22 +164,27 @@ export const addFavorite = async (bookId, bookData) => {
   await delay(MOCK_API_DELAY);
 
   // Verifica se já existe
-  if (mockFavorites.some((f) => f.bookId === bookId)) {
+  if (profileFavorites.some((f) => f.bookId === bookId)) {
     throw new Error('Este livro já está nos favoritos');
   }
+
+  const catalogBook = getCatalogBookById(bookId);
+  const availability = catalogBook
+    ? getBookAvailability(catalogBook)
+    : { availableCount: 0, totalCount: 0 };
 
   const newFavorite = {
     id: `fav-${Date.now()}`,
     bookId,
     ...bookData,
     addedDate: new Date(),
-    available: true,
-    availableCount: 1,
-    totalCount: 1,
+    available: availability.availableCount > 0,
+    availableCount: availability.availableCount,
+    totalCount: availability.totalCount,
   };
 
-  mockFavorites.push(newFavorite);
-  return newFavorite;
+  profileFavorites.push(newFavorite);
+  return { ...newFavorite };
 };
 
 /**
@@ -134,13 +194,13 @@ export const addFavorite = async (bookId, bookData) => {
  */
 export const removeFavorite = async (favoriteId) => {
   await delay(MOCK_API_DELAY);
-  const index = mockFavorites.findIndex((f) => f.id === favoriteId);
+  const index = profileFavorites.findIndex((f) => f.id === favoriteId);
 
   if (index === -1) {
     throw new Error('Favorito não encontrado');
   }
 
-  mockFavorites.splice(index, 1);
+  profileFavorites.splice(index, 1);
   return true;
 };
 
@@ -151,16 +211,16 @@ export const removeFavorite = async (favoriteId) => {
 export const getUserStatistics = async () => {
   await delay(MOCK_API_DELAY);
 
-  const totalBorrowed = mockLoanHistory.length;
-  const totalDaysReading = mockLoanHistory.reduce((sum, item) => sum + item.daysHeld, 0);
+  const totalBorrowed = profileLoanHistory.length;
+  const totalDaysReading = profileLoanHistory.reduce((sum, item) => sum + item.daysHeld, 0);
   const averageDaysPerBook = Math.round(totalDaysReading / totalBorrowed);
 
   return {
     totalBorrowed,
     totalDaysReading,
     averageDaysPerBook,
-    currentLoans: mockLoans.length,
-    totalFavorites: mockFavorites.length,
+    currentLoans: profileLoans.length,
+    totalFavorites: profileFavorites.length,
     memberSince: new Date('2023-01-15'),
     daysAsMember: Math.floor((Date.now() - new Date('2023-01-15')) / (1000 * 60 * 60 * 24)),
   };
@@ -173,12 +233,27 @@ export const getUserStatistics = async () => {
 export const getFavoritesWithStatus = async () => {
   await delay(MOCK_API_DELAY);
 
-  return mockFavorites.map((fav) => ({
-    ...fav,
-    // Simula status variável
-    available: Math.random() > 0.3,
-    availableCount: Math.floor(Math.random() * 5),
-  }));
+  return profileFavorites.map((fav) => {
+    const catalogBook = getCatalogBookById(fav.bookId);
+
+    if (!catalogBook) {
+      return {
+        ...fav,
+        available: false,
+        availableCount: 0,
+        totalCount: 0,
+      };
+    }
+
+    const { availableCount, totalCount } = getBookAvailability(catalogBook);
+
+    return {
+      ...fav,
+      available: availableCount > 0,
+      availableCount,
+      totalCount,
+    };
+  });
 };
 
 /**
@@ -188,30 +263,38 @@ export const getFavoritesWithStatus = async () => {
 export const getRecommendations = async () => {
   await delay(MOCK_API_DELAY);
 
-  // Simula recomendações baseadas no histórico
-  return [
-    {
-      id: 'rec-001',
-      title: 'Iracema',
-      author: 'José de Alencar',
-      reason: 'Baseado em seu gosto por clássicos brasileiros',
-      similarTo: 'O Cortiço',
-    },
-    {
-      id: 'rec-002',
-      title: 'A Hora da Estrela',
-      author: 'Clarice Lispector',
-      reason: 'Leitura rápida que você deve apreciar',
-      similarTo: 'Vidas Secas',
-    },
-    {
-      id: 'rec-003',
-      title: 'Til',
-      author: 'José de Alencar',
-      reason: 'Sequência de Iracema',
-      similarTo: 'Iracema',
-    },
-  ];
+  const preferences = mockUser.readingPreferences;
+
+  return bookItems
+    .map((book) => {
+      const availability = getBookAvailability(book);
+
+      return {
+        ...book,
+        ...availability,
+        score: getRecommendationScore(book, preferences),
+      };
+    })
+    .filter((book) => book.availableCount > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      if (right.availableCount !== left.availableCount) return right.availableCount - left.availableCount;
+      return left.title.localeCompare(right.title, 'pt-BR');
+    })
+    .slice(0, 3)
+    .map(({ id, title, author, isbn, category, summary, availableCount, totalCount }) => ({
+      id,
+      bookId: id,
+      title,
+      author,
+      isbn,
+      category,
+      reason: getRecommendationReason({ title, author, category, summary }, preferences),
+      similarTo: mockLoanHistory.find((item) => item.author === author || item.bookId === id)?.title ?? null,
+      availableCount,
+      totalCount,
+      source: 'catalogo-mock',
+    }));
 };
 
 /**

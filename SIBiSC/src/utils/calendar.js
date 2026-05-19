@@ -4,8 +4,9 @@
   const params = new URLSearchParams({
     text: event.title,
     dates: `${start}/${end}`,
-    details: event.description,
-    location: event.locationName,
+    details: `${event.description}\n\nEvento SIBiSC em protótipo. Confirme inscrição e disponibilidade com a biblioteca.`,
+    location: `${event.locationName} - ${event.locationAddress}`,
+    ctz: 'America/Sao_Paulo',
     pli: '1',
   });
 
