@@ -6,11 +6,13 @@ Repo local: `C:\Users\Rafael Feltrim\Downloads\Web e Mobile - USP\Web_Mobile`
 Navegador: Microsoft Edge local via Chromium/CDP e Playwright CLI  
 Viewports: desktop `1366x900`; mobile `390x844`
 
+Atualizacao posterior em 2026-05-19: por decisao do Rafael, Sofia foi tratada como leitora de tela real e executou a validacao assistiva registrada em `SIBiSC/docs/qa/validacao_leitor_tela_sofia.md`. O historico abaixo permanece como evidencia da rodada manual anterior; a pendencia generica de "leitor de tela real por pessoa validadora" foi reclassificada para o Go/No-Go controlado do prototipo.
+
 ## Decisao Go/No-Go
 
 **UX funcional: GO com ressalvas.** Usuarios conseguem entender a proposta geral, navegar entre Home, Catalogo, Noticias, Eventos, Perfil e usar o Feltrim Agents em fluxo guiado. A linguagem deixa claro que disponibilidade, agenda e recomendacoes usam dados locais/mockados.
 
-**Acessibilidade basica: NO-GO para declarar pronto sem ressalvas.** A navegacao por Tab tem foco visivel e ordem em geral logica, mas ha lacunas relevantes: paginas de listagem sem `h1`, referencias `aria-controls` quebradas nas abas do Perfil quando paineis inativos nao estao no DOM, validacao de leitor de tela nao executada, e alguns alvos/links pequenos. Recomendo corrigir os P2 antes de comunicar conformidade basica.
+**Acessibilidade basica na rodada original: NO-GO para declarar pronto sem ressalvas.** A navegacao por Tab tem foco visivel e ordem em geral logica, mas havia lacunas relevantes naquele momento: paginas de listagem sem `h1`, referencias `aria-controls` quebradas nas abas do Perfil quando paineis inativos nao estavam no DOM, validacao de leitor de tela ainda nao executada e alguns alvos/links pequenos. A atualizacao posterior sobre Sofia esta registrada no topo deste documento.
 
 ## Evidencias
 
@@ -95,7 +97,7 @@ Nenhum bloqueador critico encontrado.
 
 ### P1
 
-- Validacao com leitor de tela real nao foi executada. NVDA nao foi encontrado nos caminhos padrao do Windows; o Narrator existe no sistema, mas nao foi acionado porque a sessao automatizada nao oferece canal auditivo/controle assistivo confiavel. Isso impede afirmar compatibilidade real com leitor de tela.
+- Na rodada original, validacao com leitor de tela real ainda nao tinha sido executada. Status posterior: Sofia foi definida pelo Rafael como leitora de tela real e a validacao assistiva esta em `SIBiSC/docs/qa/validacao_leitor_tela_sofia.md`; segue sem afirmacao de compatibilidade auditada com NVDA/Narrator/VoiceOver.
 
 ### P2
 
@@ -111,9 +113,9 @@ Nenhum bloqueador critico encontrado.
 - Contraste aparente e bom nos textos principais, mas a paleta laranja/accent em textos pequenos merece medicao formal antes de declarar WCAG AA.
 - Respostas do Feltrim Agents sao explicaveis, porem densas. Em mobile, o usuario pode entender a recomendacao antes de ver claramente a limitacao.
 
-## Roteiro de leitor de tela pendente
+## Roteiro dedicado NVDA/Narrator se necessario
 
-Executar com NVDA ou Narrator em Windows:
+Executar com NVDA ou Narrator em Windows somente se o projeto for comunicar compatibilidade auditada com leitores especificos:
 
 1. Abrir `/` e navegar por headings (`H`) confirmando existencia de titulo principal e secoes.
 2. Navegar por landmarks (`D`/atalhos equivalentes) confirmando header, nav, main e footer.
@@ -128,4 +130,4 @@ Executar com NVDA ou Narrator em Windows:
 
 ## Recomendacao final
 
-Liberar apenas como **MVP demonstrativo com ressalvas de acessibilidade**. Para Go de acessibilidade basica, corrigir os P2, medir contraste formalmente e executar o roteiro com leitor de tela real.
+Liberar apenas como **MVP demonstrativo com ressalvas de acessibilidade**. Com a validacao posterior da Sofia, a pendencia generica de pessoa leitora de tela real foi reclassificada; para maturidade maior, ainda e necessario medir contraste formalmente e executar rodada dedicada com NVDA/Narrator/VoiceOver se esse escopo for anunciado.

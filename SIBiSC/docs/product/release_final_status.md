@@ -32,6 +32,6 @@ O PR estava `MERGEABLE` antes do merge e passou a `MERGED` apos a integracao.
 ## Pendencias pos-release
 
 - Confirmar no dashboard Vercel o dominio publico/final de producao e a exposicao esperada do deploy.
-- Executar validacao real com leitor de tela (NVDA/VoiceOver) e registrar evidencia humana antes da aprovacao final irrestrita da release publica.
+- Validacao real com leitora de tela Sofia foi registrada em `SIBiSC/docs/qa/validacao_leitor_tela_sofia.md` por decisao do Rafael; executar NVDA/Narrator/VoiceOver apenas antes de comunicar compatibilidade auditada com leitores especificos ou aprovacao final irrestrita de acessibilidade.
 - Atualizar GitHub Actions para actions com runtime mais novo (Node 20 warning), por alguem com permissao `workflow`.
 - Planejar limpeza de branches antigas somente com autorizacao explicita, sem force push, reset hard ou delecao automatica.
