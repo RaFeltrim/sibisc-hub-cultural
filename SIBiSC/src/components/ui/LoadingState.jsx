@@ -1,6 +1,6 @@
 ﻿import styles from './LoadingState.module.css';
 
-function LoadingState({ label = 'Carregando conteudo...' }) {
+function LoadingState({ label = 'Carregando conteúdo...' }) {
   return (
     <div className={styles.state} data-testid="loading-state" role="status">
       <div className={styles.bar} />

@@ -76,12 +76,12 @@ export const getLibraryStats = async () => {
 export const getPopularCategories = async () => {
   await delay(MOCK_API_DELAY);
   return [
-    { id: 'fiction', name: 'Ficção', icon: '📖', count: 12000 },
-    { id: 'education', name: 'Educação', icon: '📚', count: 8500 },
-    { id: 'biography', name: 'Biografia', icon: '👤', count: 3200 },
-    { id: 'history', name: 'História', icon: '📜', count: 5600 },
-    { id: 'technology', name: 'Tecnologia', icon: '💻', count: 4100 },
-    { id: 'children', name: 'Infantil', icon: '🎨', count: 6800 },
+    { id: 'fiction', name: 'Ficção', code: 'FIC', count: 12000 },
+    { id: 'education', name: 'Educação', code: 'EDU', count: 8500 },
+    { id: 'biography', name: 'Biografia', code: 'BIO', count: 3200 },
+    { id: 'history', name: 'História', code: 'HIS', count: 5600 },
+    { id: 'technology', name: 'Tecnologia', code: 'TEC', count: 4100 },
+    { id: 'children', name: 'Infantil', code: 'INF', count: 6800 },
   ];
 };
 

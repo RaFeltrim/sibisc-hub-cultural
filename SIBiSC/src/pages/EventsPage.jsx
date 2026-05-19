@@ -1,6 +1,8 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import EventCard from '../components/cards/EventCard';
 import SectionHeader from '../components/ui/SectionHeader';
+import EmptyState from '../components/ui/EmptyState';
+import ErrorState from '../components/ui/ErrorState';
 import LoadingState from '../components/ui/LoadingState';
 import { getEvents } from '../services/eventsService';
 import { formatWeekdayDate, groupEventsByDay } from '../utils/formatters';
@@ -8,17 +10,39 @@ import styles from './EventsPage.module.css';
 
 function EventsPage() {
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadEvents() {
       setLoading(true);
-      const items = await getEvents();
-      setEvents(items);
-      setLoading(false);
+      setLoadError('');
+
+      try {
+        const items = await getEvents();
+
+        if (!isMounted) return;
+
+        setEvents(items);
+      } catch {
+        if (isMounted) {
+          setEvents([]);
+          setLoadError('Não foi possível carregar a agenda do protótipo agora.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
 
     loadEvents();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const groupedEvents = useMemo(() => groupEventsByDay(events), [events]);
@@ -32,10 +56,13 @@ function EventsPage() {
       <SectionHeader
         eyebrow="Agenda cultural"
         title="Eventos"
-        description="Oficinas, encontros, clubes de leitura e atividades distribuidas pela rede."
+        description="Oficinas, encontros, clubes de leitura e atividades distribuídas pela rede."
       />
 
-      <div className={styles.groups} data-testid="events-calendar">
+      {loadError ? <ErrorState title="Agenda indisponível" message={loadError} /> : null}
+
+      {!loadError && events.length ? (
+        <div className={styles.groups} data-testid="events-calendar">
         {Object.entries(groupedEvents).map(([date, items]) => (
           <section key={date} className={styles.group}>
             <h3>{formatWeekdayDate(date)}</h3>
@@ -46,7 +73,15 @@ function EventsPage() {
             </div>
           </section>
         ))}
-      </div>
+        </div>
+      ) : null}
+
+      {!loadError && !events.length ? (
+        <EmptyState
+          title="Nenhum evento encontrado"
+          message="A agenda local ainda não tem eventos para exibir neste protótipo."
+        />
+      ) : null}
     </section>
   );
 }

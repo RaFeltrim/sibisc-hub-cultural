@@ -5,110 +5,282 @@ import EventCard from '../components/cards/EventCard';
 import SearchField from '../components/ui/SearchField';
 import SectionHeader from '../components/ui/SectionHeader';
 import EmptyState from '../components/ui/EmptyState';
+import ErrorState from '../components/ui/ErrorState';
 import LoadingState from '../components/ui/LoadingState';
 import { getNews } from '../services/newsService';
 import { getEvents } from '../services/eventsService';
 import { searchBooks } from '../services/catalogService';
+import { getRecommendations, getUserProfile } from '../services/userProfileService';
 import useDebouncedValue from '../hooks/useDebouncedValue';
 import styles from './HomePage.module.css';
 
+const assistantActions = [
+  { to: '/catalogo', label: 'Encontrar leitura', detail: 'livros disponíveis por interesse' },
+  { to: '/eventos', label: 'Orientar agenda', detail: 'atividades alinhadas ao perfil' },
+  { to: '/perfil', label: 'Revisar preferências', detail: 'dados usados nas sugestões' },
+];
+
+const assistantCapabilities = [
+  {
+    name: 'Ajuda durante o uso',
+    status: 'Explica busca, perfil, empréstimos e disponibilidade.',
+    detail: 'apoio contextual',
+  },
+  {
+    name: 'Recomendações de leitura',
+    status: 'Cruza interesses cadastrados com exemplares disponíveis.',
+    detail: 'baseado no cadastro',
+  },
+  {
+    name: 'Orientação cultural',
+    status: 'Sugere caminhos entre notícias, eventos e acervo.',
+    detail: 'rede SIBiSC',
+  },
+];
+
+const assistantGuides = [
+  { to: '/catalogo', label: 'Buscar livros por tema, autor ou ISBN' },
+  { to: '/eventos', label: 'Encontrar eventos ligados ao seu perfil' },
+  { to: '/noticias', label: 'Entender novidades da rede de bibliotecas' },
+];
+
+function getQuickMatches(books, searchTerm) {
+  const normalizedTerm = searchTerm.trim().toLowerCase();
+
+  if (!normalizedTerm) {
+    return [];
+  }
+
+  return books.filter((book) => {
+    const haystack = `${book.title} ${book.author} ${book.isbn}`.toLowerCase();
+    return haystack.includes(normalizedTerm);
+  });
+}
+
 function HomePage() {
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [news, setNews] = useState([]);
   const [events, setEvents] = useState([]);
-  const [books, setBooks] = useState([]);
+  const [catalogBooks, setCatalogBooks] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [assistantRecommendations, setAssistantRecommendations] = useState([]);
   const [query, setQuery] = useState('');
+  const [searchStatus, setSearchStatus] = useState('');
   const debouncedQuery = useDebouncedValue(query, 180);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadHome() {
       setLoading(true);
-      const [newsItems, eventItems, bookItems] = await Promise.all([
-        getNews(),
-        getEvents(),
-        searchBooks(''),
-      ]);
+      setLoadError('');
 
-      setNews(newsItems.slice(0, 3));
-      setEvents(eventItems.slice(0, 3));
-      setBooks(bookItems.slice(0, 5));
-      setLoading(false);
+      try {
+        const [newsItems, eventItems, bookItems, profileData, recommendationItems] = await Promise.all([
+          getNews(),
+          getEvents(),
+          searchBooks(''),
+          getUserProfile(),
+          getRecommendations(),
+        ]);
+
+        if (!isMounted) return;
+
+        setNews(newsItems.slice(0, 3));
+        setEvents(eventItems.slice(0, 3));
+        setCatalogBooks(bookItems);
+        setProfile(profileData);
+        setAssistantRecommendations(recommendationItems.slice(0, 2));
+      } catch {
+        if (isMounted) {
+          setLoadError('Não foi possível montar a Home do protótipo agora. Tente recarregar a página.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
 
     loadHome();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const quickMatches = useMemo(() => {
-    if (!debouncedQuery.trim()) {
-      return [];
+    return getQuickMatches(catalogBooks, debouncedQuery);
+  }, [catalogBooks, debouncedQuery]);
+
+  const assistantMetrics = [
+    { value: profile?.readingPreferences.categories.length ?? 0, label: 'interesses' },
+    { value: assistantRecommendations.length, label: 'sugestões agora' },
+    { value: '4', label: 'unidades' },
+  ];
+
+  function handleAssistantSearch() {
+    const term = query.trim();
+
+    if (!term) {
+      setSearchStatus('Digite um título, autor, ISBN ou tema para o Feltrim Agents orientar a busca.');
+      return;
     }
 
-    return books.filter((book) => {
-      const haystack = `${book.title} ${book.author} ${book.isbn}`.toLowerCase();
-      return haystack.includes(debouncedQuery.toLowerCase());
-    });
-  }, [books, debouncedQuery]);
+    const matches = getQuickMatches(catalogBooks, term);
+    const countLabel = matches.length === 1 ? '1 sugestão' : `${matches.length} sugestões`;
+
+    setSearchStatus(
+      matches.length
+        ? `Feltrim Agents encontrou ${countLabel} no catálogo local. Abra um resultado para ver disponibilidade.`
+        : 'Feltrim Agents não encontrou uma sugestão segura no catálogo local. Tente outro termo ou explore o catálogo completo.'
+    );
+  }
 
   if (loading) {
     return <LoadingState label="Montando a vitrine principal do SIBiSC..." />;
+  }
+
+  if (loadError) {
+    return <ErrorState title="Home indisponível" message={loadError} />;
   }
 
   return (
     <>
       <section className={styles.hero} data-testid="home-hero">
         <div className={styles.heroCopy}>
-          <p className={styles.kicker}>Rede municipal de bibliotecas</p>
-          <h1>O conhecimento da sua cidade, organizado.</h1>
+          <p className={styles.kicker}>Assistente guiado do SIBiSC</p>
+          <h1>Feltrim Agents ajuda você a encontrar a próxima leitura.</h1>
           <p className={styles.description}>
-            Noticias, agenda cultural e consulta de livros em uma experiencia mobile-first pensada para Sao Carlos.
+            Protótipo de assistente inteligente para tirar dúvidas, orientar a navegação
+            e recomendar livros disponíveis a partir dos interesses informados no cadastro.
+            Nesta versão, as respostas usam dados locais do catálogo, eventos, notícias e perfil.
           </p>
           <div className={styles.metrics}>
-            <span>4 unidades conectadas</span>
-            <span>agenda cultural viva</span>
-            <span>acervo com busca rapida</span>
+            <span>preferências do cadastro</span>
+            <span>recomendações disponíveis</span>
+            <span>apoio durante a navegação</span>
+          </div>
+
+          <div className={styles.commandLinks} aria-label="Ações assistidas do SIBiSC">
+            {assistantActions.map((action) => (
+              <Link key={action.to} className={styles.commandLink} to={action.to}>
+                <strong>{action.label}</strong>
+                <span>{action.detail}</span>
+              </Link>
+            ))}
           </div>
         </div>
 
-        <div className={styles.heroPanel}>
-          <SearchField
-            label="Busca rapida no catalogo"
-            placeholder="Digite titulo, autor ou ISBN"
-            value={query}
-            onChange={setQuery}
-            onSubmit={() => {}}
-            buttonLabel="Explorar"
-          />
+        <div className={styles.heroVisual} aria-label="Prévia do assistente guiado do SIBiSC">
+          <div className={styles.console}>
+            <div className={styles.consoleChrome}>
+              <span />
+              <span />
+              <span />
+              <strong>assistente/sibisc</strong>
+            </div>
 
-          {query.trim() ? (
-            <div className={styles.quickResults}>
-              {quickMatches.length ? (
-                quickMatches.slice(0, 4).map((book) => (
-                  <Link key={book.id} className={styles.quickResult} to={`/catalogo/${book.id}`}>
-                    <strong>{book.title}</strong>
-                    <span>{book.author}</span>
-                  </Link>
-                ))
-              ) : (
-                <EmptyState
-                  title="Nenhum livro encontrado"
-                  message="Tente outro termo para a busca rapida."
-                />
-              )}
+            <div className={styles.consoleHeader}>
+              <div>
+                <p>Assistente em protótipo</p>
+                <strong>Feltrim Agents</strong>
+              </div>
+              <span className={styles.liveBadge}>prévia</span>
             </div>
-          ) : (
-            <div className={styles.heroNote}>
-              <strong>Comece pelo que voce precisa agora.</strong>
-              <p>Procure um livro, veja a agenda da semana ou acompanhe as ultimas noticias da rede.</p>
+
+            <div className={styles.pipelineList}>
+              {assistantCapabilities.map((capability) => (
+                <div key={capability.name} className={styles.pipelineItem}>
+                  <span className={styles.pipelineDot} aria-hidden="true" />
+                  <div>
+                    <strong>{capability.name}</strong>
+                    <p>{capability.status}</p>
+                  </div>
+                  <em>{capability.detail}</em>
+                </div>
+              ))}
             </div>
-          )}
+
+            <div className={styles.consoleMetrics}>
+              {assistantMetrics.map((metric) => (
+                <span key={metric.label}>
+                  <strong>{metric.value}</strong>
+                  {metric.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.heroPanel}>
+            <SearchField
+              label="Busca assistida no catálogo"
+              placeholder="Digite título, autor ou ISBN"
+              value={query}
+              onChange={(nextValue) => {
+                setQuery(nextValue);
+                if (!nextValue.trim()) {
+                  setSearchStatus('');
+                }
+              }}
+              onSubmit={handleAssistantSearch}
+              buttonLabel="Explorar"
+              statusMessage={searchStatus}
+            />
+
+            <div className={styles.guideList} aria-label="Perguntas que o Feltrim Agents orienta nesta versão">
+              <strong>Posso ajudar você a</strong>
+              {assistantGuides.map((guide) => (
+                <Link key={guide.to} to={guide.to} className={styles.guideLink}>
+                  {guide.label}
+                </Link>
+              ))}
+            </div>
+
+            {query.trim() ? (
+              <div className={styles.quickResults}>
+                {quickMatches.length ? (
+                  quickMatches.slice(0, 4).map((book) => (
+                    <Link key={book.id} className={styles.quickResult} to={`/catalogo/${book.id}`}>
+                      <strong>{book.title}</strong>
+                      <span>{book.author}</span>
+                    </Link>
+                  ))
+                ) : (
+                  <EmptyState
+                    title="Nenhum livro encontrado"
+                    message="Tente outro termo para a busca rápida ou abra o catálogo completo para explorar por disponibilidade."
+                  />
+                )}
+              </div>
+            ) : (
+              <div className={styles.heroNote}>
+                <strong>Recomendado pelo assistente</strong>
+                <p>
+                  Sugestões baseadas nas preferências cadastradas de {profile?.name.split(' ')[0] ?? 'leitor'}{' '}
+                  e na disponibilidade mockada do acervo. Não há backend de IA ou reserva real nesta prévia.
+                </p>
+                <div className={styles.recommendationList}>
+                  {assistantRecommendations.map((book) => (
+                    <Link key={book.id} className={styles.recommendationItem} to={`/catalogo/${book.bookId}`}>
+                      <strong>{book.title}</strong>
+                      <span>{book.reason}</span>
+                      <em>{book.availableCount} exemplares disponíveis no catálogo local</em>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       <section>
         <SectionHeader
           eyebrow="Editorial"
-          title="Ultimas noticias"
-          description="Atualizacoes sobre servicos, acervo e vida cultural das bibliotecas."
+          title="Últimas notícias"
+          description="Atualizações sobre serviços, acervo e vida cultural das bibliotecas."
           linkTo="/noticias"
           linkLabel="Ver todas"
         />
@@ -122,8 +294,8 @@ function HomePage() {
       <section>
         <SectionHeader
           eyebrow="Agenda"
-          title="Proximos encontros"
-          description="Atividades pensadas para estudo, comunidade e circulacao cultural."
+          title="Próximos encontros"
+          description="Atividades pensadas para estudo, comunidade e circulação cultural."
           linkTo="/eventos"
           linkLabel="Ver agenda"
         />

@@ -5,19 +5,20 @@ import BottomNav from './BottomNav';
 import styles from './AppLayout.module.css';
 
 const desktopItems = [
-  { to: '/', label: 'Inicio' },
-  { to: '/noticias', label: 'Noticias' },
+  { to: '/', label: 'Início' },
+  { to: '/noticias', label: 'Notícias' },
   { to: '/eventos', label: 'Eventos' },
-  { to: '/catalogo', label: 'Catalogo' },
+  { to: '/catalogo', label: 'Catálogo' },
 ];
 
-const headlineFacts = ['4 unidades conectadas', 'agenda cultural viva', 'acervo com busca rapida'];
+const headlineFacts = ['4 unidades conectadas', 'agenda cultural viva', 'acervo com busca rápida'];
 
 function AppLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
   }, [location.pathname]);
 
   return (
@@ -26,8 +27,8 @@ function AppLayout() {
 
       <header className={styles.header}>
         <div className={styles.topline}>
-          <p>Rede municipal de bibliotecas de Sao Carlos</p>
-          <span>horarios, agenda e acervo em uma experiencia unica</span>
+          <p>Rede municipal de bibliotecas de São Carlos</p>
+          <span>horários, agenda e acervo em uma experiência única</span>
         </div>
 
         <div className={styles.headerInner}>
@@ -36,7 +37,7 @@ function AppLayout() {
               <span className={styles.brandBadge}>SB</span>
               <div className={styles.brandCopy}>
                 <strong>SIBiSC</strong>
-                <span>Noticias, eventos e catalogo da cidade</span>
+                <span>Notícias, eventos e catálogo da cidade</span>
               </div>
             </NavLink>
           </div>
@@ -56,7 +57,7 @@ function AppLayout() {
           </nav>
 
           <div className={styles.headerActions}>
-            <span className={styles.statusPill}>Sao Carlos / SP</span>
+            <span className={styles.statusPill}>São Carlos / SP</span>
             <NavLink className={styles.ctaLink} to="/catalogo">
               Consultar acervo
             </NavLink>
@@ -81,7 +82,7 @@ function AppLayout() {
           <span className={styles.footerEyebrow}>Rede ativa</span>
           <h2>As bibliotecas do SIBiSC continuam proximas da rotina da cidade.</h2>
           <p>
-            Consulte horarios, descubra eventos por bairro e encontre o melhor ponto de retirada
+            Consulte horários, descubra eventos por bairro e encontre o melhor ponto de retirada
             para cada livro.
           </p>
         </div>
