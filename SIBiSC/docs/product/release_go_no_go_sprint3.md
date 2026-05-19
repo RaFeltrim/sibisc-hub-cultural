@@ -7,8 +7,8 @@ Documento de evidencia: `docs/qa/sprint3_hardening_release.md`
 
 ## Decisao
 
-**GO tecnico condicional para manter o PR #59 pronto para review/merge apos atualizacao contra `main`.**  
-**NO-GO para merge final sem review humano, checks remotos verdes e validacao com leitor de tela real.**
+**GO tecnico para merge controlado do PR #59 quando o PR estiver `MERGEABLE/CLEAN` e os checks remotos principais estiverem verdes.**  
+**Leitor de tela real permanece como pendencia operacional recomendada para a release final irrestrita, nao como bloqueador tecnico absoluto do merge neste ambiente.**
 
 Atualizacao de 2026-05-19: a branch foi atualizada com `origin/main` apos o merge do PR #61, sem conflitos. As correcoes visuais do PR #61 e as configuracoes de deploy do PR #60 foram incorporadas ao PR #59, e o hardening local foi revalidado com `ReadLints`, `npm run qa:repo`, `npm run qa:ci` e smoke Playwright/Edge nas rotas principais.
 
@@ -24,9 +24,9 @@ Atualizacao de 2026-05-19: a branch foi atualizada com `origin/main` apos o merg
 | Lighthouse acessibilidade | Aprovado | 100/100 em Home, Home mobile, Catalogo, Detalhe, Perfil e Eventos |
 | Console sem erro critico | Aprovado localmente | Lighthouse `errors-in-console`: sem erros |
 | GitHub Actions Node 20 warning | Recomendacao documentada | Atualizacao segura identificada para `checkout@v5`, `setup-node@v5`, `upload-artifact@v6`, mas nao aplicada porque o token atual nao tem escopo `workflow` |
-| Leitor de tela real | Pendente operacional | Roteiro manual definido em `docs/qa/sprint3_hardening_release.md` |
-| Checks remotos do PR | Pendente apos push | Aguardar nova execucao do QA Gate e providers de preview apos a atualizacao da branch |
-| Netlify preview | Pendente remoto | Nao bloquear localmente sem nova evidencia remota; confirmar se e required check/processo obrigatorio |
+| Leitor de tela real | Recomendacao operacional pos-release | Roteiro manual definido em `docs/qa/sprint3_hardening_release.md`; recomendado antes de aprovacao final irrestrita |
+| Checks remotos do PR | Gate tecnico obrigatorio | Confirmar QA Gate, Vercel e preview Netlify antes do merge |
+| Netlify preview | Gate remoto observado | Tratar Header/Pages `NEUTRAL` como skip operacional do provider; Redirect e deploy preview devem permanecer verdes |
 
 ## Escopo aceito
 
@@ -41,16 +41,16 @@ Atualizacao de 2026-05-19: a branch foi atualizada com `origin/main` apos o merg
 
 - Performance Lighthouse local ficou como baseline, nao como gate numerico bloqueante.
 - Best Practices local foi impactado por auditoria em HTTP no `127.0.0.1`; preview final deve ser validado em HTTPS.
-- Netlify deve ser reavaliado apos o novo push do PR #59; se continuar falhando e nao for canal oficial/required check, tratar como risco operacional documentado.
-- Leitor de tela real ainda nao foi executado por limitacao operacional do ambiente.
+- Netlify deve permanecer verde no deploy preview; checks Header/Pages `NEUTRAL` indicam regras sem alteracao aplicavel e nao bloqueiam por si so.
+- Leitor de tela real ainda nao foi executado por limitacao operacional do ambiente, mas fica recomendado como validacao humana pos-merge/pre-release publica.
 - O aviso de Node 20 em GitHub Actions ainda depende de alteracao futura por alguem com permissao `workflow`.
 
 ## Recomendacao final
 
-Abrir PR contra `main` e aguardar:
+Antes do merge em `main`, confirmar:
 
 1. QA Gate remoto verde.
 2. Review humano das correcoes e evidencias.
-3. Validacao NVDA/VoiceOver/manual com registro.
+3. Providers de preview sem falhas obrigatorias.
 
-Somente depois desses tres itens a release deve ser considerada **GO final para merge**.
+Com esses itens atendidos, a release fica **GO tecnico para merge do PR #59**. A validacao NVDA/VoiceOver/manual segue como pendencia operacional recomendada para aprovacao final irrestrita da release publica.
