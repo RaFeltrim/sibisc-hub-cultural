@@ -266,6 +266,24 @@ if (
   failures.push('URL de feedback Sofia/Claudia deve abrir GitHub Issues com template dedicado');
 }
 
+const feedbackTemplatePath = path.join(repoRoot, '.github/ISSUE_TEMPLATE/feedback_sofia_claudia.md');
+if (fs.existsSync(feedbackTemplatePath)) {
+  const feedbackTemplateContent = fs.readFileSync(feedbackTemplatePath, 'utf8');
+  for (const token of [
+    'Sofia / Claudia',
+    'sem dados pessoais sensiveis',
+    'tokens',
+    'prints privados',
+    'Severidade tecnica sugerida por QA',
+  ]) {
+    if (!feedbackTemplateContent.includes(token)) {
+      failures.push(`template Sofia/Claudia sem aviso/campo esperado: ${token}`);
+    }
+  }
+} else {
+  failures.push('template Sofia/Claudia ausente em .github/ISSUE_TEMPLATE/feedback_sofia_claudia.md');
+}
+
 if (
   !SOFIA_CLAUDIA_PRIVACY_NOTICE.includes('Nao envie dados pessoais sensiveis') ||
   !SOFIA_CLAUDIA_PRIVACY_NOTICE.includes('tokens')
