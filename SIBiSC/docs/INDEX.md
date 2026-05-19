@@ -2,6 +2,19 @@
 
 Este diretorio concentra a documentacao oficial do projeto em Markdown. O objetivo deste indice e facilitar onboarding, navegacao e rastreabilidade entre produto, execucao e operacao.
 
+## Documentos finais e auditorias
+
+- [`product/auditoria_documentacao_final.md`](./product/auditoria_documentacao_final.md)
+- [`product/go_no_go_final_pos_fechamento.md`](./product/go_no_go_final_pos_fechamento.md)
+- [`product/consolidado_validacoes_operacionais_independentes.md`](./product/consolidado_validacoes_operacionais_independentes.md)
+- [`product/conclusao_final_sofia_pos_validacoes_independentes.md`](./product/conclusao_final_sofia_pos_validacoes_independentes.md)
+- [`product/release_final_status.md`](./product/release_final_status.md)
+- [`product/matriz_comparativa_chat_vs_execucao.md`](./product/matriz_comparativa_chat_vs_execucao.md)
+- [`qa/sprint_final_fechamento_evidencias.md`](./qa/sprint_final_fechamento_evidencias.md)
+- [`qa/final_a11y_security_polish.md`](./qa/final_a11y_security_polish.md)
+- [`qa/validacao_leitor_tela_sofia.md`](./qa/validacao_leitor_tela_sofia.md)
+- [`product/conferencia_pendencias_pos_release.md`](./product/conferencia_pendencias_pos_release.md)
+
 ## Product
 
 - [`product/personas.md`](./product/personas.md)
