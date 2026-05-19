@@ -14,12 +14,11 @@ import { getNews } from '../services/newsService';
 import { getEvents } from '../services/eventsService';
 import { searchBooks } from '../services/catalogService';
 import { getUserProfile } from '../services/userProfileService';
-
-const assistantGuides = [
-  { to: '/catalogo', label: 'livros por interesse' },
-  { to: '/eventos', label: 'agenda cultural' },
-  { to: '/noticias', label: 'notícias da rede' },
-];
+import {
+  GUIDED_ASSISTANT_LIMIT_NOTICE,
+  getGuidedAssistantQuestion,
+  guidedAssistantQuestions,
+} from '../services/guidedAssistantService';
 
 function getQuickMatches(books, searchTerm) {
   const normalizedTerm = searchTerm.trim().toLowerCase();
@@ -44,6 +43,7 @@ function HomePageMobile() {
   const [profile, setProfile] = useState(null);
   const [query, setQuery] = useState('');
   const [searchStatus, setSearchStatus] = useState('');
+  const [selectedGuideId, setSelectedGuideId] = useState(guidedAssistantQuestions[0].id);
   const debouncedQuery = useDebouncedValue(query, 180);
 
   useEffect(() => {
@@ -90,6 +90,8 @@ function HomePageMobile() {
     return getQuickMatches(catalogBooks, debouncedQuery);
   }, [catalogBooks, debouncedQuery]);
 
+  const selectedGuide = useMemo(() => getGuidedAssistantQuestion(selectedGuideId), [selectedGuideId]);
+
   function handleAssistantSearch() {
     const term = query.trim();
 
@@ -130,16 +132,79 @@ function HomePageMobile() {
 
         <div className={styles.assistantPreview}>
           <strong>Preferências usadas nas sugestões</strong>
-          <span>{profile?.readingPreferences.categories.join(' · ') ?? 'Carregando preferências do perfil...'}</span>
+          <span>
+            {profile?.readingPreferences.categories.join(' · ') ?? 'Carregando preferências do perfil...'}.
+            Preferências demonstrativas, sem edição persistida nesta versão.
+          </span>
         </div>
 
-        <div className={styles.assistantGuides} aria-label="Ajudas disponíveis no Feltrim Agents">
-          {assistantGuides.map((guide) => (
-            <Link key={guide.to} to={guide.to}>
-              {guide.label}
-            </Link>
+        <div className={styles.assistantGuides} aria-label="Perguntas guiadas do Feltrim Agents">
+          {guidedAssistantQuestions.map((guide) => (
+            <button
+              key={guide.id}
+              type="button"
+              aria-pressed={guide.id === selectedGuideId}
+              aria-controls="mobile-guided-assistant-answer"
+              onClick={() => setSelectedGuideId(guide.id)}
+            >
+              <span>{guide.shortLabel}</span>
+              <em>{guide.category}</em>
+            </button>
           ))}
         </div>
+
+        <section
+          id="mobile-guided-assistant-answer"
+          className={styles.guidedAnswer}
+          aria-live="polite"
+          aria-atomic="true"
+          aria-labelledby="mobile-guided-answer-title"
+        >
+          <span className={styles.answerCategory}>{selectedGuide.category}</span>
+          <h2 id="mobile-guided-answer-title">{selectedGuide.answer.title}</h2>
+          <p>{selectedGuide.answer.summary}</p>
+
+          {selectedGuide.answer.recommendations?.length ? (
+            <div className={styles.answerItems} aria-label="Recomendações explicáveis">
+              {selectedGuide.answer.recommendations.map((item) => (
+                <Link key={item.id} className={styles.answerItem} to={item.nextAction.to}>
+                  <strong>{item.title}</strong>
+                  <span>Motivo: {item.reason}</span>
+                  <span>
+                    Fonte/limite: {item.source}; {item.limit}
+                  </span>
+                  <em>
+                    Próxima ação: {item.nextAction.label}. {item.availableCount} de {item.totalCount} exemplares
+                    no inventário local.
+                  </em>
+                </Link>
+              ))}
+            </div>
+          ) : null}
+
+          {selectedGuide.answer.references?.length ? (
+            <div className={styles.answerItems} aria-label="Referências locais explicáveis">
+              {selectedGuide.answer.references.map((item) => (
+                <Link key={item.id} className={styles.answerItem} to={item.nextAction.to}>
+                  <strong>{item.title}</strong>
+                  <span>Motivo: {item.reason}</span>
+                  <span>
+                    Fonte/limite: {item.source}; {item.limit}
+                  </span>
+                  <em>Próxima ação: {item.nextAction.label}</em>
+                </Link>
+              ))}
+            </div>
+          ) : null}
+
+          <p className={styles.limitNotice}>
+            <strong>Fonte/limite:</strong> {selectedGuide.answer.source}. {selectedGuide.answer.limit}
+          </p>
+          <p className={styles.limitNotice}>{GUIDED_ASSISTANT_LIMIT_NOTICE}</p>
+          <Link className={styles.answerAction} to={selectedGuide.answer.nextAction.to}>
+            {selectedGuide.answer.nextAction.label}
+          </Link>
+        </section>
 
         <SearchField
           label="Busca assistida"
