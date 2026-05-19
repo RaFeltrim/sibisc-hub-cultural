@@ -28,8 +28,14 @@
   justify-content: center;
   width: 60px;
   height: 60px;
-  font-size: 2rem;
-  background: rgba(255, 255, 255, 0.6);
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.28), transparent 42%),
+    linear-gradient(135deg, var(--color-navy), #274e78 55%, var(--color-accent));
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -64,6 +70,35 @@
   margin-top: 0.25rem;
 }
 
+.preferenceSummary {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.65rem;
+}
+
+.preferenceSummary strong {
+  color: var(--color-ink);
+  font-size: 0.78rem;
+}
+
+.preferenceChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.preferenceChips span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.8rem;
+  padding: 0 0.65rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-accent-strong);
+  background: rgba(210, 100, 56, 0.1);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 /* Settings Card */
 .settingsCard {
   padding-top: var(--space-md);
@@ -91,6 +126,16 @@
   color: var(--color-ink-soft);
   margin: 0.5rem 0 0 1.8rem;
   margin-top: 0;
+}
+
+.actionStatus {
+  margin: 0 var(--space-md);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-success);
+  background: rgba(47, 123, 87, 0.1);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 /* Tabs Navigation */
@@ -127,6 +172,11 @@
 
 .tab:active {
   color: var(--color-ink-strong);
+}
+
+.tab:focus-visible {
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
 }
 
 .tabActive {
@@ -202,7 +252,7 @@
   align-content: start;
 }
 
-.loanInfo h3 {
+.loanInfo h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -223,13 +273,14 @@
 }
 
 .renewBtn {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background: none;
+  min-width: 5.8rem;
+  min-height: 40px;
+  padding: 0 0.85rem;
+  background: rgba(49, 122, 86, 0.08);
   border: 1px solid rgba(100, 150, 100, 0.3);
   border-radius: var(--radius-md);
-  font-size: 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -241,6 +292,13 @@
 .renewBtn:active {
   background: rgba(100, 150, 100, 0.1);
   border-color: rgba(100, 150, 100, 0.5);
+}
+
+.renewBtn:focus-visible,
+.favoriteBtn:focus-visible,
+.emptyStateLink:focus-visible {
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
 }
 
 .dueBadge {
@@ -304,7 +362,7 @@
   gap: 0.3rem;
 }
 
-.timelineContent h3 {
+.timelineContent h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -356,12 +414,25 @@
   border-color: rgba(197, 95, 52, 0.3);
 }
 
+.favoriteLink {
+  display: grid;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.favoriteLink:focus-visible {
+  border-radius: var(--radius-sm);
+  outline: 3px solid rgba(210, 100, 56, 0.3);
+  outline-offset: 3px;
+}
+
 .favoriteInfo {
   display: grid;
   gap: 0.4rem;
 }
 
-.favoriteInfo h3 {
+.favoriteInfo h2 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -399,21 +470,26 @@
 }
 
 .favoriteBtn {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
+  min-height: 40px;
+  padding: 0 0.85rem;
+  background: rgba(210, 100, 56, 0.08);
+  border: 1px solid rgba(210, 100, 56, 0.24);
+  border-radius: var(--radius-md);
+  color: var(--color-accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 }
 
 .favoriteBtn:active {
-  transform: scale(1.2);
+  background: rgba(210, 100, 56, 0.14);
+  transform: scale(0.98);
 }
 
 /* Empty State */
@@ -443,6 +519,21 @@
 
 .emptyStateLink:active {
   opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .loanCard,
+  .renewBtn,
+  .favoriteCard,
+  .favoriteBtn,
+  .emptyStateLink {
+    transition: none;
+  }
+
+  .favoriteBtn:active {
+    transform: none;
+  }
 }
 
 /* Responsive */

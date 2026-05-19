@@ -5,9 +5,9 @@ function NotFoundPage() {
   return (
     <section className={styles.page}>
       <span>404</span>
-      <h1>Essa rota ainda nao existe no mapa do SIBiSC.</h1>
-      <p>Volte para a navegacao principal e siga por noticias, eventos ou catalogo.</p>
-      <Link to="/">Voltar para Inicio</Link>
+      <h1>Essa rota ainda não existe no mapa do SIBiSC.</h1>
+      <p>Volte para a navegação principal e siga por notícias, eventos ou catálogo.</p>
+      <Link to="/">Voltar para início</Link>
     </section>
   );
 }
