@@ -10,18 +10,40 @@ import styles from './BookDetailPage.module.css';
 function BookDetailPage() {
   const { bookId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [book, setBook] = useState(null);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState('Centro');
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadBook() {
       setLoading(true);
-      const item = await getBookById(bookId);
-      setBook(item);
-      setLoading(false);
+      setLoadError('');
+
+      try {
+        const item = await getBookById(bookId);
+
+        if (!isMounted) return;
+
+        setBook(item);
+      } catch {
+        if (isMounted) {
+          setBook(null);
+          setLoadError('Não foi possível buscar os detalhes do livro neste protótipo.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
 
     loadBook();
+
+    return () => {
+      isMounted = false;
+    };
   }, [bookId]);
 
   const nearestInventory = useMemo(() => {
@@ -36,11 +58,15 @@ function BookDetailPage() {
     return <LoadingState label="Buscando detalhes do livro..." />;
   }
 
+  if (loadError) {
+    return <ErrorState title="Detalhe indisponível" message={loadError} />;
+  }
+
   if (!book) {
     return (
       <ErrorState
-        title="Livro nao encontrado"
-        message="Esse item nao esta disponivel no catalogo atual."
+        title="Livro não encontrado"
+        message="Esse item não está disponível no catálogo atual."
       />
     );
   }
@@ -48,7 +74,7 @@ function BookDetailPage() {
   return (
     <article className={styles.article} data-testid="book-detail">
       <Link className={styles.backLink} to="/catalogo">
-        Voltar ao Catalogo
+        Voltar ao catálogo
       </Link>
 
       <div className={styles.heading}>
@@ -57,7 +83,7 @@ function BookDetailPage() {
           <h1>{book.title}</h1>
           <p>{book.author}</p>
         </div>
-        <strong className={styles.availability}>{book.totalAvailable} exemplares disponiveis</strong>
+        <strong className={styles.availability}>{book.totalAvailable} exemplares disponíveis</strong>
       </div>
 
       <div className={styles.metaGrid}>
@@ -74,7 +100,7 @@ function BookDetailPage() {
           <p>{book.publisher}</p>
         </div>
         <div>
-          <strong>Paginas</strong>
+          <strong>Páginas</strong>
           <p>{book.pages}</p>
         </div>
       </div>
@@ -82,8 +108,8 @@ function BookDetailPage() {
       <p className={styles.summary}>{book.summary}</p>
 
       <div className={styles.neighborhoodBox}>
-        <strong>Escolha um bairro para priorizar a unidade mais proxima</strong>
-        <div className={styles.pills}>
+        <strong>Escolha um bairro para priorizar a unidade mais próxima</strong>
+        <div className={styles.pills} aria-label="Bairros para priorização de unidade">
           {neighborhoodOptions.map((option) => (
             <button
               key={option}
@@ -91,6 +117,7 @@ function BookDetailPage() {
               className={
                 option === selectedNeighborhood ? `${styles.pill} ${styles.pillActive}` : styles.pill
               }
+              aria-pressed={option === selectedNeighborhood}
               onClick={() => setSelectedNeighborhood(option)}
             >
               {option}
@@ -101,10 +128,10 @@ function BookDetailPage() {
 
       {nearestInventory ? (
         <div className={styles.highlight}>
-          <p>Mais proxima com disponibilidade</p>
+          <p>Mais próxima com disponibilidade</p>
           <strong>{nearestInventory.unit.name}</strong>
           <span>
-            {nearestInventory.distanceByNeighborhood[selectedNeighborhood]} | {nearestInventory.callNumber} | {nearestInventory.shelf}
+            {nearestInventory.distanceByNeighborhood[selectedNeighborhood]} de distância, chamada {nearestInventory.callNumber}, {nearestInventory.shelf}
           </span>
         </div>
       ) : null}

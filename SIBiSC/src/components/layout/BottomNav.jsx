@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom';
 import styles from './BottomNav.module.css';
 
 const navItems = [
-  { to: '/', label: 'Inicio', testId: 'nav-home', icon: 'home' },
-  { to: '/noticias', label: 'Noticias', testId: 'nav-news', icon: 'news' },
+  { to: '/', label: 'Início', testId: 'nav-home', icon: 'home' },
+  { to: '/noticias', label: 'Notícias', testId: 'nav-news', icon: 'news' },
   { to: '/eventos', label: 'Eventos', testId: 'nav-events', icon: 'calendar' },
-  { to: '/catalogo', label: 'Catalogo', testId: 'nav-catalog', icon: 'books' },
+  { to: '/catalogo', label: 'Catálogo', testId: 'nav-catalog', icon: 'books' },
   { to: '/perfil', label: 'Perfil', testId: 'nav-profile', icon: 'profile' },
 ];
 
@@ -67,7 +67,7 @@ function NavIcon({ icon }) {
 
 function BottomNav() {
   return (
-    <nav className={styles.nav} aria-label="Navegacao mobile">
+    <nav className={styles.nav} aria-label="Navegação mobile">
       {navItems.map((item) => (
         <NavLink
           key={item.to}

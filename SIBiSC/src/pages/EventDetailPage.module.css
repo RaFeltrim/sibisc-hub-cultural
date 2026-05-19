@@ -62,3 +62,10 @@
   color: white;
   background: linear-gradient(135deg, var(--color-ink), #1c3a60);
 }
+
+.calendarStatus {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}

@@ -8,9 +8,16 @@ function AvailabilityTable({ inventory, selectedNeighborhood }) {
           <div className={styles.rowTop}>
             <div>
               <strong>{item.unit.name}</strong>
-              <p>{selectedNeighborhood ? `${item.distanceByNeighborhood[selectedNeighborhood]} | ${item.unit.neighborhood}` : item.unit.neighborhood}</p>
+              <p>
+                {selectedNeighborhood
+                  ? `${item.distanceByNeighborhood[selectedNeighborhood]} de distância, ${item.unit.neighborhood}`
+                  : item.unit.neighborhood}
+              </p>
             </div>
-            <span className={styles.stock}>
+            <span
+              className={styles.stock}
+              aria-label={`${item.available} de ${item.total} exemplares ${item.available > 0 ? 'disponíveis' : 'indisponíveis'}`}
+            >
               {item.available}/{item.total}
             </span>
           </div>
@@ -18,6 +25,7 @@ function AvailabilityTable({ inventory, selectedNeighborhood }) {
             <code>{item.callNumber}</code>
             <span>{item.shelf}</span>
           </div>
+          <p>{item.available > 0 ? 'Disponível para retirada no protótipo local.' : 'Sem exemplares disponíveis nesta unidade.'}</p>
           <p>{item.unit.hours}</p>
         </article>
       ))}

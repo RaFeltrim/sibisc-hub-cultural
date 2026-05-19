@@ -9,28 +9,54 @@ import styles from './NewsDetailPage.module.css';
 function NewsDetailPage() {
   const { newsId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [item, setItem] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadDetail() {
       setLoading(true);
-      const newsItem = await getNewsById(newsId);
-      setItem(newsItem);
-      setLoading(false);
+      setLoadError('');
+
+      try {
+        const newsItem = await getNewsById(newsId);
+
+        if (!isMounted) return;
+
+        setItem(newsItem);
+      } catch {
+        if (isMounted) {
+          setItem(null);
+          setLoadError('Não foi possível carregar esta notícia do protótipo.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
 
     loadDetail();
+
+    return () => {
+      isMounted = false;
+    };
   }, [newsId]);
 
   if (loading) {
-    return <LoadingState label="Buscando noticia completa..." />;
+    return <LoadingState label="Buscando notícia completa..." />;
+  }
+
+  if (loadError) {
+    return <ErrorState title="Notícia indisponível" message={loadError} />;
   }
 
   if (!item) {
     return (
       <ErrorState
-        title="Noticia nao encontrada"
-        message="O item procurado nao existe mais ou ainda nao foi publicado."
+        title="Notícia não encontrada"
+        message="O item procurado não existe mais ou ainda não foi publicado."
       />
     );
   }
@@ -38,7 +64,7 @@ function NewsDetailPage() {
   return (
     <article className={styles.article} data-testid="news-detail">
       <Link className={styles.backLink} to="/noticias">
-        Voltar para Noticias
+        Voltar para notícias
       </Link>
 
       <div className={styles.meta}>

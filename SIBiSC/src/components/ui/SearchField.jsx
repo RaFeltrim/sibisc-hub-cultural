@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import styles from './SearchField.module.css';
 
 function SearchField({
@@ -9,7 +10,11 @@ function SearchField({
   inputTestId,
   buttonTestId,
   buttonLabel = 'Buscar',
+  statusMessage,
+  statusTestId,
 }) {
+  const statusId = useId();
+
   return (
     <form
       className={styles.form}
@@ -34,12 +39,24 @@ function SearchField({
             placeholder={placeholder}
             value={value}
             onChange={(event) => onChange(event.target.value)}
+            aria-describedby={statusMessage ? statusId : undefined}
           />
         </div>
       </label>
       <button data-testid={buttonTestId} className={styles.button} type="submit">
         {buttonLabel}
       </button>
+      {statusMessage ? (
+        <p
+          id={statusId}
+          className={styles.status}
+          data-testid={statusTestId}
+          role="status"
+          aria-live="polite"
+        >
+          {statusMessage}
+        </p>
+      ) : null}
     </form>
   );
 }

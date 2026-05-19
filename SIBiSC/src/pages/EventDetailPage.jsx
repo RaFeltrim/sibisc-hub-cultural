@@ -10,28 +10,55 @@ import styles from './EventDetailPage.module.css';
 function EventDetailPage() {
   const { eventId } = useParams();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const [event, setEvent] = useState(null);
+  const [calendarStatus, setCalendarStatus] = useState('');
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadEvent() {
       setLoading(true);
-      const item = await getEventById(eventId);
-      setEvent(item);
-      setLoading(false);
+      setLoadError('');
+
+      try {
+        const item = await getEventById(eventId);
+
+        if (!isMounted) return;
+
+        setEvent(item);
+      } catch {
+        if (isMounted) {
+          setEvent(null);
+          setLoadError('Não foi possível buscar os detalhes do evento neste protótipo.');
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
     }
 
     loadEvent();
+
+    return () => {
+      isMounted = false;
+    };
   }, [eventId]);
 
   if (loading) {
     return <LoadingState label="Buscando detalhes do evento..." />;
   }
 
+  if (loadError) {
+    return <ErrorState title="Evento indisponível" message={loadError} />;
+  }
+
   if (!event) {
     return (
       <ErrorState
-        title="Evento nao encontrado"
-        message="O evento procurado nao esta mais disponivel na agenda."
+        title="Evento não encontrado"
+        message="O evento procurado não está mais disponível na agenda."
       />
     );
   }
@@ -41,7 +68,7 @@ function EventDetailPage() {
   return (
     <article className={styles.article} data-testid="event-detail">
       <Link className={styles.backLink} to="/eventos">
-        Voltar para Agenda
+        Voltar para agenda
       </Link>
 
       <span className={styles.category}>{event.category}</span>
@@ -49,7 +76,7 @@ function EventDetailPage() {
 
       <div className={styles.infoGrid}>
         <div>
-          <strong>Data e horario</strong>
+          <strong>Data e horário</strong>
           <p>{formatWeekdayDate(event.date)}</p>
           <p>{formatEventTimeRange(event.startTime, event.endTime)}</p>
         </div>
@@ -59,11 +86,11 @@ function EventDetailPage() {
           <p>{event.locationAddress}</p>
         </div>
         <div>
-          <strong>Publico</strong>
+          <strong>Público</strong>
           <p>{event.audience}</p>
         </div>
         <div>
-          <strong>Inscricao</strong>
+          <strong>Inscrição</strong>
           <p>{event.signup}</p>
         </div>
       </div>
@@ -72,17 +99,29 @@ function EventDetailPage() {
 
       <div className={styles.calendarBox}>
         <div>
-          <strong>Adicionar ao seu calendario</strong>
-          <p>Abra o evento no Google Calendar para salvar o lembrete.</p>
+          <strong>Adicionar ao seu calendário</strong>
+          <p>Abra o evento no Google Calendar para salvar o lembrete com data, horário e local.</p>
         </div>
         <button
           data-testid="event-add-calendar"
           className={styles.calendarButton}
           type="button"
-          onClick={() => window.open(calendarUrl, '_blank', 'noopener,noreferrer')}
+          onClick={() => {
+            const calendarWindow = window.open(calendarUrl, '_blank', 'noopener,noreferrer');
+            setCalendarStatus(
+              calendarWindow
+                ? 'Google Calendar aberto em uma nova aba.'
+                : 'Google Calendar solicitado em uma nova aba. Se nada abrir, permita pop-ups para salvar o evento.'
+            );
+          }}
         >
           Abrir Google Calendar
         </button>
+        {calendarStatus ? (
+          <p className={styles.calendarStatus} role="status" aria-live="polite">
+            {calendarStatus}
+          </p>
+        ) : null}
       </div>
     </article>
   );
