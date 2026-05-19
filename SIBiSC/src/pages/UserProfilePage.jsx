@@ -163,7 +163,7 @@ function UserProfilePage() {
       {/* User Header */}
       <section className={styles.userHeader}>
         <div className={styles.userCard}>
-          <div className={styles.avatar} aria-label={`Perfil de ${user.name}`}>
+          <div className={styles.avatar} role="img" aria-label={`Perfil de ${user.name}`}>
             {user.avatar}
           </div>
           <div className={styles.userInfo}>

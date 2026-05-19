@@ -238,7 +238,7 @@ function HomePage() {
 
             <div className={styles.guideList} aria-label="Perguntas que o Feltrim Agents orienta nesta versão">
               <strong>Perguntas guiadas</strong>
-              <div className={styles.guideButtons} role="list">
+              <div className={styles.guideButtons}>
                 {guidedAssistantQuestions.map((guide) => (
                   <button
                     key={guide.id}
@@ -375,7 +375,7 @@ function HomePage() {
           href={SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Abrir GitHub Issues com o template de feedback Sofia e Claudia"
+          aria-label="Enviar feedback via GitHub Issues com o template de feedback Sofia e Claudia"
         >
           Enviar feedback via GitHub Issues
         </a>
