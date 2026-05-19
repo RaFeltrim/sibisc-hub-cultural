@@ -80,8 +80,9 @@ const [
   { bookItems },
   { mockLoans, mockLoanHistory, mockFavorites },
   { mockHomeContent },
-  { getRecommendations },
+  { getRecommendations, getReaderJourney },
   { guidedAssistantQuestions, GUIDED_ASSISTANT_LIMIT_NOTICE },
+  { SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL, SOFIA_CLAUDIA_PRIVACY_NOTICE },
   { eventItems },
   { newsItems },
   { units },
@@ -91,6 +92,7 @@ const [
   importProjectModule('src/mocks/homePageMobileData.js'),
   importProjectModule('src/services/userProfileService.js'),
   importProjectModule('src/services/guidedAssistantService.js'),
+  importProjectModule('src/services/feedbackService.js'),
   importProjectModule('src/mocks/events.js'),
   importProjectModule('src/mocks/news.js'),
   importProjectModule('src/mocks/units.js'),
@@ -257,6 +259,55 @@ for (const recommendation of recommendations) {
   }
 }
 
+if (
+  !SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL.startsWith('https://github.com/RaFeltrim/sibisc-hub-cultural/issues/new') ||
+  !SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL.includes('template=feedback_sofia_claudia.md')
+) {
+  failures.push('URL de feedback Sofia/Claudia deve abrir GitHub Issues com template dedicado');
+}
+
+if (
+  !SOFIA_CLAUDIA_PRIVACY_NOTICE.includes('Nao envie dados pessoais sensiveis') ||
+  !SOFIA_CLAUDIA_PRIVACY_NOTICE.includes('tokens')
+) {
+  failures.push('aviso de privacidade do feedback deve bloquear dados pessoais sensiveis e tokens');
+}
+
+const readerJourney = await getReaderJourney();
+if (readerJourney.publicRanking !== false) {
+  failures.push('jornada do leitor deve declarar publicRanking false');
+}
+
+if (
+  !readerJourney.prototypeNotice.includes('mocks locais') ||
+  !readerJourney.prototypeNotice.includes('Nao ha ranking publico') ||
+  !readerJourney.prototypeNotice.includes('persistencia real')
+) {
+  failures.push('jornada do leitor deve comunicar prototipo local, sem ranking publico e sem persistencia real');
+}
+
+for (const collectionName of ['trails', 'badges', 'personalGoals']) {
+  const collection = readerJourney[collectionName];
+  if (!Array.isArray(collection) || collection.length < 3) {
+    failures.push(`jornada do leitor deve conter ao menos 3 itens em ${collectionName}`);
+    continue;
+  }
+
+  for (const item of collection) {
+    for (const field of ['id', 'title', 'description', 'progress', 'target', 'progressPercent']) {
+      if (item[field] === undefined || item[field] === null || item[field] === '') {
+        failures.push(`item de gamificacao sem campo ${field}: ${collectionName}/${item.id ?? '(sem id)'}`);
+      }
+    }
+    if (item.progressPercent < 0 || item.progressPercent > 100) {
+      failures.push(`item de gamificacao com progresso percentual invalido: ${collectionName}/${item.id}`);
+    }
+    if (collectionName === 'badges' && item.publicRanking !== false) {
+      failures.push(`selo deve declarar publicRanking false: ${item.id}`);
+    }
+  }
+}
+
 if (guidedAssistantQuestions.length < 8 || guidedAssistantQuestions.length > 10) {
   failures.push(`assistente guiado deve ter de 8 a 10 perguntas, encontrado: ${guidedAssistantQuestions.length}`);
 }
@@ -336,6 +387,18 @@ if (profilePageContent.includes('../mocks/userProfile')) {
 const homePageContent = readProjectFile('src/pages/HomePage.jsx');
 if (!homePageContent.includes('getRecommendations')) {
   failures.push('HomePage.jsx deve renderizar recomendacoes via getRecommendations()');
+}
+if (!homePageContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
+  failures.push('HomePage.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
+}
+
+const homePageMobileContent = readProjectFile('src/pages/HomePageMobile.jsx');
+if (!homePageMobileContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
+  failures.push('HomePageMobile.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
+}
+
+if (!profilePageContent.includes('getReaderJourney') || !profilePageContent.includes('readerJourney')) {
+  failures.push('UserProfilePage.jsx deve renderizar jornada do leitor demonstrativa');
 }
 
 const eventDetailContent = readProjectFile('src/pages/EventDetailPage.jsx');
