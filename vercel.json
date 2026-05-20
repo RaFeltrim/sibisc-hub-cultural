@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "installCommand": "npm ci --prefix SIBiSC",
+  "installCommand": "npm install --prefix SIBiSC --no-audit --no-fund",
   "buildCommand": "npm run build --prefix SIBiSC",
   "outputDirectory": "SIBiSC/dist",
   "headers": [
