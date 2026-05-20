@@ -64,3 +64,10 @@ Coordenacao: fechamento final do repositorio para "Total GO" academico/controlad
 - `SIBiSC/docs/qa/total_go_evidencias.md`
 - `SIBiSC/docs/product/triagem_escopo_documentacao_pos_auditoria.md`
 - `SIBiSC/docs/auditoria/analise-da-auditoria-2026-05-19.md`
+
+## Adendo - Deploy final validado
+
+Data: 2026-05-19  
+Referencia: `SIBiSC/docs/devops/deploy_vercel_netlify_fechamento_2026-05-19.md`
+
+O fechamento tecnico de deploy foi validado apos ajuste da estrategia de instalacao de dependencias em GitHub Actions, Vercel e Netlify. O Vercel Production Deployment passou no commit `5613133`, a URL publica <https://sibisc-hub-cultural.vercel.app> respondeu `200 OK`, os headers de seguranca principais foram preservados e o git local ficou limpo/sincronizado. Como correcao final de compatibilidade, `SIBiSC/package.json` passou de `engines.node >=22` para `>=18`; a mencao anterior a Node `>=22` fica preservada como historico do adendo Total GO antes do fechamento de deploy.

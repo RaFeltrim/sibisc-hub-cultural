@@ -83,6 +83,7 @@ Este diretorio concentra a documentacao oficial do projeto em Markdown. O objeti
 - [`devops/ambientes_e_variaveis.md`](./devops/ambientes_e_variaveis.md)
 - [`devops/pipeline_ci_cd.md`](./devops/pipeline_ci_cd.md)
 - [`devops/deploy_e_rollback.md`](./devops/deploy_e_rollback.md)
+- [`devops/deploy_vercel_netlify_fechamento_2026-05-19.md`](./devops/deploy_vercel_netlify_fechamento_2026-05-19.md)
 
 ## Governance
 
