@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: SIBiSC/package-lock.json
 
       - name: Install dependencies
-        run: npm ci --omit=optional
+        run: npm install --no-audit --no-fund --prefer-offline
 
       - name: Run repository guard
         run: npm run qa:repo
@@ -57,7 +57,7 @@ jobs:
           cache-dependency-path: SIBiSC/package-lock.json
 
       - name: Install dependencies
-        run: npm ci --omit=optional
+        run: npm install --no-audit --no-fund --prefer-offline
 
       - name: Build frontend
         run: npm run build
