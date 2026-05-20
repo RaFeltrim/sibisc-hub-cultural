@@ -1,4 +1,4 @@
-﻿name: QA Gate
+name: QA Gate
 
 on:
   pull_request:
@@ -32,7 +32,7 @@ jobs:
           cache-dependency-path: SIBiSC/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=optional
 
       - name: Run repository guard
         run: npm run qa:repo
@@ -57,7 +57,7 @@ jobs:
           cache-dependency-path: SIBiSC/package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=optional
 
       - name: Build frontend
         run: npm run build
