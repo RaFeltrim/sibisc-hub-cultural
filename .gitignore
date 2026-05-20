@@ -48,3 +48,6 @@ portfolio/
 # Generated scripts (local only)
 SIBiSC/scripts/figma_creation_script.js
 .vercel
+
+# Playwright CLI local session
+.playwright-cli/

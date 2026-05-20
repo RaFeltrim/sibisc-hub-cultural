@@ -4,6 +4,12 @@ Este diretorio concentra a documentacao oficial do projeto em Markdown. O objeti
 
 ## Documentos finais e auditorias
 
+- [`product/plano_total_go_final.md`](./product/plano_total_go_final.md)
+- [`qa/total_go_evidencias.md`](./qa/total_go_evidencias.md)
+- [`product/triagem_escopo_documentacao_pos_auditoria.md`](./product/triagem_escopo_documentacao_pos_auditoria.md)
+- [`auditoria/auditoria-completa-2026-05-19.md`](./auditoria/auditoria-completa-2026-05-19.md)
+- [`auditoria/analise-da-auditoria-2026-05-19.md`](./auditoria/analise-da-auditoria-2026-05-19.md)
+- [`auditoria/aprendizados/auditoria-senior-sibisc.md`](./auditoria/aprendizados/auditoria-senior-sibisc.md)
 - [`product/auditoria_documentacao_final.md`](./product/auditoria_documentacao_final.md)
 - [`product/go_no_go_final_pos_fechamento.md`](./product/go_no_go_final_pos_fechamento.md)
 - [`product/consolidado_validacoes_operacionais_independentes.md`](./product/consolidado_validacoes_operacionais_independentes.md)

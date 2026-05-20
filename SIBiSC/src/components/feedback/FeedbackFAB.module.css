@@ -1,0 +1,193 @@
+.root {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.rootOpen {
+  z-index: 300;
+}
+
+.fab {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 0;
+  border-radius: 50%;
+  color: white;
+  background: var(--color-accent-strong);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.fab:hover {
+  background: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.fab:focus-visible {
+  outline: 3px solid rgba(143, 58, 28, 0.5);
+  outline-offset: 3px;
+}
+
+.fab:active {
+  transform: translateY(0);
+}
+
+.panel {
+  width: 288px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-strong);
+  padding: var(--space-md);
+  display: grid;
+  gap: var(--space-sm);
+  animation: panel-in 180ms ease both;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.panelTitle {
+  color: var(--color-ink-strong);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.closeBtn {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-soft);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.closeBtn:hover {
+  color: var(--color-ink);
+  border-color: var(--color-line-strong);
+}
+
+.closeBtn:focus-visible {
+  outline: 3px solid rgba(143, 58, 28, 0.3);
+  outline-offset: 2px;
+}
+
+.issueLink {
+  display: block;
+  padding: 0.62rem 0.85rem;
+  border: 1px solid var(--color-accent-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-accent-strong);
+  background: transparent;
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-align: center;
+  transition: background-color 180ms ease;
+}
+
+.issueLink:hover {
+  background: rgba(143, 58, 28, 0.06);
+}
+
+.issueLink:focus-visible {
+  outline: 3px solid rgba(143, 58, 28, 0.3);
+  outline-offset: 3px;
+}
+
+.copyBtn {
+  justify-self: start;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-soft);
+  background: transparent;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.copyBtn:hover {
+  background: rgba(18, 38, 63, 0.05);
+  color: var(--color-ink);
+}
+
+.copyBtn:focus-visible {
+  outline: 3px solid rgba(143, 58, 28, 0.3);
+  outline-offset: 3px;
+}
+
+.copyStatus {
+  color: var(--color-success);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.privacy {
+  padding: 0.52rem 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .root {
+    bottom: 32px;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab,
+  .closeBtn,
+  .issueLink,
+  .copyBtn {
+    transition: none;
+  }
+
+  .fab:hover {
+    transform: none;
+  }
+
+  .panel {
+    animation: none;
+  }
+}

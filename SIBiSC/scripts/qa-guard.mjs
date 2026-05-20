@@ -403,15 +403,29 @@ if (profilePageContent.includes('../mocks/userProfile')) {
 }
 
 const homePageContent = readProjectFile('src/pages/HomePage.jsx');
-if (!homePageContent.includes('getRecommendations')) {
+const feltrimAgentsFABPath = path.join(projectRoot, 'src/components/feltrim-agents/FeltrimAgentsFAB.jsx');
+const feltrimAgentsFABContent = fs.existsSync(feltrimAgentsFABPath)
+  ? fs.readFileSync(feltrimAgentsFABPath, 'utf8')
+  : '';
+if (!homePageContent.includes('getRecommendations') && !feltrimAgentsFABContent.includes('getRecommendations')) {
   failures.push('HomePage.jsx deve renderizar recomendacoes via getRecommendations()');
 }
-if (!homePageContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
-  failures.push('HomePage.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
+
+const feedbackFABPath = path.join(projectRoot, 'src/components/feedback/FeedbackFAB.jsx');
+const feedbackFABContent = fs.existsSync(feedbackFABPath)
+  ? fs.readFileSync(feedbackFABPath, 'utf8')
+  : '';
+
+if (!feedbackFABContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
+  failures.push('FeedbackFAB.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
 }
 
 const homePageMobileContent = readProjectFile('src/pages/HomePageMobile.jsx');
-if (!homePageMobileContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
+
+if (!homePageContent.includes('FeedbackFAB')) {
+  failures.push('HomePage.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
+}
+if (!homePageMobileContent.includes('FeedbackFAB')) {
   failures.push('HomePageMobile.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
 }
 

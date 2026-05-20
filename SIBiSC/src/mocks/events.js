@@ -2,7 +2,7 @@
   {
     id: 'e1',
     category: 'Infantil',
-    date: '2026-03-20',
+    date: '2026-06-03',
     startTime: '14:00',
     endTime: '15:30',
     title: 'Hora do Conto Infantil',
@@ -16,7 +16,7 @@
   {
     id: 'e2',
     category: 'Educação',
-    date: '2026-03-20',
+    date: '2026-06-05',
     startTime: '18:30',
     endTime: '20:00',
     title: 'Letramento Digital para a Terceira Idade',
@@ -30,7 +30,7 @@
   {
     id: 'e3',
     category: 'Clube do Livro',
-    date: '2026-03-22',
+    date: '2026-06-09',
     startTime: '10:00',
     endTime: '11:30',
     title: 'Clube do Livro: Vidas Secas',
@@ -44,7 +44,7 @@
   {
     id: 'e4',
     category: 'Educação',
-    date: '2026-03-22',
+    date: '2026-06-11',
     startTime: '14:00',
     endTime: '16:00',
     title: 'Workshop de Pesquisa Acadêmica',
@@ -58,7 +58,7 @@
   {
     id: 'e5',
     category: 'Lançamento',
-    date: '2026-03-25',
+    date: '2026-06-13',
     startTime: '19:00',
     endTime: '20:30',
     title: 'Lançamento: Memórias de São Carlos',
@@ -72,7 +72,7 @@
   {
     id: 'e6',
     category: 'Infantil',
-    date: '2026-03-27',
+    date: '2026-06-16',
     startTime: '14:00',
     endTime: '15:30',
     title: 'Oficina de Origami para Crianças',
@@ -86,7 +86,7 @@
   {
     id: 'e7',
     category: 'Clube do Livro',
-    date: '2026-03-29',
+    date: '2026-06-18',
     startTime: '16:00',
     endTime: '17:30',
     title: 'Roda de Leitura: Poesia Brasileira',

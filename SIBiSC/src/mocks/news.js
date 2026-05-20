@@ -2,7 +2,7 @@
   {
     id: 'n1',
     category: 'Serviços',
-    date: '2026-03-15',
+    date: '2026-05-18',
     title: 'SIBiSC testa orientação digital para retirada de livros',
     sourceLabel: 'Portal Oficial da Prefeitura de São Carlos',
     sourceUrl: 'https://www.saocarlos.sp.gov.br/',
@@ -17,7 +17,7 @@
   {
     id: 'n2',
     category: 'Acervo',
-    date: '2026-03-10',
+    date: '2026-05-14',
     title: 'Biblioteca Central recebe doacao de 3.000 volumes da USP',
     sourceLabel: 'Assessoria SIBiSC',
     sourceUrl: 'https://www.saocarlos.sp.gov.br/',
@@ -32,14 +32,14 @@
   {
     id: 'n3',
     category: 'Eventos',
-    date: '2026-03-08',
-    title: 'Programacao do Dia do Livro 2026 e divulgada',
+    date: '2026-05-11',
+    title: 'Programacao cultural de junho 2026 e divulgada',
     sourceLabel: 'Agenda Cultural SIBiSC',
     sourceUrl: 'https://www.saocarlos.sp.gov.br/',
     summary:
-      'Com o tema Ler e Resistir, o SIBiSC prepara uma semana de atividades gratuitas para abril.',
+      'Com o tema Ler e Resistir, o SIBiSC prepara atividades gratuitas para junho.',
     paragraphs: [
-      'A agenda especial reunira rodas de leitura, oficinas para familias, encontros com autores e atividades voltadas a escolas publicas.',
+      'A agenda especial reunira rodas de leitura, oficinas para familias, encontros com autores e atividades voltadas a escolas publicas em junho.',
       'As unidades da rede receberao acoes descentralizadas para aproximar a programacao cultural dos bairros.',
       'A divulgação completa dos horários será feita no calendário oficial do novo web-app.',
     ],
@@ -47,7 +47,7 @@
   {
     id: 'n4',
     category: 'Inclusão',
-    date: '2026-03-03',
+    date: '2026-05-07',
     title: 'Projeto Leitura Digital capacita 200 idosos em São Carlos',
     sourceLabel: 'Parceria SESC + SIBiSC',
     sourceUrl: 'https://www.sescsp.org.br/',
