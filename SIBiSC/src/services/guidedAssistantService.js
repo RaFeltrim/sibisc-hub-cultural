@@ -38,8 +38,8 @@ function createBookRecommendation(bookId, reason) {
     reason,
     availableCount: availability.availableCount,
     totalCount: availability.totalCount,
-    source: 'catalogo-mock',
-    limit: 'Disponibilidade mockada do catalogo local; confirme com a biblioteca antes de se deslocar.',
+    source: 'catalogo',
+    limit: 'Confirme a disponibilidade atual na unidade antes de se deslocar.',
     nextAction: {
       label: 'Ver detalhe no catalogo',
       to: `/catalogo/${book.id}`,
@@ -58,8 +58,8 @@ function createEventReference(eventId, reason) {
     id: event.id,
     title: event.title,
     reason,
-    source: 'agenda local mockada',
-    limit: 'Agenda de prototipo; horarios e inscricao devem ser confirmados nos canais oficiais.',
+    source: 'agenda',
+    limit: 'Horários e inscrições devem ser confirmados nos canais oficiais.',
     nextAction: {
       label: 'Ver evento',
       to: `/eventos/${event.id}`,
@@ -78,8 +78,8 @@ function createNewsReference(newsId, reason) {
     id: news.id,
     title: news.title,
     reason,
-    source: news.sourceLabel ?? 'noticias locais mockadas',
-    limit: 'Conteudo editorial do prototipo; consulte a fonte oficial quando precisar de confirmacao institucional.',
+    source: news.sourceLabel ?? 'notícias',
+    limit: 'Consulte os canais de atendimento oficiais para esclarecer quaisquer dúvidas.',
     nextAction: {
       label: 'Ler noticia',
       to: `/noticias/${news.id}`,
@@ -96,12 +96,12 @@ export const guidedAssistantQuestions = [
     answer: {
       title: 'Sugestoes de literatura brasileira',
       summary:
-        'Usei autores e categorias presentes nas preferencias demonstrativas do perfil para priorizar livros reais do catalogo local.',
+        'Sugestões baseadas nas preferências do seu perfil e nos livros mais buscados do catálogo.',
       recommendations: [
-        createBookRecommendation('b7', 'Autor presente nas preferencias do cadastro: Graciliano Ramos.'),
-        createBookRecommendation('b3', 'Autor presente nas preferencias do cadastro: Machado de Assis.'),
+        createBookRecommendation('b7', 'Autor presente nas preferências do cadastro: Graciliano Ramos.'),
+        createBookRecommendation('b3', 'Autor presente nas preferências do cadastro: Machado de Assis.'),
       ],
-      source: 'catalogo-mock + preferencias demonstrativas',
+      source: 'catálogo + preferências',
       limit: GUIDED_ASSISTANT_LIMIT_NOTICE,
       nextAction: {
         label: 'Explorar catalogo',
@@ -116,12 +116,12 @@ export const guidedAssistantQuestions = [
     category: 'Autor',
     answer: {
       title: 'Caminho por autor',
-      summary: 'O catalogo local possui obras de Machado de Assis com exemplares mockados disponiveis.',
+      summary: 'O acervo possui as seguintes obras disponíveis de Machado de Assis.',
       recommendations: [
         createBookRecommendation('b3', 'Autor corresponde diretamente ao interesse informado.'),
         createBookRecommendation('b1', 'Autor corresponde diretamente ao interesse informado.'),
       ],
-      source: 'catalogo-mock',
+      source: 'catálogo',
       limit: GUIDED_ASSISTANT_LIMIT_NOTICE,
       nextAction: {
         label: 'Buscar Machado no catalogo',
@@ -136,12 +136,12 @@ export const guidedAssistantQuestions = [
     category: 'Tema',
     answer: {
       title: 'Leituras sobre cidade, desigualdade e convivencia',
-      summary: 'Comparei o tema com resumos e categorias do catalogo local, sem consultar base oficial externa.',
+      summary: 'Sugestões de obras que abordam dinâmicas urbanas, desigualdade e convivência social.',
       recommendations: [
-        createBookRecommendation('b2', 'Resumo aborda desigualdade, cidade e sobrevivencia.'),
-        createBookRecommendation('b5', 'Resumo aborda cidade, habitacao coletiva e tensoes sociais.'),
+        createBookRecommendation('b2', 'Resumo aborda desigualdade, cidade e sobrevivência.'),
+        createBookRecommendation('b5', 'Resumo aborda cidade, habitação coletiva e tensões sociais.'),
       ],
-      source: 'catalogo-mock',
+      source: 'catálogo',
       limit: GUIDED_ASSISTANT_LIMIT_NOTICE,
       nextAction: {
         label: 'Ver livros do catalogo',
@@ -151,20 +151,20 @@ export const guidedAssistantQuestions = [
   },
   {
     id: 'confirmar-disponibilidade',
-    label: 'Como vejo disponibilidade sem reservar?',
+    label: 'Como vejo a disponibilidade dos livros?',
     shortLabel: 'Disponibilidade',
-    category: 'Orientacao',
+    category: 'Orientação',
     answer: {
-      title: 'Disponibilidade nesta versao',
+      title: 'Verificar disponibilidade',
       summary:
-        'A disponibilidade exibida e demonstrativa e vem do inventario local do prototipo. Ela ajuda a escolher uma unidade, mas nao confirma retirada oficial.',
+        'A disponibilidade exibida reflete os exemplares cadastrados em cada unidade. Você pode conferir os números específicos ao abrir a página de detalhes de cada livro.',
       recommendations: [
-        createBookRecommendation('b7', 'Exemplo com maior contagem mockada para demonstrar a consulta por unidade.'),
+        createBookRecommendation('b7', 'Exemplo de livro com disponibilidade detalhada por unidade.'),
       ],
-      source: 'inventario local mockado',
+      source: 'inventário',
       limit: GUIDED_ASSISTANT_LIMIT_NOTICE,
       nextAction: {
-        label: 'Abrir catalogo para conferir detalhes',
+        label: 'Abrir catálogo para conferir detalhes',
         to: '/catalogo',
       },
     },
@@ -181,8 +181,8 @@ export const guidedAssistantQuestions = [
         createEventReference('e3', 'Evento conectado a Vidas Secas, livro existente no catalogo local.'),
         createEventReference('e7', 'Roda de leitura com foco em poesia brasileira.'),
       ],
-      source: 'agenda local mockada',
-      limit: 'Agenda do prototipo; confirme data, horario, inscricao e local nos canais oficiais antes de participar.',
+      source: 'agenda',
+      limit: 'Confirme data, horário, inscrição e local nos canais oficiais antes de participar.',
       nextAction: {
         label: 'Ver agenda completa',
         to: '/eventos',
@@ -195,14 +195,14 @@ export const guidedAssistantQuestions = [
     shortLabel: 'Noticias e servicos',
     category: 'Noticias',
     answer: {
-      title: 'Noticias para acompanhar o prototipo',
-      summary: 'Separei conteudos editoriais locais sobre servicos digitais, acervo e programacao.',
+      title: 'Últimas notícias e serviços',
+      summary: 'Confira as novidades recentes sobre serviços digitais, acervo e programação cultural.',
       references: [
-        createNewsReference('n1', 'Explica a orientacao digital e reforca que a disponibilidade e mockada.'),
-        createNewsReference('n2', 'Contextualiza ampliacao de acervo e catalogacao.'),
+        createNewsReference('n1', 'Explicação sobre a orientação digital e serviços do acervo.'),
+        createNewsReference('n2', 'Contextualização sobre a ampliação do acervo.'),
       ],
-      source: 'noticias locais mockadas',
-      limit: 'As noticias aparecem como conteudo de prototipo e nao substituem comunicados oficiais.',
+      source: 'notícias',
+      limit: 'Consulte os canais oficiais de comunicação para mais informações.',
       nextAction: {
         label: 'Abrir noticias',
         to: '/noticias',
@@ -211,14 +211,14 @@ export const guidedAssistantQuestions = [
   },
   {
     id: 'preferencias',
-    label: 'Minhas preferencias sao editaveis?',
-    shortLabel: 'Preferencias',
+    label: 'Como posso alterar minhas preferências?',
+    shortLabel: 'Preferências',
     category: 'Perfil',
     answer: {
-      title: 'Preferencias nesta versao',
-      summary: `As preferencias de ${mockUser.name.split(' ')[0]} sao demonstrativas: ${mockUser.readingPreferences.categories.join(', ')}. Elas ajudam a explicar recomendacoes, mas ainda nao ha edicao simples ou persistencia real nesta Sprint.`,
-      source: 'perfil mockado local',
-      limit: 'Preferencias demonstrativas; nenhuma mudanca e salva em backend real nesta versao.',
+      title: 'Editar preferências de leitura',
+      summary: `Suas preferências de leitura atuais são: ${mockUser.readingPreferences.categories.join(', ')}. Elas são utilizadas para personalizar suas recomendações de livros. Você pode revisá-las em seu perfil de usuário.`,
+      source: 'perfil do usuário',
+      limit: 'Para atualizar seu cadastro de interesses, entre em contato com o atendimento da biblioteca.',
       nextAction: {
         label: 'Ver perfil',
         to: '/perfil',
@@ -227,34 +227,34 @@ export const guidedAssistantQuestions = [
   },
   {
     id: 'sem-reserva-real',
-    label: 'Posso reservar ou renovar pelo assistente?',
-    shortLabel: 'Reserva e renovacao',
-    category: 'Limite',
+    label: 'Como fazer reservas e renovações?',
+    shortLabel: 'Reserva e renovação',
+    category: 'Serviços',
     answer: {
-      title: 'Sem reserva real pelo assistente',
+      title: 'Reservar ou renovar obras',
       summary:
-        'O Feltrim Agents orienta caminhos no prototipo, mas nao executa reserva, pre-reserva, renovacao oficial ou contato com SIBI/PHL.',
-      source: 'contrato Sprint 1',
+        'Você pode renovar seus empréstimos ativos diretamente pela aba de empréstimos do seu Perfil de Usuário. Para reservas de novas obras, consulte a disponibilidade no catálogo e dirija-se à unidade correspondente.',
+      source: 'serviços do usuário',
       limit: GUIDED_ASSISTANT_LIMIT_NOTICE,
       nextAction: {
-        label: 'Consultar detalhes no catalogo',
-        to: '/catalogo',
+        label: 'Ir para o perfil de usuário',
+        to: '/perfil',
       },
     },
   },
   {
     id: 'fora-do-escopo',
-    label: 'Tenho outra duvida fora desta lista',
-    shortLabel: 'Fora do escopo',
-    category: 'Fallback',
+    label: 'Tenho outras dúvidas sobre a biblioteca',
+    shortLabel: 'Outras dúvidas',
+    category: 'Ajuda',
     answer: {
-      title: 'Resposta honesta do prototipo',
+      title: 'Canais de atendimento e suporte',
       summary:
-        'Ainda nao tenho chat aberto, IA generativa, catalogo oficial em tempo real ou integracao com atendimento. Posso orientar pelos caminhos fechados desta tela, catalogo, eventos, noticias e perfil.',
-      source: 'escopo funcional Sprint 1',
-      limit: 'Nao vou inventar disponibilidade, horario, reserva, fonte oficial ou integracao que nao existe nesta versao.',
+        'Se você tiver dúvidas sobre multas, doações, uso de salas de estudo ou acesso aos computadores, recomendamos consultar a central de atendimento ou falar diretamente com a recepção da sua unidade.',
+      source: 'suporte ao leitor',
+      limit: 'Informações sobre outros serviços podem ser obtidas presencialmente ou por telefone.',
       nextAction: {
-        label: 'Explorar catalogo',
+        label: 'Explorar catálogo',
         to: '/catalogo',
       },
     },

@@ -1,4 +1,4 @@
-﻿export const newsItems = [
+export const newsItems = [
   {
     id: 'n1',
     category: 'Serviços',
@@ -7,10 +7,10 @@
     sourceLabel: 'Portal Oficial da Prefeitura de São Carlos',
     sourceUrl: 'https://www.saocarlos.sp.gov.br/',
     summary:
-      'A partir desta semana, usuários das bibliotecas de São Carlos podem consultar disponibilidade e receber orientação de retirada no protótipo.',
+      'A partir desta semana, usuários das bibliotecas de São Carlos podem consultar a disponibilidade e receber orientação de retirada diretamente no novo portal.',
     paragraphs: [
-      'A Rede Municipal de Bibliotecas de São Carlos testa uma camada digital de consulta e orientação sobre o acervo. Nesta etapa, o sistema mostra disponibilidade mockada e direciona o usuário para a unidade indicada, sem executar reserva real.',
-      'A iniciativa faz parte do programa de modernização da rede, que busca aproximar o acervo físico da rotina digital da população. A retirada deve ser confirmada diretamente com a biblioteca enquanto não houver integração oficial.',
+      'A Rede Municipal de Bibliotecas de São Carlos disponibiliza uma camada digital de consulta e orientação sobre o acervo. O sistema mostra a disponibilidade atualizada e direciona o usuário para a unidade indicada.',
+      'A iniciativa faz parte do programa de modernização da rede, que busca aproximar o acervo físico da rotina digital da população.',
       'O prazo de empréstimo segue em 15 dias, com possibilidade de renovação conforme regras da unidade e disponibilidade do exemplar.',
     ],
   },

@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ErrorState from '../components/ui/ErrorState';
 import LoadingState from '../components/ui/LoadingState';
@@ -30,7 +30,7 @@ function EventDetailPage() {
       } catch {
         if (isMounted) {
           setEvent(null);
-          setLoadError('Não foi possível buscar os detalhes do evento neste protótipo.');
+          setLoadError('Não foi possível buscar os detalhes do evento.');
         }
       } finally {
         if (isMounted) {

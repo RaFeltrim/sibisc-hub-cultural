@@ -42,7 +42,7 @@ function HomePageMobile() {
         setBooks(bookItems.slice(0, 4));
       } catch {
         if (isMounted) {
-          setLoadError('Não foi possível montar a Home mobile do protótipo agora. Tente recarregar a página.');
+          setLoadError('Não foi possível montar a Home no momento. Tente recarregar a página.');
         }
       } finally {
         if (isMounted) {
@@ -69,15 +69,15 @@ function HomePageMobile() {
   return (
     <div className={styles.container}>
       <section className={styles.quickActions}>
-        <Link to="/catalogo" className={styles.actionCard}>
+        <Link to="/catalogo" className={styles.actionCard} viewTransition>
           <span className={styles.actionIcon} aria-hidden="true">CAT</span>
           <span className={styles.actionLabel}>Catálogo</span>
         </Link>
-        <Link to="/eventos" className={styles.actionCard}>
+        <Link to="/eventos" className={styles.actionCard} viewTransition>
           <span className={styles.actionIcon} aria-hidden="true">AGE</span>
           <span className={styles.actionLabel}>Agenda</span>
         </Link>
-        <Link to="/noticias" className={styles.actionCard}>
+        <Link to="/noticias" className={styles.actionCard} viewTransition>
           <span className={styles.actionIcon} aria-hidden="true">NOT</span>
           <span className={styles.actionLabel}>Notícias</span>
         </Link>

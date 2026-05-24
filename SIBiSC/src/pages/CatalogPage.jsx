@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import BookCard from '../components/cards/BookCard';
 import EmptyState from '../components/ui/EmptyState';
 import ErrorState from '../components/ui/ErrorState';
@@ -65,7 +65,7 @@ function CatalogPage() {
         setSearchStatus('Catálogo completo carregado. Digite um termo para refinar por título, autor ou ISBN.');
       } catch {
         setBooks([]);
-        setLoadError('Não foi possível recarregar o catálogo completo neste protótipo.');
+        setLoadError('Não foi possível recarregar o catálogo completo.');
       } finally {
         setLoading(false);
       }
@@ -96,17 +96,9 @@ function CatalogPage() {
       <SectionHeader
         eyebrow="Acervo"
         title="Catálogo"
-        description="Busque livros por título, autor ou ISBN e veja uma prévia demonstrativa de unidades."
+        description="Busque livros por título, autor ou ISBN e veja a disponibilidade nas unidades."
         headingLevel={1}
       />
-
-      <aside className={styles.mockNotice} aria-label="Aviso sobre disponibilidade demonstrativa">
-        <strong>Disponibilidade mockada</strong>
-        <p>
-          Os números de exemplares e unidades são dados locais do protótipo. Confirme estoque,
-          retirada e regras oficiais diretamente com a biblioteca antes de se deslocar.
-        </p>
-      </aside>
 
       <SearchField
         label="Buscar no catálogo"

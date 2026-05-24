@@ -207,7 +207,7 @@ function FeltrimAgentsFAB() {
           </div>
 
           <p className={styles.panelSubtitle}>
-            Assistente guiado em protótipo — dados locais do catálogo, eventos e perfil.
+            Assistente guiado — dados do catálogo, eventos e perfil do leitor.
           </p>
 
           <SearchField
@@ -248,7 +248,7 @@ function FeltrimAgentsFAB() {
             <>
               <div
                 className={styles.guideList}
-                aria-label="Perguntas que o Feltrim Agents orienta nesta versão"
+                aria-label="Tópicos de orientação rápida"
               >
                 <strong className={styles.guideListLabel}>Perguntas guiadas</strong>
                 <div className={styles.guideButtons}>
@@ -314,8 +314,6 @@ function FeltrimAgentsFAB() {
                     ))}
                   </div>
                 ) : null}
-
-                <p className={styles.limitNotice}>{GUIDED_ASSISTANT_LIMIT_NOTICE}</p>
 
                 <Link
                   className={styles.answerAction}

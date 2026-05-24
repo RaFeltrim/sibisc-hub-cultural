@@ -51,6 +51,7 @@ function AppLayout() {
               <NavLink
                 key={item.to}
                 to={item.to}
+                viewTransition
                 className={({ isActive }) =>
                   isActive ? `${styles.navLink} ${styles.navLinkActive}` : styles.navLink
                 }
@@ -62,7 +63,7 @@ function AppLayout() {
 
           <div className={styles.headerActions}>
             <span className={styles.statusPill}>São Carlos / SP</span>
-            <NavLink className={styles.ctaLink} to="/catalogo">
+            <NavLink className={styles.ctaLink} to="/catalogo" viewTransition>
               Consultar acervo
             </NavLink>
           </div>

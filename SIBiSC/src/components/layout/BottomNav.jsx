@@ -72,6 +72,7 @@ function BottomNav() {
         <NavLink
           key={item.to}
           to={item.to}
+          viewTransition
           data-testid={item.testId}
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.linkActive}` : styles.link

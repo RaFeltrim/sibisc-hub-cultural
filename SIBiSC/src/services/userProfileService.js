@@ -89,7 +89,7 @@ const getRecommendationReason = (book, preferences) => {
     return `Categoria alinhada ao perfil de leitura: ${book.category}.`;
   }
 
-  return 'Disponível no acervo mockado e próximo aos interesses informados.';
+  return 'Disponível no acervo e próximo aos interesses informados.';
 };
 
 /**
@@ -272,7 +272,7 @@ export const getReaderJourney = async () => {
       {
         id: 'trilha-literatura-brasileira',
         title: 'Trilha de literatura brasileira',
-        description: 'Valoriza autores e categorias ja presentes nas preferencias demonstrativas do perfil.',
+        description: 'Valoriza autores e categorias já presentes nas preferências do perfil.',
         progress: brazilianLiteratureCount,
         target: 5,
         progressPercent: getProgress(brazilianLiteratureCount, 5),

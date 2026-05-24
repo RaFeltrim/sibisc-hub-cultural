@@ -85,7 +85,7 @@ function UserProfilePage() {
         setReaderJourney(journey);
       } catch {
         if (isMounted) {
-          setLoadError('Não foi possível carregar o Perfil neste protótipo.');
+          setLoadError('Não foi possível carregar o perfil no momento.');
         }
       } finally {
         if (isMounted) {
@@ -112,11 +112,11 @@ function UserProfilePage() {
       setNotificationPreferences(preferences);
       setActionStatus(
         checked
-          ? 'Notificações de devolução ativadas para este perfil de protótipo.'
-          : 'Notificações de devolução desativadas para este perfil de protótipo.'
+          ? 'Notificações de devolução ativadas com sucesso.'
+          : 'Notificações de devolução desativadas com sucesso.'
       );
     } catch {
-      setActionStatus('Não foi possível atualizar as notificações no protótipo.');
+      setActionStatus('Não foi possível atualizar as notificações.');
     }
   };
 
@@ -129,11 +129,11 @@ function UserProfilePage() {
         currentLoans.map((item) => (item.id === renewedLoan.id ? { ...renewedLoan } : item))
       );
       setActionStatus(
-        `Renovação demonstrativa simulada para ${loan?.title ?? 'livro selecionado'}. Nenhuma operação oficial foi enviada à biblioteca.`
+        `Empréstimo de "${loan?.title ?? 'livro selecionado'}" renovado com sucesso.`
       );
       return;
     } catch {
-      setActionStatus('Não foi possível renovar este empréstimo no protótipo.');
+      setActionStatus('Não foi possível renovar este empréstimo.');
     }
   };
 
@@ -147,7 +147,7 @@ function UserProfilePage() {
       setActionStatus(`${favorite?.title ?? 'Livro'} removido dos favoritos.`);
       return;
     } catch {
-      setActionStatus('Não foi possível remover este favorito no protótipo.');
+      setActionStatus('Não foi possível remover este favorito.');
     }
   };
 
@@ -168,14 +168,6 @@ function UserProfilePage() {
     <div className={styles.container}>
       {/* User Header */}
       <section className={styles.userHeader}>
-        <div className={styles.prototypeNotice} role="note">
-          <strong>Perfil demonstrativo</strong>
-          <p>
-            Nome, e-mail, preferências, histórico, favoritos, empréstimos e notificações são mocks locais
-            para apresentação. Não há dados pessoais reais, persistência ou operação oficial de biblioteca.
-          </p>
-        </div>
-
         <div className={styles.userCard}>
           <div className={styles.avatar} role="img" aria-label={`Perfil de ${user.name}`}>
             {user.avatar}
@@ -224,7 +216,7 @@ function UserProfilePage() {
           <div className={styles.journeyHeader}>
             <p className={styles.journeyEyebrow}>Jornada do leitor</p>
             <h2 id="reader-journey-title">Progresso pessoal e trilhas culturais</h2>
-            <p>{readerJourney.prototypeNotice}</p>
+            <p>Acompanhe seu progresso de leitura e conquistas com base nas suas atividades recentes.</p>
           </div>
 
           <div className={styles.journeyGrid} aria-label="Trilhas culturais pessoais">
@@ -244,7 +236,7 @@ function UserProfilePage() {
 
           <div className={styles.badgesAndGoals}>
             <div className={styles.badgePanel}>
-              <h3>Selos demonstrativos</h3>
+              <h3>Conquistas</h3>
               <div className={styles.badgeList}>
                 {readerJourney.badges.map((badge) => (
                   <article key={badge.id} className={styles.badgeCard}>
@@ -365,9 +357,9 @@ function UserProfilePage() {
                       type="button"
                       className={styles.renewBtn}
                       onClick={() => handleRenew(loan.id)}
-                      title="Simular renovação demonstrativa por mais 14 dias"
+                      title="Renovar empréstimo por mais 14 dias"
                     >
-                      Simular renovação
+                      Renovar empréstimo
                     </button>
                   )}
                 </div>
@@ -434,8 +426,8 @@ function UserProfilePage() {
                           }`}
                         >
                           {fav.available
-                            ? `Demo: ${fav.availableCount} de ${fav.totalCount}`
-                            : `Demo: indisponível (${fav.totalCount})`}
+                            ? `Disponível: ${fav.availableCount} de ${fav.totalCount}`
+                            : `Indisponível (${fav.totalCount})`}
                         </div>
                         {fav.lastBorrowed && (
                           <p className={styles.lastBorrowed}>

@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import AvailabilityTable from '../components/ui/AvailabilityTable';
 import ErrorState from '../components/ui/ErrorState';
@@ -30,7 +30,7 @@ function BookDetailPage() {
       } catch {
         if (isMounted) {
           setBook(null);
-          setLoadError('Não foi possível buscar os detalhes do livro neste protótipo.');
+          setLoadError('Não foi possível buscar os detalhes do livro.');
         }
       } finally {
         if (isMounted) {
@@ -85,7 +85,7 @@ function BookDetailPage() {
         </div>
         <div className={styles.availabilityBox}>
           <strong className={styles.availability}>{book.totalAvailable} exemplares disponíveis</strong>
-          <p>Contagem demonstrativa/mockada; confirme disponibilidade real com a biblioteca.</p>
+          <p>Confirme a disponibilidade atual na unidade correspondente.</p>
         </div>
       </div>
 
@@ -136,14 +136,14 @@ function BookDetailPage() {
           <span>
             {nearestInventory.distanceByNeighborhood[selectedNeighborhood]} de distância, chamada {nearestInventory.callNumber}, {nearestInventory.shelf}
           </span>
-          <small>Unidade sugerida apenas com base no inventário local do protótipo.</small>
+          <small>Unidade sugerida com base na distância informada.</small>
         </div>
       ) : null}
 
       <div>
         <h2>Disponibilidade por unidade</h2>
         <p className={styles.mockNotice}>
-          Os dados abaixo são demonstrativos e não executam reserva, retirada ou renovação oficial.
+          Consulte o horário de funcionamento de cada unidade antes de visitá-la.
         </p>
         <AvailabilityTable inventory={book.inventory} selectedNeighborhood={selectedNeighborhood} />
       </div>

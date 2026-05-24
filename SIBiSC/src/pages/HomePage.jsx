@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewsCard from '../components/cards/NewsCard';
 import EventCard from '../components/cards/EventCard';
 import SectionHeader from '../components/ui/SectionHeader';
@@ -36,7 +36,7 @@ function HomePage() {
         setEvents(eventItems.slice(0, 3));
       } catch {
         if (isMounted) {
-          setLoadError('Não foi possível montar a Home do protótipo agora. Tente recarregar a página.');
+          setLoadError('Não foi possível montar a Home no momento. Tente recarregar a página.');
         }
       } finally {
         if (isMounted) {

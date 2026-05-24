@@ -1,4 +1,4 @@
-﻿import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './SectionHeader.module.css';
 
 function SectionHeader({ eyebrow, title, description, linkTo, linkLabel, headingLevel = 2 }) {
@@ -12,7 +12,7 @@ function SectionHeader({ eyebrow, title, description, linkTo, linkLabel, heading
         {description ? <p>{description}</p> : null}
       </div>
       {linkTo && linkLabel ? (
-        <Link className={styles.link} to={linkTo}>
+        <Link className={styles.link} to={linkTo} viewTransition>
           {linkLabel}
         </Link>
       ) : null}
