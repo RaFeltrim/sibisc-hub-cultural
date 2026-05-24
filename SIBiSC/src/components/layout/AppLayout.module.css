@@ -224,8 +224,8 @@
 
 .footer {
   width: min(100%, var(--content-width));
-  margin: var(--space-2xl) auto calc(5rem + env(safe-area-inset-bottom));
-  padding: 0 var(--space-md);
+  margin: var(--space-2xl) auto 0;
+  padding: 0 var(--space-md) var(--space-xl);
 }
 
 .footerIntro {
@@ -324,12 +324,13 @@
   }
 
   .main {
-    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+    padding-bottom: 0;
   }
 
   .footer {
     margin-top: var(--space-xl);
-    margin-bottom: calc(4.8rem + env(safe-area-inset-bottom));
+    margin-bottom: 0;
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
   }
 }
 

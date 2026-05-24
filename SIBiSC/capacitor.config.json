@@ -1,0 +1,18 @@
+{
+  "appId": "com.sibisc.app",
+  "appName": "SIBiSC",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "allowNavigation": [
+      "*.supabase.co"
+    ]
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "always"
+  }
+}
