@@ -28,23 +28,22 @@ O quality gate local executou com sucesso:
 > sibisc@1.0.0 qa:repo
 > node ./scripts/qa-guard.mjs
 
-QA repository guard passou: estrutura minima, docs e rotas criticas estao consistentes.
+QA repository guard passou: estrutura minima, docs, rotas criticas e IDs canonicos estao consistentes.
 
 > sibisc@1.0.0 build
 > vite build
 
 vite v8.0.0 building client environment for production...
-transforming...OK 81 modules transformed.
+transforming...✓ 128 modules transformed.
 rendering chunks...
 computing gzip size...
-dist/index.html                   0.65 kB │ gzip:  0.40 kB
-dist/assets/index-DJSQs74D.css   31.10 kB │ gzip:  6.63 kB
-dist/assets/index-B8ii5_kB.js   281.99 kB │ gzip: 87.30 kB
+dist/index.html                   1.00 kB │ gzip:   0.59 kB
+dist/assets/index-AvKy8C8D.css   46.31 kB │ gzip:   9.07 kB
+dist/assets/index-DygO8pw-.js   483.11 kB │ gzip: 140.00 kB
 
-OK built in 348ms
+✓ built in 371ms
 ```
 
 ## Conclusao
 
-O projeto SIBiSC esta com a estrutura minima, documentos e rotas criticas consistentes, e o build de produção foi gerado com sucesso.
-
+O projeto SIBiSC esta com a estrutura minima, documentos, rotas criticas e IDs canonicos consistentes, e o build de produção foi gerado com sucesso.

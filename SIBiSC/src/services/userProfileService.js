@@ -9,6 +9,7 @@ import {
   daysUntilDue,
 } from '../mocks/userProfile.js';
 import { bookItems } from '../mocks/books.js';
+import { supabase, isSupabaseConfigured } from '../lib/supabaseClient.js';
 
 // Delay simulado para API (ms)
 const MOCK_API_DELAY = 300;
@@ -98,6 +99,32 @@ const getRecommendationReason = (book, preferences) => {
  */
 export const getUserProfile = async () => {
   await delay(MOCK_API_DELAY);
+  if (isSupabaseConfigured) {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+        if (!error && data) {
+          return {
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            unit: data.unit,
+            joinDate: data.join_date,
+            avatar: data.avatar,
+            readingPreferences: data.reading_preferences,
+            isVerified: true,
+          };
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
   return {
     ...cloneUserProfile(),
     lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 horas atrás

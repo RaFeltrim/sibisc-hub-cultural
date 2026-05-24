@@ -325,8 +325,8 @@ A conexão segura e condicional com o Supabase é implementada no arquivo [supab
 ```javascript
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Determina dinamicamente se o backend real está configurado
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseKey);
