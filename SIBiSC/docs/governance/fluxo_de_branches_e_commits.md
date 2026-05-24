@@ -1,161 +1,109 @@
-﻿# Fluxo de Branches e Commits
+# Diretrizes de Governança: Fluxo de Branches e Commits
 
-## Objetivo
+Este documento define os padrões organizacionais e técnicos para a gestão de branches, versionamento de código e fluxo de integração contínua na Rede Municipal de Bibliotecas de São Carlos (**SIBiSC**).
 
-Garantir que o time trabalhe com autonomia sem baguncar a integracao do projeto.
+---
 
-## Regra Central
+## 1. Regra Central de Contribuição
 
-Ninguem desenvolve direto na `main`, `dev`, `test`, `hom` ou `prd`.
+> [!IMPORTANT]
+> **Nenhum desenvolvedor realiza commits diretamente nas branches de ambiente (`main`, `dev`, `test`, `hom`, `prd`).**
+> Todo código novo deve ser originado em uma branch de trabalho secundária (`feat/*`, `fix/*`, etc.) a partir da branch `dev`, e integrado exclusivamente por meio de Pull Requests aprovados.
 
-Cada entrega do Jira deve nascer em uma branch propria a partir de `dev`, com commits pequenos e ordenados.
+---
 
-Toda alteracao funcional relevante deve ser seguida por commit proprio.
+## 2. Topologia das Branches de Ambiente
 
-## Ambientes (novo — 2026-04-03)
+O projeto SIBiSC é estruturado em **5 branches de ambiente permanentes e protegidas**, mapeando o ciclo de entrega de software de ponta a ponta:
 
-O projeto agora opera com 4 ambientes em branches protegidas:
-
-```text
-feat/* → dev → test → hom → prd → main (sync)
+```mermaid
+graph LR
+    feat[feat/*] -->|PR| dev(dev)
+    dev -->|Merge / Sync| test(test)
+    test -->|Merge / Sync| hom(hom)
+    hom -->|Merge / Sync| prd(prd)
+    prd -->|Fast-Forward| main(main)
 ```
 
-- `dev`: integracao de features. Alunos fazem PR para ca.
-- `test`: QA valida. Merges feitos por TL ou Rafael.
-- `hom`: Rafael e stakeholders validam antes de producao.
-- `prd`: versao entregavel. So Rafael aprova.
-- `main`: espelho de prd para onboarding.
+| Branch | Escopo e Responsabilidade | Permissões de Integração |
+| :--- | :--- | :--- |
+| **`dev`** | **Integração de Features:** Ambiente de desenvolvimento onde todas as novas funcionalidades são unificadas. | Aberto a Pull Requests (PR) de todos os desenvolvedores. |
+| **`test`** | **Validação de QA (Testes):** Branch em que a equipe de QA realiza testes exploratórios, testes funcionais e auditorias. | Apenas Tech Lead (TL) ou QA Lead integram após validação primária. |
+| **`hom`** | **Homologação e Staging:** Branch que serve de espelho para testes de aceitação do usuário final e homologação da disciplina. | Restrito a aprovação do QA Lead / Rafael. |
+| **`prd`** | **Versão de Produção Habilitada:** Branch que hospeda o código pronto e empacotado para o deploy de produção do MVP. | Exclusivo para liberação de Releases controladas. |
+| **`main`** | **Espelho de Integração Inicial:** Branch principal do repositório, mantida em sincronia estável com a `prd` para onboarding rápido. | Sincronia automatizada via pipeline de CI. |
 
-Ver detalhes completos em `fluxo_de_ambientes.md`.
+---
 
-## Regra por Card
+## 3. Padrão de Nomenclatura para Branches de Trabalho
 
-### Epicos
-
-- epicos organizam o trabalho
-- epicos nao devem virar branch de desenvolvimento
-
-### User Stories
-
-- USs orientam o escopo
-- em geral, a branch deve nascer da `task` ou `subtask`, nao da US inteira
-
-### Tasks e Subtasks
-
-- cada `task` ou `subtask` deve ter branch propria
-- se uma `task` for muito grande, quebrar em `subtasks` antes de codar
-
-## Nomenclatura de Branch
-
-Padrao:
+Todas as branches temporárias criadas para atuar em cards do Jira devem seguir rigorosamente o padrão:
 
 ```text
-tipo/identificador-descricao-curta
+<tipo>/<ID-Jira>-<breve-descricao-hifenizada>
 ```
 
-Exemplos:
+### Tipos Válidos (`<tipo>`)
+* **`feat/`**: Para novas funcionalidades ou melhorias de escopo.
+* **`fix/`**: Para correção de bugs e problemas de layout.
+* **`docs/`**: Para alterações exclusivas em documentações técnica ou de processo.
+* **`chore/`**: Para atualizações de dependências, configurações ou scripts de infraestrutura.
+* **`test/`**: Para criação ou modificação exclusiva de arquivos de testes.
+* **`release/`**: Para preparação final de versão e builds nativos do Capacitor.
 
-- `feat/US-NOT-001-t-not-001-news-list`
-- `feat/T-EVT-003-event-detail`
-- `fix/T-ACV-003-geofallback`
-- `docs/T-QA-001-validation-rules`
-- `chore/T-BASE-001-front-setup`
+### Exemplos Práticos
+* `feat/US-ACV-003-identificar-unidade-mais-proxima`
+* `fix/T-BASE-004-correcao-footer-cutoff`
+* `docs/T-QA-004-atualizar-relatorio-final`
+* `chore/T-BASE-002-configurar-dependencias-capacitor`
 
-## Ordem de Trabalho Recomendada
+---
 
-1. atualizar `main`
-2. criar branch do card
-3. registrar contrato ou decisao necessaria
-4. implementar em pequenos blocos
-5. validar localmente
-6. atualizar documentacao
-7. abrir PR
+## 4. Padrão de Commits (Conventional Commits)
 
-## Ordem Recomendada dos Commits
-
-### P0
-
-- quebra de build
-- quebra de rota principal
-- seguranca
-- arquivos de pipeline
-
-Esses commits entram primeiro.
-
-### P1
-
-- implementacao principal da `task`
-- integracao entre componentes
-- correcao que bloqueia a sprint
-
-### P2
-
-- melhorias de UX
-- organizacao de codigo
-- estados complementares
-
-### P3
-
-- polish visual
-- texto
-- pequenos refinamentos nao bloqueantes
-
-## Tipos de Commit
-
-Use sempre:
-
-- `feat`
-- `fix`
-- `docs`
-- `chore`
-- `test`
-
-Padrao:
+Os commits devem ser atômicos, representando uma única unidade de progresso lógico, e estruturados conforme o padrão:
 
 ```text
-tipo(escopo): resumo curto
+tipo(escopo): resumo conciso em português ou inglês
 ```
 
-Exemplos:
+### Exemplos Recomendados
+* `feat(catalog): add nearest unit distance calculation`
+* `fix(layout): adjust mobile footer safe-area padding`
+* `docs(governance): restructure branch workflow guides`
+* `chore(deps): update capacitor android core dependencies`
 
-- `docs(news): register accepted contract for news card`
-- `chore(front): add route scaffold for catalog`
-- `feat(events): add grouped events page`
-- `fix(book-detail): correct nearest unit summary`
-- `test(qa): add repository guard for ci`
+### Ritmo de Commits
+* **Comite Cedo, Comite Sempre:** Não acumule um dia inteiro de modificações em um único commit gigante.
+* **Foco Atômico:** Evite misturar alterações de estilos de tela com ajustes de arquivos de pipeline no mesmo commit.
 
-## Ritmo de Commit
+---
 
-- commitar ao fechar uma unidade real de progresso
-- ao terminar uma funcionalidade, correcao ou ajuste tecnico relevante, commitar imediatamente
-- nao esperar o fim do dia para criar um commit gigante
-- nao misturar ajuste de pipeline com feature de tela no mesmo commit
+## 5. Fluxo de Trabalho Passo a Passo (Do Início ao PR)
 
-## O Que Conta Como Unidade Real de Progresso
+Para contribuir de maneira organizada, siga o fluxo de etapas:
 
-Exemplos de momentos em que o commit deve acontecer:
-
-- terminou uma tela navegavel
-- terminou um componente reutilizavel
-- fechou uma correcao de bug
-- concluiu uma integracao entre modulos
-- terminou uma mudanca de contrato em `service`
-- ajustou pipeline, script de QA ou regra de repositorio
-
-Se a mudanca ja consegue ser descrita com clareza em uma mensagem de commit, ela ja deve ser commitada.
-
-## O Que Nunca Fazer
-
-- commit direto na `main`
-- branch com varios cards sem relacao
-- commit com mensagem vaga como `ajustes`, `mudancas`, `update`
-- PR sem documentacao e sem validacao local
-- passar horas acumulando varias alteracoes funcionais sem commit
-
-## Checklist Antes do PR
-
-- branch esta ligada a um card real
-- documentacao minima foi atualizada
-- `cd SIBiSC && npm run qa:ci` passou
-- impacto em outras pecas foi revisado
-- QA e TL conseguem entender o contexto sem reuniao adicional
+1. **Atualize a base local:**
+   ```bash
+   git checkout dev
+   git pull origin dev
+   ```
+2. **Crie a branch do card correspondente:**
+   ```bash
+   git checkout -b feat/T-XXX-nome-da-sua-tarefa
+   ```
+3. **Desenvolva e realize commits atômicos:**
+   Realize commits explicativos conforme as entregas locais forem refinadas.
+4. **Valide localmente antes de subir:**
+   ```bash
+   cd SIBiSC
+   npm run qa:ci
+   ```
+5. **Envie a branch para o remoto:**
+   ```bash
+   git push origin feat/T-XXX-nome-da-sua-tarefa
+   ```
+6. **Abra o Pull Request para `dev`:**
+   * Preencha o template de Pull Request (`PULL_REQUEST_TEMPLATE.md`).
+   * Adicione o card do Jira relacionado.
+   * Aguarde a aprovação do revisor e o sucesso das validações do pipeline de CI.
