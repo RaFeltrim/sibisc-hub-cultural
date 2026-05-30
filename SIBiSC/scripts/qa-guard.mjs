@@ -421,12 +421,17 @@ if (!feedbackFABContent.includes('SOFIA_CLAUDIA_FEEDBACK_ISSUE_URL')) {
 }
 
 const homePageMobileContent = readProjectFile('src/pages/HomePageMobile.jsx');
+const homePageMobileRedirectsHome =
+  homePageMobileContent.includes('Navigate') &&
+  (homePageMobileContent.includes('to="/"') || homePageMobileContent.includes("to='/'"));
 
 if (!homePageContent.includes('FeedbackFAB')) {
   failures.push('HomePage.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
 }
-if (!homePageMobileContent.includes('FeedbackFAB')) {
-  failures.push('HomePageMobile.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues');
+if (!homePageMobileContent.includes('FeedbackFAB') && !homePageMobileRedirectsHome) {
+  failures.push(
+    'HomePageMobile.jsx deve expor CTA de feedback Sofia/Claudia via GitHub Issues ou redirecionar para /'
+  );
 }
 
 if (!profilePageContent.includes('getReaderJourney') || !profilePageContent.includes('readerJourney')) {

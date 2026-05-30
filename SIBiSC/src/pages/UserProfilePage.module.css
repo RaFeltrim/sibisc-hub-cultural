@@ -12,7 +12,6 @@
   padding: var(--space-md);
   background: linear-gradient(135deg, rgba(197, 95, 52, 0.1), rgba(16, 37, 63, 0.08));
   border-radius: var(--radius-lg);
-  margin-top: var(--space-sm);
 }
 
 .prototypeNotice {
