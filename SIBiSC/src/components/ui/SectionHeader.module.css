@@ -29,6 +29,16 @@
   max-width: 40rem;
 }
 
+.descriptionDesktopOnly {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .descriptionDesktopOnly {
+    display: block;
+  }
+}
+
 .link {
   display: inline-flex;
   align-items: center;

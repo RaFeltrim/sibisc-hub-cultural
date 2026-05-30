@@ -35,13 +35,17 @@ function AppLayout() {
           <span>horários, agenda e acervo em uma experiência única</span>
         </div>
 
+        <p className={styles.toplineCompact}>Rede municipal · São Carlos/SP</p>
+
         <div className={styles.headerInner}>
           <div className={styles.brandWrap}>
             <NavLink to="/" className={styles.brandLink}>
               <span className={styles.brandBadge}>SB</span>
               <div className={styles.brandCopy}>
                 <strong>SIBiSC</strong>
-                <span>Notícias, eventos e catálogo da cidade</span>
+                <span className={styles.brandSubtitle}>
+                  Notícias, eventos e catálogo da cidade
+                </span>
               </div>
             </NavLink>
           </div>
@@ -67,10 +71,15 @@ function AppLayout() {
               Consultar acervo
             </NavLink>
           </div>
+
+          <div className={styles.mobileHeaderActions}>
+            <span className={styles.mobileStatusPill}>São Carlos / SP</span>
+            <NavLink className={styles.mobileCtaLink} to="/catalogo" viewTransition>
+              Consultar acervo
+            </NavLink>
+          </div>
         </div>
       </header>
-
-      <BottomNav />
 
       <aside className={styles.ribbon} aria-label="Resumo da rede SIBiSC">
         <div className={styles.ribbonInner}>
@@ -79,6 +88,8 @@ function AppLayout() {
           ))}
         </div>
       </aside>
+
+      <BottomNav />
 
       <main id="conteudo-principal" className={styles.main} tabIndex={-1}>
         <Outlet />
