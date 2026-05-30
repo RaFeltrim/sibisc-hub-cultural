@@ -12,12 +12,13 @@ function SearchField({
   buttonLabel = 'Buscar',
   statusMessage,
   statusTestId,
+  compact = false,
 }) {
   const statusId = useId();
 
   return (
     <form
-      className={styles.form}
+      className={`${styles.form}${compact ? ` ${styles.formCompact}` : ''}`}
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit?.();
