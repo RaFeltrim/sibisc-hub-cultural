@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { searchBooks } from '../../services/catalogService';
 import { getRecommendations, getUserProfile } from '../../services/userProfileService';
 import {
-  GUIDED_ASSISTANT_LIMIT_NOTICE,
   getGuidedAssistantQuestion,
   guidedAssistantQuestions,
 } from '../../services/guidedAssistantService';
@@ -169,19 +169,36 @@ function FeltrimAgentsFAB() {
 
   return (
     <div className={`${styles.root}${isOpen ? ` ${styles.rootOpen}` : ''}`}>
-      {isOpen && (
-        <div
-          ref={panelRef}
-          id="fab-agents-panel"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="fab-agents-title"
-          className={styles.panel}
-        >
-          <div className={styles.panelHeader}>
-            <p id="fab-agents-title" className={styles.panelTitle}>
-              Feltrim Agents
-            </p>
+      {isOpen &&
+        createPortal(
+          <div className={styles.panelAnchor}>
+            <div
+              ref={panelRef}
+              id="fab-agents-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="fab-agents-title"
+              className={styles.panel}
+            >
+          <header className={styles.panelTop}>
+            <div className={styles.panelBrand}>
+              <span className={styles.panelIcon} aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" focusable="false">
+                  <path
+                    d="M10 1L11.85 7.15H18L13 11.1L14.85 17.25L10 13.3L5.15 17.25L7 11.1L2 7.15H8.15L10 1Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <div className={styles.panelHeading}>
+                <p id="fab-agents-title" className={styles.panelTitle}>
+                  Feltrim Agents
+                </p>
+                <p className={styles.panelSubtitle}>
+                  Assistente guiado — catálogo, eventos e perfil do leitor.
+                </p>
+              </div>
+            </div>
             <button
               ref={closeBtnRef}
               type="button"
@@ -204,26 +221,24 @@ function FeltrimAgentsFAB() {
                 />
               </svg>
             </button>
-          </div>
+          </header>
 
-          <p className={styles.panelSubtitle}>
-            Assistente guiado — dados do catálogo, eventos e perfil do leitor.
-          </p>
-
-          <SearchField
-            label="Busca assistida no catálogo"
-            placeholder="Título, autor ou ISBN"
-            value={query}
-            onChange={(nextValue) => {
-              setQuery(nextValue);
-              if (!nextValue.trim()) {
-                setSearchStatus('');
-              }
-            }}
-            onSubmit={handleAssistantSearch}
-            buttonLabel="Explorar"
-            statusMessage={searchStatus}
-          />
+          <div className={styles.panelBody}>
+            <SearchField
+              compact
+              label="Busca assistida no catálogo"
+              placeholder="Título, autor ou ISBN"
+              value={query}
+              onChange={(nextValue) => {
+                setQuery(nextValue);
+                if (!nextValue.trim()) {
+                  setSearchStatus('');
+                }
+              }}
+              onSubmit={handleAssistantSearch}
+              buttonLabel="Explorar"
+              statusMessage={searchStatus}
+            />
 
           {query.trim() ? (
             <div className={styles.quickResults}>
@@ -245,11 +260,8 @@ function FeltrimAgentsFAB() {
               )}
             </div>
           ) : (
-            <>
-              <div
-                className={styles.guideList}
-                aria-label="Tópicos de orientação rápida"
-              >
+            <div className={styles.panelContent}>
+              <div className={styles.guideList} aria-label="Tópicos de orientação rápida">
                 <strong className={styles.guideListLabel}>Perguntas guiadas</strong>
                 <div className={styles.guideButtons}>
                   {guidedAssistantQuestions.map((guide) => (
@@ -328,7 +340,8 @@ function FeltrimAgentsFAB() {
                 <div className={styles.recommendedNote}>
                   <strong>Sugerido pelo perfil</strong>
                   <p>
-                    Para {profile?.name.split(' ')[0] ?? 'leitor'}, baseado nas preferências cadastradas.
+                    Para {profile?.name.split(' ')[0] ?? 'leitor'}, baseado nas preferências
+                    cadastradas.
                   </p>
                   {assistantRecommendations.slice(0, 1).map((book) => (
                     <Link
@@ -343,10 +356,13 @@ function FeltrimAgentsFAB() {
                   ))}
                 </div>
               )}
-            </>
+            </div>
           )}
-        </div>
-      )}
+          </div>
+            </div>
+          </div>,
+          document.body,
+        )}
 
       <button
         ref={fabRef}
