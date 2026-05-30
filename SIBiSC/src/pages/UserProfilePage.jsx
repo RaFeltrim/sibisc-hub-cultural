@@ -17,6 +17,16 @@ import {
   updateNotificationPreferences,
 } from '../services/userProfileService';
 
+function getBookInitials(title) {
+  return title
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase();
+}
+
 function ProgressMeter({ label, progress, target, progressPercent }) {
   const isComplete = progress >= target;
   const clampedProgress = Math.min(progress, target);
@@ -168,40 +178,51 @@ function UserProfilePage() {
     <div className={styles.container}>
       {/* User Header */}
       <section className={styles.userHeader}>
-        <div className={styles.userCard}>
+        <div className={styles.profileHero}>
           <div className={styles.avatar} role="img" aria-label={`Perfil de ${user.name}`}>
             {user.avatar}
           </div>
-          <div className={styles.userInfo}>
+          <div className={styles.profileIdentity}>
+            <span className={styles.profileEyebrow}>Perfil do leitor</span>
             <h1>{user.name}</h1>
             <p className={styles.userUnit}>{user.unit}</p>
-            <p className={styles.userEmail}>{user.email}</p>
-            <p className={styles.userSince}>Membro desde {user.joinDate}</p>
-            <div className={styles.preferenceSummary} aria-label="Preferências de leitura cadastradas">
-              <strong>Preferências para recomendações</strong>
-              <div className={styles.preferenceChips}>
-                {user.readingPreferences.categories.map((category) => (
-                  <span key={category}>{category}</span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Settings Card */}
-        <div className={styles.settingsCard}>
-          <label className={styles.settingItem}>
-            <input
-              type="checkbox"
-              checked={notificationPreferences.dueDate}
-              onChange={(e) => handleNotificationChange(e.target.checked)}
-              className={styles.checkbox}
-            />
-            <span>Receber notificações de devoluções</span>
-          </label>
-          <p className={styles.settingHint}>
-            Receberá alerta {notificationPreferences.dueDate_days} dias antes da devolução
-          </p>
+        <div className={styles.profilePanels}>
+          <div className={`${styles.profilePanel} ${styles.panelContact}`}>
+            <span className={styles.panelLabel}>Contato e vínculo</span>
+            <p className={styles.userEmail}>{user.email}</p>
+            <p className={styles.userSince}>Membro desde {user.joinDate}</p>
+          </div>
+
+          <div
+            className={`${styles.profilePanel} ${styles.panelPreferences}`}
+            aria-label="Preferências de leitura cadastradas"
+          >
+            <span className={styles.panelLabel}>Preferências para recomendações</span>
+            <div className={styles.preferenceChips}>
+              {user.readingPreferences.categories.map((category) => (
+                <span key={category}>{category}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className={`${styles.profilePanel} ${styles.settingsPanel}`}>
+            <span className={styles.panelLabel}>Notificações</span>
+            <label className={styles.settingItem}>
+              <input
+                type="checkbox"
+                checked={notificationPreferences.dueDate}
+                onChange={(e) => handleNotificationChange(e.target.checked)}
+                className={styles.checkbox}
+              />
+              <span>Receber notificações de devoluções</span>
+            </label>
+            <p className={styles.settingHint}>
+              Receberá alerta {notificationPreferences.dueDate_days} dias antes da devolução
+            </p>
+          </div>
         </div>
       </section>
 
@@ -277,82 +298,85 @@ function UserProfilePage() {
         </section>
       ) : null}
 
-      {/* Tabs Navigation */}
-      <div className={styles.tabsNav} role="tablist" aria-label="Seções do perfil">
-        <button
-          id="profile-tab-loans"
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'reservas'}
-          aria-controls="profile-panel-loans"
-          className={`${styles.tab} ${activeTab === 'reservas' ? styles.tabActive : ''}`}
-          onClick={() => setActiveTab('reservas')}
-        >
-          Empréstimos
-          {activeLoans > 0 && <span className={styles.badge}>{activeLoans}</span>}
-        </button>
-        <button
-          id="profile-tab-history"
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'historico'}
-          aria-controls="profile-panel-history"
-          className={`${styles.tab} ${activeTab === 'historico' ? styles.tabActive : ''}`}
-          onClick={() => setActiveTab('historico')}
-        >
-          Histórico
-        </button>
-        <button
-          id="profile-tab-favorites"
-          type="button"
-          role="tab"
-          aria-selected={activeTab === 'favoritos'}
-          aria-controls="profile-panel-favorites"
-          className={`${styles.tab} ${activeTab === 'favoritos' ? styles.tabActive : ''}`}
-          onClick={() => setActiveTab('favoritos')}
-        >
-          Favoritos
-          {favorites.length > 0 && <span className={styles.badge}>{favorites.length}</span>}
-        </button>
-      </div>
+      <section className={styles.profileTabs} aria-label="Empréstimos, histórico e favoritos">
+        <div className={styles.tabsNav} role="tablist" aria-label="Seções do perfil">
+          <button
+            id="profile-tab-loans"
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'reservas'}
+            aria-controls="profile-panel-loans"
+            className={`${styles.tab} ${activeTab === 'reservas' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('reservas')}
+          >
+            Empréstimos
+            {activeLoans > 0 && <span className={styles.badge}>{activeLoans}</span>}
+          </button>
+          <button
+            id="profile-tab-history"
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'historico'}
+            aria-controls="profile-panel-history"
+            className={`${styles.tab} ${activeTab === 'historico' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('historico')}
+          >
+            Histórico
+          </button>
+          <button
+            id="profile-tab-favorites"
+            type="button"
+            role="tab"
+            aria-selected={activeTab === 'favoritos'}
+            aria-controls="profile-panel-favorites"
+            className={`${styles.tab} ${activeTab === 'favoritos' ? styles.tabActive : ''}`}
+            onClick={() => setActiveTab('favoritos')}
+          >
+            Favoritos
+            {favorites.length > 0 && <span className={styles.badge}>{favorites.length}</span>}
+          </button>
+        </div>
 
-      {/* Tab Content - Empréstimos Ativos */}
-      <section
-        id="profile-panel-loans"
-        className={styles.tabContent}
-        role="tabpanel"
-        aria-labelledby="profile-tab-loans"
-        hidden={activeTab !== 'reservas'}
-      >
+        <div
+          id="profile-panel-loans"
+          className={styles.tabContent}
+          role="tabpanel"
+          aria-labelledby="profile-tab-loans"
+          hidden={activeTab !== 'reservas'}
+        >
           <div className={styles.stack}>
             {loans.map((loan) => {
               const daysLeft = daysUntilDue(loan.dueDate);
               const isOverdue = daysLeft < 0;
 
               return (
-                <div key={loan.id} className={`${styles.loanCard} ${isOverdue ? styles.loanCardOverdue : ''}`}>
-                  <Link
-                    to={`/catalogo/${loan.bookId}`}
-                    className={styles.loanCardLink}
-                  >
-                    <div className={styles.loanCover} style={{ backgroundColor: loan.coverColor }} />
+                <article
+                  key={loan.id}
+                  className={`${styles.loanCard} ${isOverdue ? styles.loanCardOverdue : ''}`}
+                >
+                  <Link to={`/catalogo/${loan.bookId}`} className={styles.loanCardLink}>
+                    <div className={styles.loanCover} aria-hidden="true">
+                      {getBookInitials(loan.title)}
+                    </div>
                     <div className={styles.loanInfo}>
                       <h2>{loan.title}</h2>
                       <p className={styles.author}>{loan.author}</p>
-                      <p className={styles.isbn}>ISBN: {loan.isbn}</p>
-                      <div
-                        className={`${styles.dueBadge} ${
-                          isOverdue ? styles.dueBadgeOverdue : styles.dueBadgeActive
-                        }`}
-                      >
-                        {isOverdue
-                          ? `Atrasado por ${Math.abs(daysLeft)} dias`
-                          : `Devolve em ${daysLeft} dias`}
+                      <p className={styles.isbn}>ISBN {loan.isbn}</p>
+                      <div className={styles.loanMeta}>
+                        <span
+                          className={`${styles.dueBadge} ${
+                            isOverdue ? styles.dueBadgeOverdue : styles.dueBadgeActive
+                          }`}
+                        >
+                          {isOverdue
+                            ? `Atrasado por ${Math.abs(daysLeft)} dias`
+                            : `Devolve em ${daysLeft} dias`}
+                        </span>
+                        <span className={styles.dueDate}>{formatDate(loan.dueDate)}</span>
                       </div>
-                      <p className={styles.dueDate}>{formatDate(loan.dueDate)}</p>
                     </div>
                   </Link>
-                  {loan.canRenew && (
+                  {loan.canRenew ? (
                     <button
                       type="button"
                       className={styles.renewBtn}
@@ -361,21 +385,20 @@ function UserProfilePage() {
                     >
                       Renovar empréstimo
                     </button>
-                  )}
-                </div>
+                  ) : null}
+                </article>
               );
             })}
           </div>
-      </section>
+        </div>
 
-      {/* Tab Content - Histórico */}
-      <section
-        id="profile-panel-history"
-        className={styles.tabContent}
-        role="tabpanel"
-        aria-labelledby="profile-tab-history"
-        hidden={activeTab !== 'historico'}
-      >
+        <div
+          id="profile-panel-history"
+          className={styles.tabContent}
+          role="tabpanel"
+          aria-labelledby="profile-tab-history"
+          hidden={activeTab !== 'historico'}
+        >
           <div className={styles.timeline}>
             {loanHistory.map((item) => (
               <Link
@@ -383,33 +406,34 @@ function UserProfilePage() {
                 to={`/catalogo/${item.bookId}`}
                 className={styles.timelineItem}
               >
-                <div className={styles.timelineMarker} />
+                <div className={styles.timelineRail} aria-hidden="true">
+                  <span className={styles.timelineMarker} />
+                </div>
                 <div className={styles.timelineContent}>
                   <h2>{item.title}</h2>
                   <p className={styles.author}>{item.author}</p>
-                  <p className={styles.isbn}>ISBN: {item.isbn}</p>
-                  <div className={styles.timlineMeta}>
+                  <p className={styles.isbn}>ISBN {item.isbn}</p>
+                  <div className={styles.timelineMeta}>
                     <span>Unidade: {item.unit}</span>
                     <span>Devolução: {formatDate(item.returnedDate)}</span>
                     <span>Período: {item.daysHeld} dias</span>
-                    {item.status === 'returned_late' && (
+                    {item.status === 'returned_late' ? (
                       <span className={styles.lateTag}>Atrasado ({item.daysLate}d)</span>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-      </section>
+        </div>
 
-      {/* Tab Content - Favoritos */}
-      <section
-        id="profile-panel-favorites"
-        className={styles.tabContent}
-        role="tabpanel"
-        aria-labelledby="profile-tab-favorites"
-        hidden={activeTab !== 'favoritos'}
-      >
+        <div
+          id="profile-panel-favorites"
+          className={styles.tabContent}
+          role="tabpanel"
+          aria-labelledby="profile-tab-favorites"
+          hidden={activeTab !== 'favoritos'}
+        >
           {favorites.length > 0 ? (
             <div className={styles.favoritesList}>
               {favorites.map((fav) => (
@@ -418,9 +442,9 @@ function UserProfilePage() {
                     <div className={styles.favoriteInfo}>
                       <h2>{fav.title}</h2>
                       <p className={styles.author}>{fav.author}</p>
-                      <p className={styles.isbn}>ISBN: {fav.isbn}</p>
+                      <p className={styles.isbn}>ISBN {fav.isbn}</p>
                       <div className={styles.availabilityInfo}>
-                        <div
+                        <span
                           className={`${styles.availabilityBadge} ${
                             fav.available ? styles.available : styles.unavailable
                           }`}
@@ -428,12 +452,12 @@ function UserProfilePage() {
                           {fav.available
                             ? `Disponível: ${fav.availableCount} de ${fav.totalCount}`
                             : `Indisponível (${fav.totalCount})`}
-                        </div>
-                        {fav.lastBorrowed && (
+                        </span>
+                        {fav.lastBorrowed ? (
                           <p className={styles.lastBorrowed}>
                             Retirado em {formatDate(fav.lastBorrowed)}
                           </p>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </Link>
@@ -456,6 +480,7 @@ function UserProfilePage() {
               </Link>
             </div>
           )}
+        </div>
       </section>
     </div>
   );
