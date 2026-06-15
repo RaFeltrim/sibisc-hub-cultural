@@ -1,4 +1,4 @@
-﻿# SIBiSC - Web-App
+# SIBiSC - Web-App
 
 ## Contexto do Projeto
 
@@ -139,8 +139,11 @@ O guia completo esta em [`docs/onboarding/guia_do_grupo_stack_facil.md`](./docs/
 
 ## Estado Atual do Front
 
-O repositiorio ja possui uma base funcional com:
+O repositorio ja possui uma base funcional e **segura** com:
 
+- `Autenticação JWT` e Rotas Protegidas (`/perfil`) integradas ao Supabase
+- Telas completas de `/login`, `/cadastro` e `/recuperar-senha` com design premium (UI/UX)
+- Validacao Rigorosa de forms (RegEx para email, limits de senha, visibilidade de senha)
 - `Home`
 - `Noticias`
 - `Eventos`
@@ -148,6 +151,7 @@ O repositiorio ja possui uma base funcional com:
 - mocks locais para iniciar as tasks sem dependencia de backend
 - `services` preparados para futura troca por Supabase
 - `data-testid` nos fluxos criticos para QA
+- Politicas de `Row Level Security (RLS)` e `Roles` estabelecidas no banco
 
 ## Ponto de Entrada da Documentacao
 
