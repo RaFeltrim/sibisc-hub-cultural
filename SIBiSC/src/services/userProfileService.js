@@ -111,12 +111,12 @@ export const getUserProfile = async () => {
         if (!error && data) {
           return {
             id: data.id,
-            name: data.name,
-            email: data.email,
-            unit: data.unit,
-            joinDate: data.join_date,
-            avatar: data.avatar,
-            readingPreferences: data.reading_preferences,
+            name: data.full_name || user.email.split('@')[0],
+            email: user.email,
+            unit: data.unit || 'Biblioteca Central',
+            joinDate: data.created_at ? new Date(data.created_at).toLocaleDateString() : '2023-01-15',
+            avatar: data.avatar || 'SB',
+            readingPreferences: data.reading_preferences || cloneUserProfile().readingPreferences,
             isVerified: true,
           };
         }

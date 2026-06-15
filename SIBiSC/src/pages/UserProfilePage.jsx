@@ -16,6 +16,7 @@ import {
   renewLoan,
   updateNotificationPreferences,
 } from '../services/userProfileService';
+import { useAuth } from '../hooks/useAuth';
 
 function getBookInitials(title) {
   return title
@@ -65,6 +66,7 @@ function UserProfilePage() {
   const [actionStatus, setActionStatus] = useState('');
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
+  const { user: authUser, signOut } = useAuth();
 
   const activeLoans = loans.filter((l) => l.status === 'active').length;
 
@@ -161,6 +163,14 @@ function UserProfilePage() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch {
+      setActionStatus('Erro ao fazer logout.');
+    }
+  };
+
   if (loading) {
     return <LoadingState label="Carregando dados do perfil..." />;
   }
@@ -192,8 +202,11 @@ function UserProfilePage() {
         <div className={styles.profilePanels}>
           <div className={`${styles.profilePanel} ${styles.panelContact}`}>
             <span className={styles.panelLabel}>Contato e vínculo</span>
-            <p className={styles.userEmail}>{user.email}</p>
+            <p className={styles.userEmail}>{authUser?.email || user.email}</p>
             <p className={styles.userSince}>Membro desde {user.joinDate}</p>
+            <button type="button" onClick={handleLogout} className={styles.logoutBtn} style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 'var(--border-radius-md)', color: '#b91c1c', cursor: 'pointer', fontWeight: 600, transition: 'all 0.2s' }}>
+              Sair da Conta
+            </button>
           </div>
 
           <div

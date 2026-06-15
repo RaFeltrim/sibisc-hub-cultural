@@ -62,6 +62,18 @@
     {
       "source": "/perfil",
       "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/cadastro",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/recuperar-senha",
+      "destination": "/index.html"
     }
   ]
 }
