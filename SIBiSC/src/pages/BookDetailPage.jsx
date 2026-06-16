@@ -4,15 +4,25 @@ import AvailabilityTable from '../components/ui/AvailabilityTable';
 import ErrorState from '../components/ui/ErrorState';
 import LoadingState from '../components/ui/LoadingState';
 import { neighborhoodOptions } from '../mocks/units';
+import { useAuth } from '../hooks/useAuth';
 import { getBookById, getNearestAvailableInventory } from '../services/catalogService';
+import {
+  addFavorite,
+  isBookFavorited,
+  removeFavoriteByBookId,
+} from '../services/userProfileService';
 import styles from './BookDetailPage.module.css';
 
 function BookDetailPage() {
   const { bookId } = useParams();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [book, setBook] = useState(null);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState('Centro');
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+  const [favoriteStatus, setFavoriteStatus] = useState('');
 
   useEffect(() => {
     let isMounted = true;
@@ -45,6 +55,66 @@ function BookDetailPage() {
       isMounted = false;
     };
   }, [bookId]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadFavoriteStatus() {
+      if (!bookId || !user) {
+        if (isMounted) {
+          setIsFavorited(false);
+        }
+        return;
+      }
+
+      try {
+        const favorited = await isBookFavorited(bookId);
+        if (isMounted) {
+          setIsFavorited(favorited);
+        }
+      } catch {
+        if (isMounted) {
+          setIsFavorited(false);
+        }
+      }
+    }
+
+    loadFavoriteStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [bookId, user]);
+
+  const handleFavoriteToggle = async () => {
+    if (!user) {
+      setFavoriteStatus('Faça login para salvar favoritos.');
+      return;
+    }
+
+    setFavoriteLoading(true);
+    setFavoriteStatus('');
+
+    try {
+      if (isFavorited) {
+        await removeFavoriteByBookId(bookId);
+        setIsFavorited(false);
+        setFavoriteStatus('Livro removido dos favoritos.');
+      } else {
+        await addFavorite(bookId, {
+          title: book.title,
+          author: book.author,
+          isbn: book.isbn,
+        });
+        setIsFavorited(true);
+        setFavoriteStatus('Livro adicionado aos favoritos.');
+      }
+    } catch (err) {
+      setFavoriteStatus(err.message || 'Não foi possível atualizar os favoritos.');
+    } finally {
+      setFavoriteLoading(false);
+    }
+  };
 
   const nearestInventory = useMemo(() => {
     if (!book) {
@@ -86,6 +156,32 @@ function BookDetailPage() {
         <div className={styles.availabilityBox}>
           <strong className={styles.availability}>{book.totalAvailable} exemplares disponíveis</strong>
           <p>Confirme a disponibilidade atual na unidade correspondente.</p>
+          <div className={styles.favoriteActions}>
+            {user ? (
+              <button
+                type="button"
+                className={isFavorited ? styles.favoriteBtnActive : styles.favoriteBtn}
+                onClick={handleFavoriteToggle}
+                disabled={favoriteLoading}
+                aria-pressed={isFavorited}
+              >
+                {favoriteLoading
+                  ? 'Salvando...'
+                  : isFavorited
+                    ? 'Remover dos favoritos'
+                    : 'Adicionar aos favoritos'}
+              </button>
+            ) : (
+              <Link to="/login" className={styles.favoriteLoginLink}>
+                Entrar para favoritar
+              </Link>
+            )}
+            {favoriteStatus ? (
+              <p className={styles.favoriteStatus} role="status">
+                {favoriteStatus}
+              </p>
+            ) : null}
+          </div>
         </div>
       </div>
 

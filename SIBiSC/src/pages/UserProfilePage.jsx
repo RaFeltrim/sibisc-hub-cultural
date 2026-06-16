@@ -154,8 +154,12 @@ function UserProfilePage() {
 
     try {
       await removeFavorite(favoriteId);
-      const favoriteItems = await getFavoritesWithStatus();
+      const [favoriteItems, journey] = await Promise.all([
+        getFavoritesWithStatus(),
+        getReaderJourney(),
+      ]);
       setFavorites(favoriteItems);
+      setReaderJourney(journey);
       setActionStatus(`${favorite?.title ?? 'Livro'} removido dos favoritos.`);
       return;
     } catch {
