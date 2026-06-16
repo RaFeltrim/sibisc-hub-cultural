@@ -520,7 +520,7 @@ export const getReaderJourney = async () => {
 
   return {
     prototypeNotice:
-      'Jornada demonstrativa com emprestimos e historico locais. Favoritos persistem no Supabase quando o usuario esta autenticado.',
+      'Jornada demonstrativa calculada com mocks locais de perfil, historico e emprestimos. Favoritos autenticados persistem no Supabase. Nao ha ranking publico, pontuacao competitiva ou persistencia real nesta versao.',
     publicRanking: false,
     trails: [
       {

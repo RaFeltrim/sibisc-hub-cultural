@@ -1,6 +1,6 @@
-import { bookItems } from '../mocks/books';
-import { units } from '../mocks/units';
-import { normalizeText } from '../utils/formatters';
+import { bookItems } from '../mocks/books.js';
+import { units } from '../mocks/units.js';
+import { normalizeText } from '../utils/formatters.js';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient.js';
 
 function hydrateInventory(book) {
