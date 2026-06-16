@@ -70,11 +70,64 @@
 }
 
 @media (max-width: 640px) {
-  .form {
+  .form:not(.formCompact) {
     grid-template-columns: 1fr;
   }
 
-  .button {
+  .form:not(.formCompact) .button {
     width: 100%;
   }
+}
+
+.formCompact {
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'title title'
+    'field button';
+  gap: var(--space-xs);
+  align-items: end;
+}
+
+.formCompact .label {
+  display: contents;
+  gap: 0.3rem;
+}
+
+.formCompact .label span {
+  grid-area: title;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.formCompact .inputWrap {
+  grid-area: field;
+  gap: 0.45rem;
+  padding: 0 0.65rem;
+  border-radius: var(--radius-xs);
+}
+
+.formCompact .icon svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.formCompact .input {
+  padding: 0.52rem 0;
+  font-size: 0.82rem;
+}
+
+.formCompact .button {
+  grid-area: button;
+  padding: 0.52rem 0.75rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.formCompact .status {
+  grid-column: 1 / -1;
+  font-size: 0.74rem;
+  line-height: 1.4;
 }

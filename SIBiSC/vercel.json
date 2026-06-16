@@ -9,7 +9,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.supabase.co"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; script-src 'self' 'unsafe-inline' https://vercel.live; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://*.supabase.co https://vercel.live"
         },
         {
           "key": "X-Content-Type-Options",
@@ -28,40 +28,6 @@
           "value": "camera=(), microphone=(), geolocation=(), payment=()"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/home-mobile",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/noticias",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/noticias/:newsId(n1|n2|n3|n4)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/eventos",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/eventos/:eventId(e1|e2|e3|e4|e5|e6|e7)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/catalogo",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/catalogo/:bookId(b1|b2|b3|b4|b5|b6|b7|b8)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/perfil",
-      "destination": "/index.html"
     }
   ]
 }
