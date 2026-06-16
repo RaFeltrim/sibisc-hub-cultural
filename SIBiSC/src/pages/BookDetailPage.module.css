@@ -51,10 +51,52 @@
 
 .availabilityBox p,
 .highlight small,
-.mockNotice {
+.mockNotice,
+.favoriteStatus {
   color: var(--color-ink-soft);
   font-size: 0.84rem;
   line-height: 1.45;
+}
+
+.favoriteActions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.favoriteBtn,
+.favoriteBtnActive,
+.favoriteLoginLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.favoriteBtn {
+  border: 1px solid var(--color-line);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-accent-strong);
+}
+
+.favoriteBtnActive {
+  border: 1px solid rgba(197, 95, 52, 0.35);
+  background: rgba(197, 95, 52, 0.12);
+  color: var(--color-accent-strong);
+}
+
+.favoriteLoginLink {
+  background: rgba(16, 37, 63, 0.08);
+  color: var(--color-accent-strong);
+}
+
+.favoriteBtn:disabled {
+  opacity: 0.7;
+  cursor: wait;
 }
 
 .metaGrid {

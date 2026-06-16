@@ -9,6 +9,7 @@ import {
   daysUntilDue,
 } from '../mocks/userProfile.js';
 import { bookItems } from '../mocks/books.js';
+import { getBookById } from './catalogService.js';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient.js';
 
 // Delay simulado para API (ms)
@@ -39,17 +40,105 @@ const getBookAvailability = (book) => ({
 
 const getCatalogBookById = (bookId) => bookItems.find((book) => book.id === bookId);
 
+const FAVORITES_SELECT = `
+  id,
+  book_id,
+  created_at,
+  books (
+    id,
+    title,
+    author,
+    isbn,
+    book_inventory (
+      available,
+      total
+    )
+  )
+`;
+
+async function getAuthenticatedUser() {
+  if (!isSupabaseConfigured) {
+    return null;
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user ?? null;
+}
+
+function getAvailabilityFromInventory(inventory = []) {
+  return inventory.reduce(
+    (acc, item) => ({
+      availableCount: acc.availableCount + (item.available ?? 0),
+      totalCount: acc.totalCount + (item.total ?? 0),
+    }),
+    { availableCount: 0, totalCount: 0 }
+  );
+}
+
+async function resolveFavoriteAvailability(bookId, joinedBook) {
+  if (joinedBook?.book_inventory?.length) {
+    return getAvailabilityFromInventory(joinedBook.book_inventory);
+  }
+
+  try {
+    const catalogBook = await getBookById(bookId);
+    if (catalogBook?.inventory) {
+      return getBookAvailability(catalogBook);
+    }
+  } catch {
+    // fallback abaixo
+  }
+
+  const mockBook = getCatalogBookById(bookId);
+  if (mockBook) {
+    return getBookAvailability(mockBook);
+  }
+
+  return { availableCount: 0, totalCount: 0 };
+}
+
+async function mapSupabaseFavoriteRow(row) {
+  const joinedBook = row.books;
+  const { availableCount, totalCount } = await resolveFavoriteAvailability(row.book_id, joinedBook);
+
+  return {
+    id: row.id,
+    bookId: row.book_id,
+    title: joinedBook?.title ?? '',
+    author: joinedBook?.author ?? '',
+    isbn: joinedBook?.isbn ?? '',
+    addedDate: new Date(row.created_at),
+    lastBorrowed: null,
+    coverColor: '#c8b8b0',
+    available: availableCount > 0,
+    availableCount,
+    totalCount,
+  };
+}
+
+async function fetchSupabaseFavorites() {
+  const user = await getAuthenticatedUser();
+  if (!user) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from('book_favorites')
+    .select(FAVORITES_SELECT)
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return Promise.all((data ?? []).map((row) => mapSupabaseFavoriteRow(row)));
+}
+
 export { formatDate, daysUntilDue };
-
-const getProfileActivityBookIds = () => {
-  const activityBookIds = [
-    ...profileLoans.map((loan) => loan.bookId),
-    ...profileLoanHistory.map((historyItem) => historyItem.bookId),
-    ...profileFavorites.map((favorite) => favorite.bookId),
-  ];
-
-  return [...new Set(activityBookIds)].filter((bookId) => getCatalogBookById(bookId));
-};
 
 const getProgress = (current, target) => Math.min(100, Math.round((current / target) * 100));
 
@@ -158,7 +247,41 @@ export const getLoanHistory = async (limit = 10, offset = 0) => {
  */
 export const getUserFavorites = async () => {
   await delay(MOCK_API_DELAY);
-  return profileFavorites.map((favorite) => ({ ...favorite }));
+
+  if (isSupabaseConfigured) {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return [];
+    }
+
+    try {
+      return await fetchSupabaseFavorites();
+    } catch {
+      // fallback
+    }
+  }
+
+  return profileFavorites.map((fav) => {
+    const catalogBook = getCatalogBookById(fav.bookId);
+
+    if (!catalogBook) {
+      return {
+        ...fav,
+        available: false,
+        availableCount: 0,
+        totalCount: 0,
+      };
+    }
+
+    const { availableCount, totalCount } = getBookAvailability(catalogBook);
+
+    return {
+      ...fav,
+      available: availableCount > 0,
+      availableCount,
+      totalCount,
+    };
+  });
 };
 
 /**
@@ -214,7 +337,52 @@ export const renewLoan = async (loanId) => {
 export const addFavorite = async (bookId, bookData) => {
   await delay(MOCK_API_DELAY);
 
-  // Verifica se já existe
+  if (isSupabaseConfigured) {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      throw new Error('Faça login para salvar favoritos.');
+    }
+
+    try {
+      const existing = await fetchSupabaseFavorites();
+      if (existing.some((favorite) => favorite.bookId === bookId)) {
+        throw new Error('Este livro já está nos favoritos');
+      }
+
+      const { data, error } = await supabase
+        .from('book_favorites')
+        .insert({ user_id: user.id, book_id: bookId })
+        .select(FAVORITES_SELECT)
+        .single();
+
+      if (error) {
+        if (error.code === '23505') {
+          throw new Error('Este livro já está nos favoritos');
+        }
+        throw error;
+      }
+
+      return mapSupabaseFavoriteRow({
+        ...data,
+        books: data.books ?? {
+          id: bookId,
+          title: bookData?.title,
+          author: bookData?.author,
+          isbn: bookData?.isbn,
+          book_inventory: [],
+        },
+      });
+    } catch (err) {
+      if (
+        err.message === 'Este livro já está nos favoritos' ||
+        err.message === 'Faça login para salvar favoritos.'
+      ) {
+        throw err;
+      }
+      // fallback
+    }
+  }
+
   if (profileFavorites.some((f) => f.bookId === bookId)) {
     throw new Error('Este livro já está nos favoritos');
   }
@@ -245,6 +413,30 @@ export const addFavorite = async (bookId, bookData) => {
  */
 export const removeFavorite = async (favoriteId) => {
   await delay(MOCK_API_DELAY);
+
+  if (isSupabaseConfigured) {
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      throw new Error('Faça login para gerenciar favoritos.');
+    }
+
+    try {
+      const { error } = await supabase
+        .from('book_favorites')
+        .delete()
+        .eq('id', favoriteId)
+        .eq('user_id', user.id);
+
+      if (error) {
+        throw error;
+      }
+
+      return true;
+    } catch {
+      // fallback
+    }
+  }
+
   const index = profileFavorites.findIndex((f) => f.id === favoriteId);
 
   if (index === -1) {
@@ -256,12 +448,39 @@ export const removeFavorite = async (favoriteId) => {
 };
 
 /**
+ * Remove favorito pelo ID do livro
+ * @param {string} bookId - ID do livro
+ * @returns {Promise<boolean>} Sucesso da operação
+ */
+export const removeFavoriteByBookId = async (bookId) => {
+  const favorites = await getUserFavorites();
+  const favorite = favorites.find((item) => item.bookId === bookId);
+
+  if (!favorite) {
+    throw new Error('Favorito não encontrado');
+  }
+
+  return removeFavorite(favorite.id);
+};
+
+/**
+ * Verifica se um livro está nos favoritos do usuário
+ * @param {string} bookId - ID do livro
+ * @returns {Promise<boolean>}
+ */
+export const isBookFavorited = async (bookId) => {
+  const favorites = await getUserFavorites();
+  return favorites.some((favorite) => favorite.bookId === bookId);
+};
+
+/**
  * Busca estatísticas do usuário
  * @returns {Promise<Object>} Estatísticas
  */
 export const getUserStatistics = async () => {
   await delay(MOCK_API_DELAY);
 
+  const favorites = await getUserFavorites();
   const totalBorrowed = profileLoanHistory.length;
   const totalDaysReading = profileLoanHistory.reduce((sum, item) => sum + item.daysHeld, 0);
   const averageDaysPerBook = Math.round(totalDaysReading / totalBorrowed);
@@ -271,7 +490,7 @@ export const getUserStatistics = async () => {
     totalDaysReading,
     averageDaysPerBook,
     currentLoans: profileLoans.length,
-    totalFavorites: profileFavorites.length,
+    totalFavorites: favorites.length,
     memberSince: new Date('2023-01-15'),
     daysAsMember: Math.floor((Date.now() - new Date('2023-01-15')) / (1000 * 60 * 60 * 24)),
   };
@@ -280,20 +499,28 @@ export const getUserStatistics = async () => {
 export const getReaderJourney = async () => {
   await delay(MOCK_API_DELAY);
 
-  const activityBookIds = getProfileActivityBookIds();
-  const activityBooks = activityBookIds.map((bookId) => getCatalogBookById(bookId));
-  const favoriteBookIds = profileFavorites.map((favorite) => favorite.bookId).filter((bookId) => getCatalogBookById(bookId));
+  const favorites = await getUserFavorites();
+  const favoriteBookIds = favorites.map((favorite) => favorite.bookId);
+  const mockActivityBookIds = [
+    ...profileLoans.map((loan) => loan.bookId),
+    ...profileLoanHistory.map((historyItem) => historyItem.bookId),
+  ].filter((bookId, index, list) => list.indexOf(bookId) === index && getCatalogBookById(bookId));
+
+  const activityBooks = mockActivityBookIds.map((bookId) => getCatalogBookById(bookId));
   const borrowedBookIds = profileLoanHistory
     .map((historyItem) => historyItem.bookId)
     .filter((bookId) => getCatalogBookById(bookId));
   const activeLoanBookIds = profileLoans.map((loan) => loan.bookId).filter((bookId) => getCatalogBookById(bookId));
   const brazilianLiteratureCategories = new Set(['Romance', 'Naturalismo', 'Memorialismo']);
   const brazilianLiteratureCount = activityBooks.filter((book) => brazilianLiteratureCategories.has(book.category)).length;
-  const exploredAuthorsCount = new Set(activityBooks.map((book) => book.author)).size;
+  const exploredAuthorsCount = new Set([
+    ...activityBooks.map((book) => book.author),
+    ...favorites.map((favorite) => favorite.author).filter(Boolean),
+  ]).size;
 
   return {
     prototypeNotice:
-      'Jornada demonstrativa calculada com mocks locais de perfil, historico e favoritos. Nao ha ranking publico, pontuacao competitiva ou persistencia real nesta versao.',
+      'Jornada demonstrativa com emprestimos e historico locais. Favoritos persistem no Supabase quando o usuario esta autenticado.',
     publicRanking: false,
     trails: [
       {
@@ -381,29 +608,7 @@ export const getReaderJourney = async () => {
  * @returns {Promise<Array>} Favoritos com status atual
  */
 export const getFavoritesWithStatus = async () => {
-  await delay(MOCK_API_DELAY);
-
-  return profileFavorites.map((fav) => {
-    const catalogBook = getCatalogBookById(fav.bookId);
-
-    if (!catalogBook) {
-      return {
-        ...fav,
-        available: false,
-        availableCount: 0,
-        totalCount: 0,
-      };
-    }
-
-    const { availableCount, totalCount } = getBookAvailability(catalogBook);
-
-    return {
-      ...fav,
-      available: availableCount > 0,
-      availableCount,
-      totalCount,
-    };
-  });
+  return getUserFavorites();
 };
 
 /**
