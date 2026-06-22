@@ -27,6 +27,13 @@ const AlertIcon = () => (
   </svg>
 );
 
+const SuccessIcon = () => (
+  <svg className={styles.alertIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+  </svg>
+);
+
 const SpinnerIcon = () => (
   <svg className={styles.spinner} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <line x1="12" y1="2" x2="12" y2="6"></line>
@@ -48,6 +55,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   
   const { signUp } = useAuth();
@@ -67,14 +75,15 @@ export default function RegisterPage() {
     if (/[0-9]/.test(password)) score += 1;
     if (/[^A-Za-z0-9]/.test(password)) score += 1;
 
-    if (score <= 2) return { score: 33, text: 'Fraca', color: '#ef4444' };
-    if (score <= 4) return { score: 66, text: 'Média', color: '#eab308' };
-    return { score: 100, text: 'Forte', color: '#22c55e' };
+    if (score <= 2) return { score: 33, text: 'Fraca', color: 'var(--color-danger)' };
+    if (score <= 4) return { score: 66, text: 'Média', color: 'var(--color-warning)' };
+    return { score: 100, text: 'Forte', color: 'var(--color-success)' };
   }, [password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccessMessage('');
 
     if (!name || !email || !password || !passwordConfirm) {
       setError('Por favor, preencha todos os campos.');
@@ -99,23 +108,34 @@ export default function RegisterPage() {
     try {
       setError('');
       setLoading(true);
-      const { error: authError } = await signUp(email, password, {
+      const { data, error: authError } = await signUp(email, password, {
         data: {
           full_name: name,
         }
       });
 
       if (authError) {
-        if (authError.message.includes('already registered')) {
+        if (authError.message.includes('already registered') || authError.message.includes('User already registered')) {
           throw new Error('Este e-mail já está em uso.');
         }
         throw authError;
       }
 
-      navigate('/perfil', { replace: true });
+      // Supabase retorna session = null se 'Confirm email' estiver ativo nas configurações
+      const requiresEmailConfirmation = data?.user && !data?.session;
+      const msg = requiresEmailConfirmation 
+        ? 'Valide seu cadastro confirmando no e-mail.' 
+        : 'Usuário confirmado com sucesso!';
+
+      setSuccessMessage(msg);
+
+      // Toast de 3 segundos
+      setTimeout(() => {
+        navigate(requiresEmailConfirmation ? '/login' : '/perfil', { replace: true });
+      }, 3000);
+
     } catch (err) {
       setError(err.message || 'Falha ao criar conta.');
-    } finally {
       setLoading(false);
     }
   };
@@ -130,6 +150,13 @@ export default function RegisterPage() {
           <div className={`${styles.alertBox} ${styles.alertError}`} role="alert">
             <AlertIcon />
             <span>{error}</span>
+          </div>
+        )}
+
+        {successMessage && (
+          <div className={`${styles.alertBox} ${styles.alertSuccess}`} role="status">
+            <SuccessIcon />
+            <span>{successMessage}</span>
           </div>
         )}
 
