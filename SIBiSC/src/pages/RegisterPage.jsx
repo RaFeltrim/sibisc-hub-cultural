@@ -66,6 +66,8 @@ export default function RegisterPage() {
     return re.test(String(email).toLowerCase());
   };
 
+  const validateName = (name) => /^[\p{L}\s]+$/u.test(name);
+
   const passwordStrength = useMemo(() => {
     if (!password) return { score: 0, text: '', color: 'transparent' };
     let score = 0;
@@ -85,12 +87,20 @@ export default function RegisterPage() {
     setError('');
     setSuccessMessage('');
 
-    if (!name || !email || !password || !passwordConfirm) {
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+
+    if (!trimmedName || !trimmedEmail || !password || !passwordConfirm) {
       setError('Por favor, preencha todos os campos.');
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (!validateName(trimmedName)) {
+      setError('O nome deve conter apenas letras.');
+      return;
+    }
+
+    if (!validateEmail(trimmedEmail)) {
       setError('Por favor, insira um e-mail válido.');
       return;
     }
@@ -108,9 +118,9 @@ export default function RegisterPage() {
     try {
       setError('');
       setLoading(true);
-      const { data, error: authError } = await signUp(email, password, {
+      const { data, error: authError } = await signUp(trimmedEmail, password, {
         data: {
-          full_name: name,
+          full_name: trimmedName,
         }
       });
 

@@ -61,12 +61,14 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
 
-    if (!email || !password) {
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail || !password) {
       setError('Por favor, preencha todos os campos.');
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (!validateEmail(trimmedEmail)) {
       setError('Por favor, insira um e-mail válido.');
       return;
     }
@@ -74,7 +76,7 @@ export default function LoginPage() {
     try {
       setError('');
       setLoading(true);
-      const { error: authError } = await signIn(email, password);
+      const { error: authError } = await signIn(trimmedEmail, password);
       
       if (authError) {
         if (authError.message.includes('Invalid login credentials')) {
